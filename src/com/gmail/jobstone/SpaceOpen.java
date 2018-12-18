@@ -25,23 +25,23 @@ public class SpaceOpen {
 	
 	public static void openPlayer(Player player) {
 		
-		Inventory pinv = Bukkit.getServer().createInventory(null, 9, "¡ì1PoorSpace¡ª¡ª¸öÈË");
+		Inventory pinv = Bukkit.getServer().createInventory(null, 9, "Â§1PoorSpaceâ€•â€•ä¸ªäºº");
 		
 		ArrayList<String> lore = new ArrayList<String>();
-		lore.add("¡ìaµã»÷²é¿´ÄúÔÚÖ÷ÊÀ½çÓµÓĞµÄ¿Õ¼ä");
-		pinv.setItem(2, newItem(Material.GRASS_BLOCK, "¡ìa¡ìlÖ÷ÊÀ½ç", lore));
+		lore.add("Â§aç‚¹å‡»æŸ¥çœ‹æ‚¨åœ¨ä¸»ä¸–ç•Œæ‹¥æœ‰çš„ç©ºé—´");
+		pinv.setItem(2, newItem(Material.GRASS_BLOCK, "Â§aÂ§lä¸»ä¸–ç•Œ", lore));
 		lore.clear();
-		lore.add("¡ìaµã»÷²é¿´ÄúÔÚÏÂ½çÓµÓĞµÄ¿Õ¼ä");
-		pinv.setItem(3, newItem(Material.NETHERRACK, "¡ìa¡ìlÏÂ½ç", lore));
+		lore.add("Â§aç‚¹å‡»æŸ¥çœ‹æ‚¨åœ¨ä¸‹ç•Œæ‹¥æœ‰çš„ç©ºé—´");
+		pinv.setItem(3, newItem(Material.NETHERRACK, "Â§aÂ§lä¸‹ç•Œ", lore));
 		lore.clear();
-		lore.add("¡ìaµã»÷²é¿´ÄúÔÚÄ©µØÓµÓĞµÄ¿Õ¼ä");
-		pinv.setItem(4, newItem(Material.END_STONE, "¡ìa¡ìlÄ©µØ", lore));
+		lore.add("Â§aç‚¹å‡»æŸ¥çœ‹æ‚¨åœ¨æœ«åœ°æ‹¥æœ‰çš„ç©ºé—´");
+		pinv.setItem(4, newItem(Material.END_STONE, "Â§aÂ§læœ«åœ°", lore));
 		lore.clear();
-		lore.add("¡ìaµã»÷²é¿´ÄúÔÚ´´Ôì½çÓµÓĞµÄ¿Õ¼ä");
-		pinv.setItem(5, newItem(Material.SANDSTONE, "¡ìa¡ìl´´Ôì½ç", lore));
+		lore.add("Â§aç‚¹å‡»æŸ¥çœ‹æ‚¨åœ¨åˆ›é€ ç•Œæ‹¥æœ‰çš„ç©ºé—´");
+		pinv.setItem(5, newItem(Material.SANDSTONE, "Â§aÂ§låˆ›é€ ç•Œ", lore));
 		lore.clear();
-		lore.add("¡ìaµã»÷²é¿´ÄúÔÚĞ¡ÓÎÏ·½çÓµÓĞµÄ¿Õ¼ä");
-		pinv.setItem(6, newItem(Material.DIAMOND_SWORD, "¡ìa¡ìlĞ¡ÓÎÏ·½ç", lore));
+		lore.add("Â§aç‚¹å‡»æŸ¥çœ‹æ‚¨åœ¨å°æ¸¸æˆç•Œæ‹¥æœ‰çš„ç©ºé—´");
+		pinv.setItem(6, newItem(Material.DIAMOND_SWORD, "Â§aÂ§lå°æ¸¸æˆç•Œ", lore));
 		
 		player.openInventory(pinv);
 	}
@@ -51,22 +51,22 @@ public class SpaceOpen {
 		if (world == 0) {
 			FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "players/"+player.getName()+"/Overworld.yml"));
 			List<String> list = config.getStringList("list");
-			subOpenWorld(player, list, "Ö÷ÊÀ½ç", Material.GRASS_BLOCK, page, world);
+			subOpenWorld(player, list, "ä¸»ä¸–ç•Œ", Material.GRASS_BLOCK, page, world);
 		}
 		else if (world == 1) {
 			FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "players/"+player.getName()+"/Nether.yml"));
 			List<String> list = config.getStringList("list");
-			subOpenWorld(player, list, "ÏÂ½ç", Material.NETHERRACK, page, world);
+			subOpenWorld(player, list, "ä¸‹ç•Œ", Material.NETHERRACK, page, world);
 		}
 		else if (world == 2) {
 			FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "players/"+player.getName()+"/End.yml"));
 			List<String> list = config.getStringList("list");
-			subOpenWorld(player, list, "Ä©µØ", Material.END_STONE, page, world);
+			subOpenWorld(player, list, "æœ«åœ°", Material.END_STONE, page, world);
 		}
 		else if (world == 3) {
 			FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "players/"+player.getName()+"/Creative.yml"));
 			List<String> list = config.getStringList("list");
-			subOpenWorld(player, list, "´´Ôì½ç", Material.SANDSTONE, page, world);
+			subOpenWorld(player, list, "åˆ›é€ ç•Œ", Material.SANDSTONE, page, world);
 		}
 		else if (world == 4) {
 			
@@ -82,23 +82,23 @@ public class SpaceOpen {
 		else if (page < 1)
 			page = 1;
 		
-		Inventory inv = Bukkit.getServer().createInventory(null, 54, "¡ì1PoorSpace¡ª¡ª¸öÈË£º"+w+" Ò³Êı£º"+page+"/"+totalpage);
+		Inventory inv = Bukkit.getServer().createInventory(null, 54, "Â§1PoorSpaceâ€•â€•ä¸ªäººï¼š"+w+" é¡µæ•°ï¼š"+page+"/"+totalpage);
 		if (page < totalpage) {
 			imax = page*45;
-			inv.setItem(53, newItem(Material.ARROW, "¡ìa¡ìlÏÂÒ»Ò³"));
+			inv.setItem(53, newItem(Material.ARROW, "Â§aÂ§lä¸‹ä¸€é¡µ"));
 		}
 		else {
 			imax = list.size();
 			if (page > 1)
-				inv.setItem(45, newItem(Material.ARROW, "¡ìa¡ìlÉÏÒ»Ò³"));
+				inv.setItem(45, newItem(Material.ARROW, "Â§aÂ§lä¸Šä¸€é¡µ"));
 		}
 		
 		ArrayList<String> lore = new ArrayList<String>();
-		lore.add("¡ìeµã»÷·µ»ØÑ¡ÔñÊÀ½ç");
-		inv.setItem(49, newItem(Material.BARRIER, "¡ìa¡ìl·µ»Ø", lore));
+		lore.add("Â§eç‚¹å‡»è¿”å›é€‰æ‹©ä¸–ç•Œ");
+		inv.setItem(49, newItem(Material.BARRIER, "Â§aÂ§lè¿”å›", lore));
 		lore.clear();
-		lore.add("¡ìeµã»÷²é¿´"+w+"³öÉúµã¸½½üÇø¿é");
-		inv.setItem(50, newItem(material, "¡ìa¡ìl"+w, lore));
+		lore.add("Â§eç‚¹å‡»æŸ¥çœ‹"+w+"å‡ºç”Ÿç‚¹é™„è¿‘åŒºå—");
+		inv.setItem(50, newItem(material, "Â§aÂ§l"+w, lore));
 		int istart = (page-1)*45+1;
 		
 		for(int i = istart; i <= imax; i++) {
@@ -111,111 +111,111 @@ public class SpaceOpen {
 	
 	public static void openSpace(Player player, String spaceid, int world) {
 		Space space = new Space(spaceid, world);
-		String w = "Ö÷ÊÀ½ç";
+		String w = "ä¸»ä¸–ç•Œ";
 		Material material = Material.GRASS_BLOCK;
 		switch(world) {
 		case 0:
-			w = "Ö÷ÊÀ½ç";
+			w = "ä¸»ä¸–ç•Œ";
 			material = Material.GRASS_BLOCK;
 			break;
 		case 1:
-			w = "ÏÂ½ç";
+			w = "ä¸‹ç•Œ";
 			material = Material.NETHERRACK;
 			break;
 		case 2:
-			w = "Ä©µØ";
+			w = "æœ«åœ°";
 			material = Material.END_STONE;
 			break;
 		case 3:
-			w = "´´Ôì½ç";
+			w = "åˆ›é€ ç•Œ";
 			material = Material.SANDSTONE;
 			break;
 		case 4:
-			w = "Ğ¡ÓÎÏ·½ç";
+			w = "å°æ¸¸æˆç•Œ";
 			material = Material.DIAMOND_SWORD;
 			break;
 		}
-		Inventory inv = Bukkit.getServer().createInventory(null, 18, "¡ì1PoorSpace¡ª¡ª"+w+"¿Õ¼ä"+spaceid);
+		Inventory inv = Bukkit.getServer().createInventory(null, 18, "Â§1PoorSpaceâ€•â€•"+w+"ç©ºé—´"+spaceid);
 		
 		String chunkid = spaceid.substring(0, spaceid.length()-2);
 		ArrayList<String> lore = new ArrayList<String>();
 		Material spacem;
 		if (Space.isOwned(chunkid+".0", world)) {
-			lore.add("¡ìaÓµÓĞÕß£º"+new Space(chunkid+".0", world).owner());
+			lore.add("Â§aæ‹¥æœ‰è€…ï¼š"+new Space(chunkid+".0", world).owner());
 			spacem = Material.MAP;
 		}
 		else {
-			lore.add("¡ì7ÎŞÓµÓĞÕß");
+			lore.add("Â§7æ— æ‹¥æœ‰è€…");
 			spacem = Material.PAPER;
 		}
-		lore.add("¡ìb"+spaceY(0, world));
-		lore.add("¡ìaµã»÷ÇĞ»»");
+		lore.add("Â§b"+spaceY(0, world));
+		lore.add("Â§aç‚¹å‡»åˆ‡æ¢");
 		boolean enchant0 = spaceid.equals(chunkid+".0")?true:false;
-		inv.setItem(0, newItem(spacem, "¡ìa¡ìl¿Õ¼ä"+chunkid+".0", lore, enchant0));
+		inv.setItem(0, newItem(spacem, "Â§aÂ§lç©ºé—´"+chunkid+".0", lore, enchant0));
 		
 		if (world == 0 || world == 1) {
 			lore.clear();
 			if (Space.isOwned(chunkid+".1", world)) {
-				lore.add("¡ìaÓµÓĞÕß£º"+new Space(chunkid+".1", world).owner());
+				lore.add("Â§aæ‹¥æœ‰è€…ï¼š"+new Space(chunkid+".1", world).owner());
 				spacem = Material.MAP;
 			}
 			else {
-				lore.add("¡ì7ÎŞÓµÓĞÕß");
+				lore.add("Â§7æ— æ‹¥æœ‰è€…");
 				spacem = Material.PAPER;
 			}
-			lore.add("¡ìb"+spaceY(1, world));
-			lore.add("¡ìaµã»÷ÇĞ»»");
+			lore.add("Â§b"+spaceY(1, world));
+			lore.add("Â§aç‚¹å‡»åˆ‡æ¢");
 			boolean enchant1 = spaceid.equals(chunkid+".1")?true:false;
-			inv.setItem(1, newItem(spacem, "¡ìa¡ìl¿Õ¼ä"+chunkid+".1", lore, enchant1));
+			inv.setItem(1, newItem(spacem, "Â§aÂ§lç©ºé—´"+chunkid+".1", lore, enchant1));
 			
 			lore.clear();
 			if (Space.isOwned(chunkid+".2", world)) {
-				lore.add("¡ìaÓµÓĞÕß£º"+new Space(chunkid+".2", world).owner());
+				lore.add("Â§aæ‹¥æœ‰è€…ï¼š"+new Space(chunkid+".2", world).owner());
 				spacem = Material.MAP;
 			}
 			else {
-				lore.add("¡ì7ÎŞÓµÓĞÕß");
+				lore.add("Â§7æ— æ‹¥æœ‰è€…");
 				spacem = Material.PAPER;
 			}
-			lore.add("¡ìb"+spaceY(2, world));
-			lore.add("¡ìaµã»÷ÇĞ»»");
+			lore.add("Â§b"+spaceY(2, world));
+			lore.add("Â§aç‚¹å‡»åˆ‡æ¢");
 			boolean enchant2 = spaceid.equals(chunkid+".2")?true:false;
-			inv.setItem(2, newItem(spacem, "¡ìa¡ìl¿Õ¼ä"+chunkid+".2", lore, enchant2));
+			inv.setItem(2, newItem(spacem, "Â§aÂ§lç©ºé—´"+chunkid+".2", lore, enchant2));
 			
 			if (world == 0) {
 				lore.clear();
 				if (Space.isOwned(chunkid+".3", world)) {
-					lore.add("¡ìaÓµÓĞÕß£º"+new Space(chunkid+".3", world).owner());
+					lore.add("Â§aæ‹¥æœ‰è€…ï¼š"+new Space(chunkid+".3", world).owner());
 					spacem = Material.MAP;
 				}
 				else {
-					lore.add("¡ì7ÎŞÓµÓĞÕß");
+					lore.add("Â§7æ— æ‹¥æœ‰è€…");
 					spacem = Material.PAPER;
 				}
-				lore.add("¡ìb"+spaceY(3, world));
-				lore.add("¡ìaµã»÷ÇĞ»»");
+				lore.add("Â§b"+spaceY(3, world));
+				lore.add("Â§aç‚¹å‡»åˆ‡æ¢");
 				boolean enchant3 = spaceid.equals(chunkid+".3")?true:false;
-				inv.setItem(3, newItem(spacem, "¡ìa¡ìl¿Õ¼ä"+chunkid+".3", lore, enchant3));
+				inv.setItem(3, newItem(spacem, "Â§aÂ§lç©ºé—´"+chunkid+".3", lore, enchant3));
 				
 				lore.clear();
 				if (Space.isOwned(chunkid+".4", world)) {
-					lore.add("¡ìaÓµÓĞÕß£º"+new Space(chunkid+".4", world).owner());
+					lore.add("Â§aæ‹¥æœ‰è€…ï¼š"+new Space(chunkid+".4", world).owner());
 					spacem = Material.MAP;
 				}
 				else {
-					lore.add("¡ì7ÎŞÓµÓĞÕß");
+					lore.add("Â§7æ— æ‹¥æœ‰è€…");
 					spacem = Material.PAPER;
 				}
-				lore.add("¡ìb"+spaceY(4, world));
-				lore.add("¡ìaµã»÷ÇĞ»»");
+				lore.add("Â§b"+spaceY(4, world));
+				lore.add("Â§aç‚¹å‡»åˆ‡æ¢");
 				boolean enchant4 = spaceid.equals(chunkid+".4")?true:false;
-				inv.setItem(4, newItem(spacem, "¡ìa¡ìl¿Õ¼ä"+chunkid+".4", lore, enchant4));
+				inv.setItem(4, newItem(spacem, "Â§aÂ§lç©ºé—´"+chunkid+".4", lore, enchant4));
 			}
 		}
 		
 		lore.clear();
-		lore.add("¡ìaµã»÷²é¿´´ËÇø¿éÖÜÎ§µÄÇø¿é");
-		inv.setItem(8, newItem(Material.MAP, "¡ìe¡ìlÖÜÎ§Çø¿é", lore));
+		lore.add("Â§aç‚¹å‡»æŸ¥çœ‹æ­¤åŒºå—å‘¨å›´çš„åŒºå—");
+		inv.setItem(8, newItem(Material.MAP, "Â§eÂ§lå‘¨å›´åŒºå—", lore));
 		
 		lore.clear();
 		
@@ -225,57 +225,57 @@ public class SpaceOpen {
 		String costs = cost+"";
 		if (world == 0) {
 			if (list.isEmpty())
-				costs = "¡ìm"+cost+"¡ìe0";
+				costs = "Â§m"+cost+"Â§e0";
 			else if (list.size() < 4)
-				costs = "¡ìm"+cost+"¡ìe"+(cost-40);
+				costs = "Â§m"+cost+"Â§e"+(cost-40);
 				
 		}
 		if (space.owner() == null) {
-			lore.add("¡ìeµã»÷»¨·Ñ"+costs+"¾­ÑéÖµ¹ºÂò´Ë¿Õ¼ä");
-			inv.setItem(16, newItem(Material.EXPERIENCE_BOTTLE, "¡ìa¡ìl¹ºÂò¿Õ¼ä"+spaceid, lore));
+			lore.add("Â§eç‚¹å‡»èŠ±è´¹"+costs+"ç»éªŒå€¼è´­ä¹°æ­¤ç©ºé—´");
+			inv.setItem(16, newItem(Material.EXPERIENCE_BOTTLE, "Â§aÂ§lè´­ä¹°ç©ºé—´"+spaceid, lore));
 			lore.clear();
-			lore.add("¡ì7ÎŞÓµÓĞÕß");
+			lore.add("Â§7æ— æ‹¥æœ‰è€…");
 			spacem = Material.PAPER;
 		}
 		else {
 			if (space.owner().equals(player.getName())) {
-				lore.add("¡ìcµã»÷·ÅÆú¸Ã¿Õ¼ä£¨ÎŞ¾­Ñé·µ»¹£¡£©");
-				inv.setItem(16, newItem(Material.COBWEB, "¡ì4¡ìl·ÅÆú¿Õ¼ä"+spaceid, lore));
+				lore.add("Â§cç‚¹å‡»æ”¾å¼ƒè¯¥ç©ºé—´ï¼ˆæ— ç»éªŒè¿”è¿˜ï¼ï¼‰");
+				inv.setItem(16, newItem(Material.COBWEB, "Â§4Â§læ”¾å¼ƒç©ºé—´"+spaceid, lore));
 				lore.clear();
 			}
-			lore.add("¡ìaÓµÓĞÕß£º"+space.owner());
+			lore.add("Â§aæ‹¥æœ‰è€…ï¼š"+space.owner());
 			spacem = Material.MAP;
 		}
-		lore.add("¡ìaµã»÷ÏÔÊ¾¿Õ¼ä±ß½ç£¨Ğ§¹û½ö×Ô¼ºÄÜ¿´µ½£©");
-		inv.setItem(9, newItem(spacem, "¡ìe¡ìl¿Õ¼ä"+spaceid, lore));
+		lore.add("Â§aç‚¹å‡»æ˜¾ç¤ºç©ºé—´è¾¹ç•Œï¼ˆæ•ˆæœä»…è‡ªå·±èƒ½çœ‹åˆ°ï¼‰");
+		inv.setItem(9, newItem(spacem, "Â§eÂ§lç©ºé—´"+spaceid, lore));
 		
 		lore.clear();
 		lore.addAll(space.group(1));
-		lore.add("¡ìaµã»÷²é¿´ÉèÖÃ");
-		inv.setItem(10, newItem(Material.SIGN, "¡ìe¡ìlÈ¨ÏŞ×é1", lore));
+		lore.add("Â§aç‚¹å‡»æŸ¥çœ‹è®¾ç½®");
+		inv.setItem(10, newItem(Material.SIGN, "Â§eÂ§læƒé™ç»„1", lore));
 		lore.clear();
 		lore.addAll(space.group(2));
-		lore.add("¡ìaµã»÷²é¿´ÉèÖÃ");
-		inv.setItem(11, newItem(Material.SIGN, "¡ìe¡ìlÈ¨ÏŞ×é2", lore));
+		lore.add("Â§aç‚¹å‡»æŸ¥çœ‹è®¾ç½®");
+		inv.setItem(11, newItem(Material.SIGN, "Â§eÂ§læƒé™ç»„2", lore));
 		lore.clear();
 		lore.addAll(space.group(3));
-		lore.add("¡ìaµã»÷²é¿´ÉèÖÃ");
-		inv.setItem(12, newItem(Material.SIGN, "¡ìe¡ìlÈ¨ÏŞ×é3", lore));
+		lore.add("Â§aç‚¹å‡»æŸ¥çœ‹è®¾ç½®");
+		inv.setItem(12, newItem(Material.SIGN, "Â§eÂ§læƒé™ç»„3", lore));
 		lore.clear();
-		lore.add("¡ì7Ä¬ÈÏÈ¨ÏŞ×é");
-		lore.add("¡ìaµã»÷²é¿´ÉèÖÃ");
-		inv.setItem(13, newItem(Material.SIGN, "¡ìe¡ìlÈ¨ÏŞ×é4", lore));
+		lore.add("Â§7é»˜è®¤æƒé™ç»„");
+		lore.add("Â§aç‚¹å‡»æŸ¥çœ‹è®¾ç½®");
+		inv.setItem(13, newItem(Material.SIGN, "Â§eÂ§læƒé™ç»„4", lore));
 		
 		lore.clear();
-		lore.add("¡ìeµã»÷²é¿´ÄúÔÚ"+w+"ÓµÓĞµÄ¿Õ¼ä");
-		inv.setItem(17, newItem(material, "¡ìa¡ìl"+w, lore));
+		lore.add("Â§eç‚¹å‡»æŸ¥çœ‹æ‚¨åœ¨"+w+"æ‹¥æœ‰çš„ç©ºé—´");
+		inv.setItem(17, newItem(material, "Â§aÂ§l"+w, lore));
 		
 		player.openInventory(inv);
 	}
 	
 	public static void openBuy(Player player, String id, int world) {
 		String w = world(world);
-		Inventory inv = Bukkit.getServer().createInventory(null, 9, "¡ì1PoorSpace¡ª¡ª"+w+"¿Õ¼ä"+id+"¹ºÂò");
+		Inventory inv = Bukkit.getServer().createInventory(null, 9, "Â§1PoorSpaceâ€•â€•"+w+"ç©ºé—´"+id+"è´­ä¹°");
 		
 		ArrayList<String> lore = new ArrayList<String>();
 		
@@ -285,30 +285,30 @@ public class SpaceOpen {
 		String costs = cost+"";
 		if (world == 0) {
 			if (list.isEmpty())
-				costs = "¡ìm"+cost+"¡ìe0";
+				costs = "Â§m"+cost+"Â§e0";
 			else if (list.size() < 4)
-				costs = "¡ìm"+cost+"¡ìe"+(cost-40);
+				costs = "Â§m"+cost+"Â§e"+(cost-40);
 				
 		}
-		lore.add("¡ìeµã»÷È·ÈÏ»¨·Ñ"+costs+"¹ºÂò¸Ã¿Õ¼ä£¡");
-		inv.setItem(3, newItem(Material.EXPERIENCE_BOTTLE, "¡ìa¡ìlÈ·ÈÏ¹ºÂò", lore));
+		lore.add("Â§eç‚¹å‡»ç¡®è®¤èŠ±è´¹"+costs+"è´­ä¹°è¯¥ç©ºé—´ï¼");
+		inv.setItem(3, newItem(Material.EXPERIENCE_BOTTLE, "Â§aÂ§lç¡®è®¤è´­ä¹°", lore));
 		lore.clear();
-		lore.add("¡ìeµã»÷È¡Ïû¹ºÂò");
-		inv.setItem(5, newItem(Material.BARRIER, "¡ì4¡ìlÈ¡Ïû¹ºÂò", lore));
+		lore.add("Â§eç‚¹å‡»å–æ¶ˆè´­ä¹°");
+		inv.setItem(5, newItem(Material.BARRIER, "Â§4Â§lå–æ¶ˆè´­ä¹°", lore));
 		
 		player.openInventory(inv);
 	}
 	
 	public static void openGiveup(Player player, String id, int world) {
 		String w = world(world);
-		Inventory inv = Bukkit.getServer().createInventory(null, 9, "¡ì1PoorSpace¡ª¡ª"+w+"¿Õ¼ä"+id+"·ÅÆú");
+		Inventory inv = Bukkit.getServer().createInventory(null, 9, "Â§1PoorSpaceâ€•â€•"+w+"ç©ºé—´"+id+"æ”¾å¼ƒ");
 		
 		ArrayList<String> lore = new ArrayList<String>();
-		lore.add("¡ìcµã»÷È·ÈÏ·ÅÆú¸Ã¿Õ¼ä£¨ÎŞ¾­Ñé·µ»¹£¡£©");
-		inv.setItem(3, newItem(Material.COBWEB, "¡ì4¡ìlÈ·ÈÏ·ÅÆú", lore));
+		lore.add("Â§cç‚¹å‡»ç¡®è®¤æ”¾å¼ƒè¯¥ç©ºé—´ï¼ˆæ— ç»éªŒè¿”è¿˜ï¼ï¼‰");
+		inv.setItem(3, newItem(Material.COBWEB, "Â§4Â§lç¡®è®¤æ”¾å¼ƒ", lore));
 		lore.clear();
-		lore.add("¡ìeµã»÷È¡Ïû");
-		inv.setItem(5, newItem(Material.BARRIER, "¡ìa¡ìlÈ¡Ïû", lore));
+		lore.add("Â§eç‚¹å‡»å–æ¶ˆ");
+		inv.setItem(5, newItem(Material.BARRIER, "Â§aÂ§lå–æ¶ˆ", lore));
 		
 		player.openInventory(inv);
 	}
@@ -317,40 +317,40 @@ public class SpaceOpen {
 		Space space = new Space(id, world);
 		String w = world(world);
 		
-		Inventory inv = Bukkit.getServer().createInventory(null, 54, "¡ì1PoorSpace¡ª¡ª"+w+"¿Õ¼ä"+id+"È¨ÏŞ×é"+group);
+		Inventory inv = Bukkit.getServer().createInventory(null, 54, "Â§1PoorSpaceâ€•â€•"+w+"ç©ºé—´"+id+"æƒé™ç»„"+group);
 		
 		ArrayList<String> lore = new ArrayList<String>();
-		lore.add("¡ì7Íæ¼Ò¿ÉÒÔÊ°ÆğµØÉÏµÄÎïÆ·");
-		inv.setItem(0, newItem(Material.DIAMOND, "¡ìe¡ìlÊ°ÆğÎïÆ·", lore));
+		lore.add("Â§7ç©å®¶å¯ä»¥æ‹¾èµ·åœ°ä¸Šçš„ç‰©å“");
+		inv.setItem(0, newItem(Material.DIAMOND, "Â§eÂ§læ‹¾èµ·ç‰©å“", lore));
 		lore.clear();
-		lore.add("¡ì7Íæ¼Ò¿ÉÒÔ¶ªÆúÎïÆ·");
-		inv.setItem(2, newItem(Material.ROTTEN_FLESH, "¡ìe¡ìl¶ªÆúÎïÆ·", lore));
+		lore.add("Â§7ç©å®¶å¯ä»¥ä¸¢å¼ƒç‰©å“");
+		inv.setItem(2, newItem(Material.ROTTEN_FLESH, "Â§eÂ§lä¸¢å¼ƒç‰©å“", lore));
 		lore.clear();
-		lore.add("¡ì7Íæ¼Ò¿ÉÒÔ·ÅÖÃ·½¿é£¨²»°üÀ¨»ğ°Ñ£©");
-		inv.setItem(4, newItem(Material.BRICK, "¡ìe¡ìl·ÅÖÃ·½¿é", lore));
+		lore.add("Â§7ç©å®¶å¯ä»¥æ”¾ç½®æ–¹å—ï¼ˆä¸åŒ…æ‹¬ç«æŠŠï¼‰");
+		inv.setItem(4, newItem(Material.BRICK, "Â§eÂ§læ”¾ç½®æ–¹å—", lore));
 		lore.clear();
-		lore.add("¡ì7Íæ¼Ò¿ÉÒÔÆÆ»µ·½¿é£¨²»°üÀ¨»ğ°Ñ£©");
-		inv.setItem(6, newItem(Material.WOODEN_PICKAXE, "¡ìe¡ìlÆÆ»µ·½¿é", lore));
+		lore.add("Â§7ç©å®¶å¯ä»¥ç ´åæ–¹å—ï¼ˆä¸åŒ…æ‹¬ç«æŠŠï¼‰");
+		inv.setItem(6, newItem(Material.WOODEN_PICKAXE, "Â§eÂ§lç ´åæ–¹å—", lore));
 		lore.clear();
-		lore.add("¡ì7Íæ¼Ò¿ÉÒÔ´¥·¢·½¿é£¬Èç¸ûµØ¡¢Ñ¹Á¦°åµÈ");
-		inv.setItem(8, newItem(Material.OAK_PRESSURE_PLATE, "¡ìe¡ìl´¥·¢·½¿é", lore));
+		lore.add("Â§7ç©å®¶å¯ä»¥è§¦å‘æ–¹å—ï¼Œå¦‚è€•åœ°ã€å‹åŠ›æ¿ç­‰");
+		inv.setItem(8, newItem(Material.OAK_PRESSURE_PLATE, "Â§eÂ§lè§¦å‘æ–¹å—", lore));
 		lore.clear();
-		lore.add("¡ì7Íæ¼Ò¿ÉÒÔÊ¹ÓÃ·½¿é£¬ÈçÏä×Ó¡¢°´Å¥µÈ");
-		inv.setItem(18, newItem(Material.CHEST, "¡ìe¡ìlÊ¹ÓÃ·½¿é", lore));
+		lore.add("Â§7ç©å®¶å¯ä»¥ä½¿ç”¨æ–¹å—ï¼Œå¦‚ç®±å­ã€æŒ‰é’®ç­‰");
+		inv.setItem(18, newItem(Material.CHEST, "Â§eÂ§lä½¿ç”¨æ–¹å—", lore));
 		lore.clear();
-		lore.add("¡ì7Íæ¼Ò¿ÉÒÔÓëÉúÎï½»»¥£¬Èç¹¥»÷¡¢½»Ò×µÈ");
-		inv.setItem(20, newItem(Material.EMERALD, "¡ìe¡ìlÊµÌå", lore));
+		lore.add("Â§7ç©å®¶å¯ä»¥ä¸ç”Ÿç‰©äº¤äº’ï¼Œå¦‚æ”»å‡»ã€äº¤æ˜“ç­‰");
+		inv.setItem(20, newItem(Material.EMERALD, "Â§eÂ§lå®ä½“", lore));
 		lore.clear();
-		lore.add("¡ì7Íæ¼Ò¿ÉÒÔ·ÅÖÃºÍÆÆ»µ»ğ°Ñ¡¢ºìÊ¯»ğ°Ñ£¨·ÇÁ÷ÌåÖĞ£©");
-		inv.setItem(22, newItem(Material.TORCH, "¡ìe¡ìl»ğ°Ñ", lore));
+		lore.add("Â§7ç©å®¶å¯ä»¥æ”¾ç½®å’Œç ´åç«æŠŠã€çº¢çŸ³ç«æŠŠï¼ˆéæµä½“ä¸­ï¼‰");
+		inv.setItem(22, newItem(Material.TORCH, "Â§eÂ§lç«æŠŠ", lore));
 		int m = 8;
 		if (group == 4) {
 			lore.clear();
-			lore.add("¡ì7·ÀÖ¹±¬Õ¨¶Ô·½¿é²úÉúµÄÆÆ»µ");
-			inv.setItem(24, newItem(Material.TNT, "¡ìe¡ìl·À±¬", lore));
+			lore.add("Â§7é˜²æ­¢çˆ†ç‚¸å¯¹æ–¹å—äº§ç”Ÿçš„ç ´å");
+			inv.setItem(24, newItem(Material.TNT, "Â§eÂ§lé˜²çˆ†", lore));
 			lore.clear();
-			lore.add("¡ì7·ÀÖ¹»ğÂûÑÓÖÁ´Ë¿Õ¼ä");
-			inv.setItem(26, newItem(Material.FLINT_AND_STEEL, "¡ìe¡ìl·À»ğ", lore));
+			lore.add("Â§7é˜²æ­¢ç«è”“å»¶è‡³æ­¤ç©ºé—´");
+			inv.setItem(26, newItem(Material.FLINT_AND_STEEL, "Â§eÂ§lé˜²ç«", lore));
 			m = 10;
 		}
 		
@@ -361,8 +361,8 @@ public class SpaceOpen {
 		lore.clear();
 		boolean owned = Space.isOwned(id, world);
 		if (owned && space.owner().equals(player.getName()))
-			lore.add("¡ìeµã»÷¹Ø±Õ¸ÃÏî");
-		onmeta.setDisplayName("¡ìa¡ìlµ±Ç°×´Ì¬£º¿ªÆô");
+			lore.add("Â§eç‚¹å‡»å…³é—­è¯¥é¡¹");
+		onmeta.setDisplayName("Â§aÂ§lå½“å‰çŠ¶æ€ï¼šå¼€å¯");
 		onmeta.setLore(lore);
 		on.setItemMeta(onmeta);
 		
@@ -371,8 +371,8 @@ public class SpaceOpen {
 		ItemMeta offmeta = off.getItemMeta();
 		lore.clear();
 		if (owned && space.owner().equals(player.getName()))
-			lore.add("¡ìeµã»÷¿ªÆô¸ÃÏî");
-		offmeta.setDisplayName("¡ì4¡ìlµ±Ç°×´Ì¬£º¹Ø±Õ");
+			lore.add("Â§eç‚¹å‡»å¼€å¯è¯¥é¡¹");
+		offmeta.setDisplayName("Â§4Â§lå½“å‰çŠ¶æ€ï¼šå…³é—­");
 		offmeta.setLore(lore);
 		off.setItemMeta(offmeta);
 		
@@ -392,8 +392,8 @@ public class SpaceOpen {
 		}
 		
 		lore.clear();
-		lore.add("¡ìe¡ìlµã»÷·µ»Ø¿Õ¼ä");
-		inv.setItem(49, newItem(Material.BARRIER, "¡ìa¡ìl·µ»Ø", lore));
+		lore.add("Â§eÂ§lç‚¹å‡»è¿”å›ç©ºé—´");
+		inv.setItem(49, newItem(Material.BARRIER, "Â§aÂ§lè¿”å›", lore));
 		
 		player.openInventory(inv);
 	}
@@ -403,7 +403,7 @@ public class SpaceOpen {
 		int split = id.indexOf(".");
 		int x = Integer.parseInt(id.substring(0, split));
 		int z = Integer.parseInt(id.substring(split+1));
-		Inventory inv = Bukkit.getServer().createInventory(null, 45, "¡ì1PoorSpace¡ª¡ª"+w+"Çø¿é"+id+"¸½½ü");
+		Inventory inv = Bukkit.getServer().createInventory(null, 45, "Â§1PoorSpaceâ€•â€•"+w+"åŒºå—"+id+"é™„è¿‘");
 		
 		for (int i = 0; i < 5; i++) {
 			for (int j = 0; j < 5; j++) {
@@ -435,27 +435,27 @@ public class SpaceOpen {
 						if (material.equals(Material.PAPER))
 							material = Material.MAP;
 					}
-					lore.add("¡ì7¿Õ¼ä"+spaceid+"£¨"+spaceY+owner+"£©");
+					lore.add("Â§7ç©ºé—´"+spaceid+"ï¼ˆ"+spaceY+owner+"ï¼‰");
 					
 				}
-				lore.add("¡ìeµã»÷²é¿´Çø¿é");
-				inv.setItem(i*9+j, newItem(material, "¡ìa¡ìlÇø¿é"+chunkid, lore));
+				lore.add("Â§eç‚¹å‡»æŸ¥çœ‹åŒºå—");
+				inv.setItem(i*9+j, newItem(material, "Â§aÂ§låŒºå—"+chunkid, lore));
 			}
 		}
 		
 		ArrayList<String> lore = new ArrayList<String>();
-		lore.add("¡ìeµã»÷²é¿´±±²¿Çø¿é");
-		inv.setItem(16, newItem(Material.ARROW, "¡ìa¡ìl±±", lore));
+		lore.add("Â§eç‚¹å‡»æŸ¥çœ‹åŒ—éƒ¨åŒºå—");
+		inv.setItem(16, newItem(Material.ARROW, "Â§aÂ§låŒ—", lore));
 		lore.clear();
-		lore.add("¡ìeµã»÷²é¿´Î÷²¿Çø¿é");
-		inv.setItem(24, newItem(Material.ARROW, "¡ìa¡ìlÎ÷", lore));
+		lore.add("Â§eç‚¹å‡»æŸ¥çœ‹è¥¿éƒ¨åŒºå—");
+		inv.setItem(24, newItem(Material.ARROW, "Â§aÂ§lè¥¿", lore));
 		lore.clear();
-		lore.add("¡ìeµã»÷²é¿´¶«²¿Çø¿é");
-		inv.setItem(26, newItem(Material.ARROW, "¡ìa¡ìl¶«", lore));
+		lore.add("Â§eç‚¹å‡»æŸ¥çœ‹ä¸œéƒ¨åŒºå—");
+		inv.setItem(26, newItem(Material.ARROW, "Â§aÂ§lä¸œ", lore));
 		lore.clear();
-		lore.add("¡ìeµã»÷²é¿´ÄÏ²¿Çø¿é");
-		inv.setItem(34, newItem(Material.ARROW, "¡ìa¡ìlÄÏ", lore));
-		inv.setItem(25, newItem(Material.COMPASS, "¡ìa¡ìl·½Î»"));
+		lore.add("Â§eç‚¹å‡»æŸ¥çœ‹å—éƒ¨åŒºå—");
+		inv.setItem(34, newItem(Material.ARROW, "Â§aÂ§lå—", lore));
+		inv.setItem(25, newItem(Material.COMPASS, "Â§aÂ§læ–¹ä½"));
 		
 		player.openInventory(inv);
 	}
@@ -465,58 +465,58 @@ public class SpaceOpen {
 		if (world == 0) {
 			switch(m) {
 			case 0:
-				name = "¸ß¶È£º1-20";
+				name = "é«˜åº¦ï¼š1-20";
 				break;
 			case 1:
-				name = "¸ß¶È£º21-50";
+				name = "é«˜åº¦ï¼š21-50";
 				break;
 			case 2:
-				name = "¸ß¶È£º51-100";
+				name = "é«˜åº¦ï¼š51-100";
 				break;
 			case 3:
-				name = "¸ß¶È£º101-200";
+				name = "é«˜åº¦ï¼š101-200";
 				break;
 			case 4:
-				name = "¸ß¶È£º201-256";
+				name = "é«˜åº¦ï¼š201-256";
 				break;
 			}
 		}
 		else if (world == 1) {
 			switch(m) {
 			case 0:
-				name = "¸ß¶È£º1-50";
+				name = "é«˜åº¦ï¼š1-50";
 				break;
 			case 1:
-				name = "¸ß¶È£º51-128";
+				name = "é«˜åº¦ï¼š51-128";
 				break;
 			case 2:
-				name = "¸ß¶È£º129-256";
+				name = "é«˜åº¦ï¼š129-256";
 				break;
 			}
 		}
 		else {
-			name = "È«¸ß¶È";
+			name = "å…¨é«˜åº¦";
 		}
 		return name;
 	}
 	
 	public static String world(int world) {
-		String w = "Ö÷ÊÀ½ç";
+		String w = "ä¸»ä¸–ç•Œ";
 		switch(world) {
 		case 0:
-			w = "Ö÷ÊÀ½ç";
+			w = "ä¸»ä¸–ç•Œ";
 			break;
 		case 1:
-			w = "ÏÂ½ç";
+			w = "ä¸‹ç•Œ";
 			break;
 		case 2:
-			w = "Ä©µØ";
+			w = "æœ«åœ°";
 			break;
 		case 3:
-			w = "´´Ôì½ç";
+			w = "åˆ›é€ ç•Œ";
 			break;
 		case 4:
-			w = "Ğ¡ÓÎÏ·½ç";
+			w = "å°æ¸¸æˆç•Œ";
 			break;
 		}
 		return w;

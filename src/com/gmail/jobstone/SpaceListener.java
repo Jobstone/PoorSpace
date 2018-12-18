@@ -73,7 +73,7 @@ public class SpaceListener implements Listener {
 		Player player = e.getPlayer();
 		Location loc = e.getPlayer().getLocation();
 		if (!playerpm(player.getName(), loc, 1)) {
-			sendActionBarMessage(player, "ÄúÃ»ÓĞÔÚÕâ¸ö¿Õ¼äÈÓÎïÆ·µÄÈ¨ÏŞ£¡");
+			sendActionBarMessage(player, "æ‚¨æ²¡æœ‰åœ¨è¿™ä¸ªç©ºé—´æ‰”ç‰©å“çš„æƒé™ï¼");
 			e.setCancelled(true);
 		}
 	}
@@ -85,13 +85,13 @@ public class SpaceListener implements Listener {
 		if ((e.getBlock().getType().equals(Material.TORCH) || e.getBlock().getType().equals(Material.WALL_TORCH) || e.getBlock().getType().equals(Material.REDSTONE_TORCH) || e.getBlock().getType().equals(Material.REDSTONE_WALL_TORCH))
 				&& !e.getBlockReplacedState().getType().equals(Material.WATER) && !e.getBlockReplacedState().getType().equals(Material.LAVA)) {
 			if (!playerpm(player.getName(), loc, 7)) {
-				sendActionBarMessage(player, "ÄúÃ»ÓĞÔÚ¸Ã¿Õ¼ä·ÅÖÃ»ğ°ÑµÄÈ¨ÏŞ£¡");
+				sendActionBarMessage(player, "æ‚¨æ²¡æœ‰åœ¨è¯¥ç©ºé—´æ”¾ç½®ç«æŠŠçš„æƒé™ï¼");
 				e.setCancelled(true);
 			}
 		}
 		else {
 			if (!playerpm(player.getName(), loc, 2)) {
-				sendActionBarMessage(player, "ÄúÃ»ÓĞÔÚ¸Ã¿Õ¼ä·ÅÖÃ·½¿éµÄÈ¨ÏŞ£¡");
+				sendActionBarMessage(player, "æ‚¨æ²¡æœ‰åœ¨è¯¥ç©ºé—´æ”¾ç½®æ–¹å—çš„æƒé™ï¼");
 				e.setCancelled(true);
 			}
 		}
@@ -102,7 +102,7 @@ public class SpaceListener implements Listener {
 		Player player = e.getPlayer();
 		Location loc = e.getBlockClicked().getRelative(e.getBlockFace()).getLocation();
 		if (!playerpm(player.getName(), loc, 2)) {
-			sendActionBarMessage(player, "ÄúÃ»ÓĞÔÚÕâ¸ö¿Õ¼ä·ÅÖÃ·½¿éµÄÈ¨ÏŞ£¡");
+			sendActionBarMessage(player, "æ‚¨æ²¡æœ‰åœ¨è¿™ä¸ªç©ºé—´æ”¾ç½®æ–¹å—çš„æƒé™ï¼");
 			e.setCancelled(true);
 		}
 	}
@@ -112,7 +112,7 @@ public class SpaceListener implements Listener {
 		Player player = e.getPlayer();
 		Location loc = e.getBlockClicked().getRelative(e.getBlockFace()).getLocation();
 		if (!playerpm(player.getName(), loc, 3)) {
-			sendActionBarMessage(player, "ÄúÃ»ÓĞÆÆ»µ¸Ã¿Õ¼ä·½¿éµÄÈ¨ÏŞ£¡");
+			sendActionBarMessage(player, "æ‚¨æ²¡æœ‰ç ´åè¯¥ç©ºé—´æ–¹å—çš„æƒé™ï¼");
 			e.setCancelled(true);
 		}
 	}
@@ -123,13 +123,13 @@ public class SpaceListener implements Listener {
 		Location loc = e.getBlock().getLocation();
 		if (e.getBlock().getType().equals(Material.TORCH) || e.getBlock().getType().equals(Material.WALL_TORCH) || e.getBlock().getType().equals(Material.REDSTONE_TORCH) || e.getBlock().getType().equals(Material.REDSTONE_WALL_TORCH)) {
 			if (!playerpm(player.getName(), loc, 7)) {
-				sendActionBarMessage(player, "ÄúÃ»ÓĞÆÆ»µ¸Ã¿Õ¼ä»ğ°ÑµÄÈ¨ÏŞ£¡");
+				sendActionBarMessage(player, "æ‚¨æ²¡æœ‰ç ´åè¯¥ç©ºé—´ç«æŠŠçš„æƒé™ï¼");
 				e.setCancelled(true);
 			}
 		}
 		else {
 			if (!playerpm(player.getName(), loc, 3)) {
-				sendActionBarMessage(player, "ÄúÃ»ÓĞÆÆ»µ¸Ã¿Õ¼ä·½¿éµÄÈ¨ÏŞ£¡");
+				sendActionBarMessage(player, "æ‚¨æ²¡æœ‰ç ´åè¯¥ç©ºé—´æ–¹å—çš„æƒé™ï¼");
 				e.setCancelled(true);
 			}
 		}
@@ -163,7 +163,7 @@ public class SpaceListener implements Listener {
 				Player player = e.getPlayer();
 				Location loc = e.getClickedBlock().getLocation();
 				if (!playerpm(player.getName(), loc, 5)) {
-					sendActionBarMessage(player, "ÄúÃ»ÓĞÊ¹ÓÃ¸Ã¿Õ¼ä·½¿éµÄÈ¨ÏŞ£¡");
+					sendActionBarMessage(player, "æ‚¨æ²¡æœ‰ä½¿ç”¨è¯¥ç©ºé—´æ–¹å—çš„æƒé™ï¼");
 					e.setCancelled(true);
 				}
 			}
@@ -176,7 +176,7 @@ public class SpaceListener implements Listener {
 			Player player = e.getPlayer();
 			Location loc = e.getRightClicked().getLocation();
 			if (!playerpm(player.getName(), loc, 6)) {
-				sendActionBarMessage(player, "ÄúÃ»ÓĞÊ¹ÓÃ¸Ã¿Õ¼äÊµÌåµÄÈ¨ÏŞ£¡");
+				sendActionBarMessage(player, "æ‚¨æ²¡æœ‰ä½¿ç”¨è¯¥ç©ºé—´å®ä½“çš„æƒé™ï¼");
 				e.setCancelled(true);
 			}
 		}
@@ -207,7 +207,7 @@ public class SpaceListener implements Listener {
 			Player player = e.getPlayer();
 			Location loc = e.getRightClicked().getLocation();
 			if (!playerpm(player.getName(), loc, 6)) {
-				sendActionBarMessage(player, "ÄúÃ»ÓĞÊ¹ÓÃ¸Ã¿Õ¼äÊµÌåµÄÈ¨ÏŞ£¡");
+				sendActionBarMessage(player, "æ‚¨æ²¡æœ‰ä½¿ç”¨è¯¥ç©ºé—´å®ä½“çš„æƒé™ï¼");
 				e.setCancelled(true);
 			}
 		}
@@ -219,7 +219,7 @@ public class SpaceListener implements Listener {
 			Player player = (Player)e.getRemover();
 			Location loc = e.getEntity().getLocation();
 			if (!playerpm(player.getName(), loc, 6)) {
-				sendActionBarMessage(player, "ÄúÃ»ÓĞÆÆ»µ¸Ã¿Õ¼äÊµÌåµÄÈ¨ÏŞ£¡");
+				sendActionBarMessage(player, "æ‚¨æ²¡æœ‰ç ´åè¯¥ç©ºé—´å®ä½“çš„æƒé™ï¼");
 				e.setCancelled(true);
 			}
 		}
@@ -237,7 +237,7 @@ public class SpaceListener implements Listener {
 			Player player = (Player) e.getAttacker();
 			Location loc = e.getVehicle().getLocation();
 			if (!playerpm(player.getName(), loc, 6)) {
-				sendActionBarMessage(player, "ÄúÃ»ÓĞÆÆ»µ¸Ã¿Õ¼äÊµÌåµÄÈ¨ÏŞ£¡");
+				sendActionBarMessage(player, "æ‚¨æ²¡æœ‰ç ´åè¯¥ç©ºé—´å®ä½“çš„æƒé™ï¼");
 				e.setCancelled(true);
 			}
 		}
@@ -249,7 +249,7 @@ public class SpaceListener implements Listener {
 			Player player = e.getPlayer();
 			Location loc = e.getClickedBlock().getLocation();
 			if (!playerpm(player.getName(), loc, 6)) {
-				sendActionBarMessage(player, "ÄúÃ»ÓĞÔÚ¸Ã¿Õ¼äÄÚ·ÅÖÃÊµÌåµÄÈ¨ÏŞ£¡");
+				sendActionBarMessage(player, "æ‚¨æ²¡æœ‰åœ¨è¯¥ç©ºé—´å†…æ”¾ç½®å®ä½“çš„æƒé™ï¼");
 				e.setCancelled(true);
 			}
 		}
@@ -260,7 +260,7 @@ public class SpaceListener implements Listener {
 		Player player = e.getPlayer();
 		Location loc = e.getEntity().getLocation();
 		if (!playerpm(player.getName(), loc, 6)) {
-			sendActionBarMessage(player, "ÄúÃ»ÓĞÔÚ¸Ã¿Õ¼äÄÚ·ÅÖÃÊµÌåµÄÈ¨ÏŞ£¡");
+			sendActionBarMessage(player, "æ‚¨æ²¡æœ‰åœ¨è¯¥ç©ºé—´å†…æ”¾ç½®å®ä½“çš„æƒé™ï¼");
 			e.setCancelled(true);
 		}
 	}

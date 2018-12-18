@@ -30,28 +30,28 @@ public class InvListener implements Listener {
 	
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void click(InventoryClickEvent e) {
-		if(e.getInventory().getHolder() == null && e.getInventory().getName().startsWith("¡ì1PoorSpace¡ª¡ª")) {
+		if(e.getInventory().getHolder() == null && e.getInventory().getName().startsWith("Â§1PoorSpaceâ€•â€•")) {
 			String window = e.getInventory().getName().substring(13);
-			if (window.equals("¸öÈË")) {
+			if (window.equals("ä¸ªäºº")) {
 				e.setCancelled(true);
 				if (e.getRawSlot() < e.getInventory().getSize() && e.getCurrentItem()!= null && !e.getCurrentItem().getType().equals(Material.AIR)) {
 					Player player = (Player) e.getWhoClicked();
 					if (e.getClick().equals(ClickType.LEFT)) {
 						
 						String click = e.getCurrentItem().getItemMeta().getDisplayName();
-						if (click.equals("¡ìa¡ìlÖ÷ÊÀ½ç")) {
+						if (click.equals("Â§aÂ§lä¸»ä¸–ç•Œ")) {
 							SpaceOpen.openWorld(player, 0, 1);
 						}
-						else if (click.equals("¡ìa¡ìlÏÂ½ç")) {
+						else if (click.equals("Â§aÂ§lä¸‹ç•Œ")) {
 							SpaceOpen.openWorld(player, 1, 1);
 						}
-						else if (click.equals("¡ìa¡ìlÄ©µØ")) {
+						else if (click.equals("Â§aÂ§læœ«åœ°")) {
 							SpaceOpen.openWorld(player, 2, 1);
 						}
-						else if (click.equals("¡ìa¡ìl´´Ôì½ç")) {
+						else if (click.equals("Â§aÂ§låˆ›é€ ç•Œ")) {
 							SpaceOpen.openWorld(player, 3, 1);
 						}
-						else if (click.equals("¡ìa¡ìlÐ¡ÓÎÏ·½ç")) {
+						else if (click.equals("Â§aÂ§lå°æ¸¸æˆç•Œ")) {
 							
 						}
 						
@@ -59,29 +59,29 @@ public class InvListener implements Listener {
 				}
 			}
 			
-			else if (window.startsWith("¸öÈË£ºÖ÷ÊÀ½ç")) {
+			else if (window.startsWith("ä¸ªäººï¼šä¸»ä¸–ç•Œ")) {
 				e.setCancelled(true);
 				if (e.getRawSlot() < e.getInventory().getSize() && e.getCurrentItem()!= null && !e.getCurrentItem().getType().equals(Material.AIR)) {
 					Player player = (Player) e.getWhoClicked();
 					if (e.getClick().equals(ClickType.LEFT)) {
 						
 						String click = e.getCurrentItem().getItemMeta().getDisplayName();
-						if (click.startsWith("¡ìa¡ìl¿Õ¼ä")) {
+						if (click.startsWith("Â§aÂ§lç©ºé—´")) {
 							String id = click.substring(6);
 							SpaceOpen.openSpace(player, id, 0);
 						}
-						else if (click.equals("¡ìa¡ìlÏÂÒ»Ò³")) {
+						else if (click.equals("Â§aÂ§lä¸‹ä¸€é¡µ")) {
 							int page = Integer.parseInt(window.substring(10, window.lastIndexOf("/")));
 							SpaceOpen.openWorld(player, 0, page+1);
 						}
-						else if (click.equals("¡ìa¡ìlÉÏÒ»Ò³")) {
+						else if (click.equals("Â§aÂ§lä¸Šä¸€é¡µ")) {
 							int page = Integer.parseInt(window.substring(10, window.lastIndexOf("/")));
 							SpaceOpen.openWorld(player, 0, page-1);
 						}
-						else if (click.equals("¡ìa¡ìl·µ»Ø")) {
+						else if (click.equals("Â§aÂ§lè¿”å›ž")) {
 							SpaceOpen.openPlayer(player);
 						}
-						else if (click.equals("¡ìa¡ìlÖ÷ÊÀ½ç")) {
+						else if (click.equals("Â§aÂ§lä¸»ä¸–ç•Œ")) {
 							Location loc = Bukkit.getWorld("world").getSpawnLocation();
 							SpaceOpen.openNearbyChunks(player, loc.getChunk().getX()+"."+loc.getChunk().getZ(), Space.getWorldid(loc));
 						}
@@ -90,29 +90,29 @@ public class InvListener implements Listener {
 				}
 			}
 			
-			else if (window.startsWith("¸öÈË£ºÏÂ½ç")) {
+			else if (window.startsWith("ä¸ªäººï¼šä¸‹ç•Œ")) {
 				e.setCancelled(true);
 				if (e.getRawSlot() < e.getInventory().getSize() && e.getCurrentItem()!= null && !e.getCurrentItem().getType().equals(Material.AIR)) {
 					Player player = (Player) e.getWhoClicked();
 					if (e.getClick().equals(ClickType.LEFT)) {
 						
 						String click = e.getCurrentItem().getItemMeta().getDisplayName();
-						if (click.startsWith("¡ìa¡ìl¿Õ¼ä")) {
+						if (click.startsWith("Â§aÂ§lç©ºé—´")) {
 							String id = click.substring(6);
 							SpaceOpen.openSpace(player, id, 1);
 						}
-						else if (click.equals("¡ìa¡ìlÏÂÒ»Ò³")) {
+						else if (click.equals("Â§aÂ§lä¸‹ä¸€é¡µ")) {
 							int page = Integer.parseInt(window.substring(9, window.lastIndexOf("/")));
 							SpaceOpen.openWorld(player, 1, page+1);
 						}
-						else if (click.equals("¡ìa¡ìlÉÏÒ»Ò³")) {
+						else if (click.equals("Â§aÂ§lä¸Šä¸€é¡µ")) {
 							int page = Integer.parseInt(window.substring(9, window.lastIndexOf("/")));
 							SpaceOpen.openWorld(player, 1, page-1);
 						}
-						else if (click.equals("¡ìa¡ìl·µ»Ø")) {
+						else if (click.equals("Â§aÂ§lè¿”å›ž")) {
 							SpaceOpen.openPlayer(player);
 						}
-						else if (click.equals("¡ìa¡ìlÏÂ½ç")) {
+						else if (click.equals("Â§aÂ§lä¸‹ç•Œ")) {
 							Location loc = Bukkit.getWorld("world_nether").getSpawnLocation();
 							SpaceOpen.openNearbyChunks(player, loc.getChunk().getX()+"."+loc.getChunk().getZ(), Space.getWorldid(loc));
 						}
@@ -121,29 +121,29 @@ public class InvListener implements Listener {
 				}
 			}
 			
-			else if (window.startsWith("¸öÈË£ºÄ©µØ")) {
+			else if (window.startsWith("ä¸ªäººï¼šæœ«åœ°")) {
 				e.setCancelled(true);
 				if (e.getRawSlot() < e.getInventory().getSize() && e.getCurrentItem()!= null && !e.getCurrentItem().getType().equals(Material.AIR)) {
 					Player player = (Player) e.getWhoClicked();
 					if (e.getClick().equals(ClickType.LEFT)) {
 						
 						String click = e.getCurrentItem().getItemMeta().getDisplayName();
-						if (click.startsWith("¡ìa¡ìl¿Õ¼ä")) {
+						if (click.startsWith("Â§aÂ§lç©ºé—´")) {
 							String id = click.substring(6);
 							SpaceOpen.openSpace(player, id, 2);
 						}
-						else if (click.equals("¡ìa¡ìlÏÂÒ»Ò³")) {
+						else if (click.equals("Â§aÂ§lä¸‹ä¸€é¡µ")) {
 							int page = Integer.parseInt(window.substring(9, window.lastIndexOf("/")));
 							SpaceOpen.openWorld(player, 2, page+1);
 						}
-						else if (click.equals("¡ìa¡ìlÉÏÒ»Ò³")) {
+						else if (click.equals("Â§aÂ§lä¸Šä¸€é¡µ")) {
 							int page = Integer.parseInt(window.substring(9, window.lastIndexOf("/")));
 							SpaceOpen.openWorld(player, 2, page-1);
 						}
-						else if (click.equals("¡ìa¡ìl·µ»Ø")) {
+						else if (click.equals("Â§aÂ§lè¿”å›ž")) {
 							SpaceOpen.openPlayer(player);
 						}
-						else if (click.equals("¡ìa¡ìlÄ©µØ")) {
+						else if (click.equals("Â§aÂ§læœ«åœ°")) {
 							Location loc = Bukkit.getWorld("world_the_end").getSpawnLocation();
 							SpaceOpen.openNearbyChunks(player, loc.getChunk().getX()+"."+loc.getChunk().getZ(), Space.getWorldid(loc));
 						}
@@ -152,29 +152,29 @@ public class InvListener implements Listener {
 				}
 			}
 			
-			else if (window.startsWith("¸öÈË£º´´Ôì½ç")) {
+			else if (window.startsWith("ä¸ªäººï¼šåˆ›é€ ç•Œ")) {
 				e.setCancelled(true);
 				if (e.getRawSlot() < e.getInventory().getSize() && e.getCurrentItem()!= null && !e.getCurrentItem().getType().equals(Material.AIR)) {
 					Player player = (Player) e.getWhoClicked();
 					if (e.getClick().equals(ClickType.LEFT)) {
 						
 						String click = e.getCurrentItem().getItemMeta().getDisplayName();
-						if (click.startsWith("¡ìa¡ìl¿Õ¼ä")) {
+						if (click.startsWith("Â§aÂ§lç©ºé—´")) {
 							String id = click.substring(6);
 							SpaceOpen.openSpace(player, id, 3);
 						}
-						else if (click.equals("¡ìa¡ìlÏÂÒ»Ò³")) {
+						else if (click.equals("Â§aÂ§lä¸‹ä¸€é¡µ")) {
 							int page = Integer.parseInt(window.substring(10, window.lastIndexOf("/")));
 							SpaceOpen.openWorld(player, 3, page+1);
 						}
-						else if (click.equals("¡ìa¡ìlÉÏÒ»Ò³")) {
+						else if (click.equals("Â§aÂ§lä¸Šä¸€é¡µ")) {
 							int page = Integer.parseInt(window.substring(10, window.lastIndexOf("/")));
 							SpaceOpen.openWorld(player, 3, page-1);
 						}
-						else if (click.equals("¡ìa¡ìl·µ»Ø")) {
+						else if (click.equals("Â§aÂ§lè¿”å›ž")) {
 							SpaceOpen.openPlayer(player);
 						}
-						else if (click.equals("¡ìa¡ìl´´Ôì½ç")) {
+						else if (click.equals("Â§aÂ§låˆ›é€ ç•Œ")) {
 							Location loc = Bukkit.getWorld("creative").getSpawnLocation();
 							SpaceOpen.openNearbyChunks(player, loc.getChunk().getX()+"."+loc.getChunk().getZ(), Space.getWorldid(loc));
 						}
@@ -183,29 +183,29 @@ public class InvListener implements Listener {
 				}
 			}
 			
-			else if (window.startsWith("¸öÈË£ºÐ¡ÓÎÏ·½ç")) {
+			else if (window.startsWith("ä¸ªäººï¼šå°æ¸¸æˆç•Œ")) {
 				e.setCancelled(true);
 				if (e.getRawSlot() < e.getInventory().getSize() && e.getCurrentItem()!= null && !e.getCurrentItem().getType().equals(Material.AIR)) {
 					Player player = (Player) e.getWhoClicked();
 					if (e.getClick().equals(ClickType.LEFT)) {
 						
 						String click = e.getCurrentItem().getItemMeta().getDisplayName();
-						if (click.startsWith("¡ìa¡ìl¿Õ¼ä")) {
+						if (click.startsWith("Â§aÂ§lç©ºé—´")) {
 							String id = click.substring(6);
 							SpaceOpen.openSpace(player, id, 4);
 						}
-						else if (click.equals("¡ìa¡ìlÏÂÒ»Ò³")) {
+						else if (click.equals("Â§aÂ§lä¸‹ä¸€é¡µ")) {
 							int page = Integer.parseInt(window.substring(11, window.lastIndexOf("/")));
 							SpaceOpen.openWorld(player, 4, page+1);
 						}
-						else if (click.equals("¡ìa¡ìlÉÏÒ»Ò³")) {
+						else if (click.equals("Â§aÂ§lä¸Šä¸€é¡µ")) {
 							int page = Integer.parseInt(window.substring(11, window.lastIndexOf("/")));
 							SpaceOpen.openWorld(player, 4, page-1);
 						}
-						else if (click.equals("¡ìa¡ìl·µ»Ø")) {
+						else if (click.equals("Â§aÂ§lè¿”å›ž")) {
 							SpaceOpen.openPlayer(player);
 						}
-						else if (click.equals("¡ìa¡ìlÐ¡ÓÎÏ·½ç")) {
+						else if (click.equals("Â§aÂ§lå°æ¸¸æˆç•Œ")) {
 							Location loc = Bukkit.getWorld("minigame").getSpawnLocation();
 							SpaceOpen.openNearbyChunks(player, loc.getChunk().getX()+"."+loc.getChunk().getZ(), Space.getWorldid(loc));
 						}
@@ -214,34 +214,34 @@ public class InvListener implements Listener {
 				}
 			}
 			
-			else if (window.startsWith("Ö÷ÊÀ½ç¿Õ¼ä")) {
+			else if (window.startsWith("ä¸»ä¸–ç•Œç©ºé—´")) {
 				e.setCancelled(true);
 				if (e.getRawSlot() < e.getInventory().getSize() && e.getCurrentItem()!= null && !e.getCurrentItem().getType().equals(Material.AIR)) {
 					Player player = (Player) e.getWhoClicked();
-					if (window.contains("È¨ÏÞ×é")) {
+					if (window.contains("æƒé™ç»„")) {
 						if (e.getClick().equals(ClickType.LEFT)) {
 							
 							int j = slot(e.getRawSlot());
-							String id = window.substring(5, window.indexOf("È¨ÏÞ×é"));
+							String id = window.substring(5, window.indexOf("æƒé™ç»„"));
 							int group = Integer.parseInt(window.substring(window.length()-1));
 							permissionClick(player, id, j, 0, group);
 							
 						}
 					}
-					else if (window.contains("¹ºÂò")) {
+					else if (window.contains("è´­ä¹°")) {
 						if (e.getClick().equals(ClickType.LEFT)) {
 							
 							String click = e.getCurrentItem().getItemMeta().getDisplayName();
-							String id = window.substring(5, window.indexOf("¹ºÂò"));
+							String id = window.substring(5, window.indexOf("è´­ä¹°"));
 							buyClick(player, id, click, 0);
 							
 						}
 					}
-					else if (window.contains("·ÅÆú")) {
+					else if (window.contains("æ”¾å¼ƒ")) {
 						if (e.getClick().equals(ClickType.LEFT)) {
 							
 							String click = e.getCurrentItem().getItemMeta().getDisplayName();
-							String id = window.substring(5, window.indexOf("·ÅÆú"));
+							String id = window.substring(5, window.indexOf("æ”¾å¼ƒ"));
 							giveupClick(player, id, click, 0);
 							
 						}
@@ -250,41 +250,41 @@ public class InvListener implements Listener {
 						if (e.getClick().equals(ClickType.LEFT)) {
 							
 							String click = e.getCurrentItem().getItemMeta().getDisplayName();
-							spaceClick(player, click, window.substring(5), 0, "Ö÷ÊÀ½ç");
+							spaceClick(player, click, window.substring(5), 0, "ä¸»ä¸–ç•Œ");
 							
 						}
 					}
 				}
 			}
 			
-			else if (window.startsWith("ÏÂ½ç¿Õ¼ä")) {
+			else if (window.startsWith("ä¸‹ç•Œç©ºé—´")) {
 				e.setCancelled(true);
 				if (e.getRawSlot() < e.getInventory().getSize() && e.getCurrentItem()!= null && !e.getCurrentItem().getType().equals(Material.AIR)) {
 					Player player = (Player) e.getWhoClicked();
-					if (window.contains("È¨ÏÞ×é")) {
+					if (window.contains("æƒé™ç»„")) {
 						if (e.getClick().equals(ClickType.LEFT)) {
 							
 							int j = slot(e.getRawSlot());
-							String id = window.substring(4, window.indexOf("È¨ÏÞ×é"));
+							String id = window.substring(4, window.indexOf("æƒé™ç»„"));
 							int group = Integer.parseInt(window.substring(window.length()-1));
 							permissionClick(player, id, j, 1, group);
 							
 						}
 					}
-					else  if (window.contains("¹ºÂò")) {
+					else  if (window.contains("è´­ä¹°")) {
 						if (e.getClick().equals(ClickType.LEFT)) {
 							
 							String click = e.getCurrentItem().getItemMeta().getDisplayName();
-							String id = window.substring(4, window.indexOf("¹ºÂò"));
+							String id = window.substring(4, window.indexOf("è´­ä¹°"));
 							buyClick(player, id, click, 1);
 							
 						}
 					}
-					else if (window.contains("·ÅÆú")) {
+					else if (window.contains("æ”¾å¼ƒ")) {
 						if (e.getClick().equals(ClickType.LEFT)) {
 							
 							String click = e.getCurrentItem().getItemMeta().getDisplayName();
-							String id = window.substring(5, window.indexOf("·ÅÆú"));
+							String id = window.substring(5, window.indexOf("æ”¾å¼ƒ"));
 							giveupClick(player, id, click, 1);
 							
 						}
@@ -293,41 +293,41 @@ public class InvListener implements Listener {
 						if (e.getClick().equals(ClickType.LEFT)) {
 							
 							String click = e.getCurrentItem().getItemMeta().getDisplayName();
-							spaceClick(player, click, window.substring(4), 1, "ÏÂ½ç");
+							spaceClick(player, click, window.substring(4), 1, "ä¸‹ç•Œ");
 							
 						}
 					}
 				}
 			}
 			
-			else if (window.startsWith("Ä©µØ¿Õ¼ä")) {
+			else if (window.startsWith("æœ«åœ°ç©ºé—´")) {
 				e.setCancelled(true);
 				if (e.getRawSlot() < e.getInventory().getSize() && e.getCurrentItem()!= null && !e.getCurrentItem().getType().equals(Material.AIR)) {
 					Player player = (Player) e.getWhoClicked();
-					if (window.contains("È¨ÏÞ×é")) {
+					if (window.contains("æƒé™ç»„")) {
 						if (e.getClick().equals(ClickType.LEFT)) {
 							
 							int j = slot(e.getRawSlot());
-							String id = window.substring(4, window.indexOf("È¨ÏÞ×é"));
+							String id = window.substring(4, window.indexOf("æƒé™ç»„"));
 							int group = Integer.parseInt(window.substring(window.length()-1));
 							permissionClick(player, id, j, 2, group);
 							
 						}
 					}
-					else  if (window.contains("¹ºÂò")) {
+					else  if (window.contains("è´­ä¹°")) {
 						if (e.getClick().equals(ClickType.LEFT)) {
 							
 							String click = e.getCurrentItem().getItemMeta().getDisplayName();
-							String id = window.substring(4, window.indexOf("¹ºÂò"));
+							String id = window.substring(4, window.indexOf("è´­ä¹°"));
 							buyClick(player, id, click, 2);
 							
 						}
 					}
-					else if (window.contains("·ÅÆú")) {
+					else if (window.contains("æ”¾å¼ƒ")) {
 						if (e.getClick().equals(ClickType.LEFT)) {
 							
 							String click = e.getCurrentItem().getItemMeta().getDisplayName();
-							String id = window.substring(5, window.indexOf("·ÅÆú"));
+							String id = window.substring(5, window.indexOf("æ”¾å¼ƒ"));
 							giveupClick(player, id, click, 2);
 							
 						}
@@ -336,41 +336,41 @@ public class InvListener implements Listener {
 						if (e.getClick().equals(ClickType.LEFT)) {
 							
 							String click = e.getCurrentItem().getItemMeta().getDisplayName();
-							spaceClick(player, click, window.substring(4), 2, "Ä©µØ");
+							spaceClick(player, click, window.substring(4), 2, "æœ«åœ°");
 							
 						}
 					}
 				}
 			}
 			
-			else if (window.startsWith("´´Ôì½ç¿Õ¼ä")) {
+			else if (window.startsWith("åˆ›é€ ç•Œç©ºé—´")) {
 				e.setCancelled(true);
 				if (e.getRawSlot() < e.getInventory().getSize() && e.getCurrentItem()!= null && !e.getCurrentItem().getType().equals(Material.AIR)) {
 					Player player = (Player) e.getWhoClicked();
-					if (window.contains("È¨ÏÞ×é")) {
+					if (window.contains("æƒé™ç»„")) {
 						if (e.getClick().equals(ClickType.LEFT)) {
 							
 							int j = slot(e.getRawSlot());
-							String id = window.substring(5, window.indexOf("È¨ÏÞ×é"));
+							String id = window.substring(5, window.indexOf("æƒé™ç»„"));
 							int group = Integer.parseInt(window.substring(window.length()-1));
 							permissionClick(player, id, j, 3, group);
 							
 						}
 					}
-					else  if (window.contains("¹ºÂò")) {
+					else  if (window.contains("è´­ä¹°")) {
 						if (e.getClick().equals(ClickType.LEFT)) {
 							
 							String click = e.getCurrentItem().getItemMeta().getDisplayName();
-							String id = window.substring(5, window.indexOf("¹ºÂò"));
+							String id = window.substring(5, window.indexOf("è´­ä¹°"));
 							buyClick(player, id, click, 3);
 							
 						}
 					}
-					else if (window.contains("·ÅÆú")) {
+					else if (window.contains("æ”¾å¼ƒ")) {
 						if (e.getClick().equals(ClickType.LEFT)) {
 							
 							String click = e.getCurrentItem().getItemMeta().getDisplayName();
-							String id = window.substring(5, window.indexOf("·ÅÆú"));
+							String id = window.substring(5, window.indexOf("æ”¾å¼ƒ"));
 							giveupClick(player, id, click, 3);
 							
 						}
@@ -379,41 +379,41 @@ public class InvListener implements Listener {
 						if (e.getClick().equals(ClickType.LEFT)) {
 							
 							String click = e.getCurrentItem().getItemMeta().getDisplayName();
-							spaceClick(player, click, window.substring(5), 3, "´´Ôì½ç");
+							spaceClick(player, click, window.substring(5), 3, "åˆ›é€ ç•Œ");
 							
 						}
 					}
 				}
 			}
 			
-			else if (window.startsWith("Ð¡ÓÎÏ·½ç¿Õ¼ä")) {
+			else if (window.startsWith("å°æ¸¸æˆç•Œç©ºé—´")) {
 				e.setCancelled(true);
 				if (e.getRawSlot() < e.getInventory().getSize() && e.getCurrentItem()!= null && !e.getCurrentItem().getType().equals(Material.AIR)) {
 					Player player = (Player) e.getWhoClicked();
-					if (window.contains("È¨ÏÞ×é")) {
+					if (window.contains("æƒé™ç»„")) {
 						if (e.getClick().equals(ClickType.LEFT)) {
 							
 							int j = slot(e.getRawSlot());
-							String id = window.substring(6, window.indexOf("È¨ÏÞ×é"));
+							String id = window.substring(6, window.indexOf("æƒé™ç»„"));
 							int group = Integer.parseInt(window.substring(window.length()-1));
 							permissionClick(player, id, j, 4, group);
 							
 						}
 					}
-					else  if (window.contains("¹ºÂò")) {
+					else  if (window.contains("è´­ä¹°")) {
 						if (e.getClick().equals(ClickType.LEFT)) {
 							
 							String click = e.getCurrentItem().getItemMeta().getDisplayName();
-							String id = window.substring(6, window.indexOf("¹ºÂò"));
+							String id = window.substring(6, window.indexOf("è´­ä¹°"));
 							buyClick(player, id, click, 4);
 							
 						}
 					}
-					else if (window.contains("·ÅÆú")) {
+					else if (window.contains("æ”¾å¼ƒ")) {
 						if (e.getClick().equals(ClickType.LEFT)) {
 							
 							String click = e.getCurrentItem().getItemMeta().getDisplayName();
-							String id = window.substring(5, window.indexOf("·ÅÆú"));
+							String id = window.substring(5, window.indexOf("æ”¾å¼ƒ"));
 							giveupClick(player, id, click, 4);
 							
 						}
@@ -422,14 +422,14 @@ public class InvListener implements Listener {
 						if (e.getClick().equals(ClickType.LEFT)) {
 							
 							String click = e.getCurrentItem().getItemMeta().getDisplayName();
-							spaceClick(player, click, window.substring(6), 4, "Ð¡ÓÎÏ·½ç");
+							spaceClick(player, click, window.substring(6), 4, "å°æ¸¸æˆç•Œ");
 							
 						}
 					}
 				}
 			}
 			
-			else if (window.startsWith("Ö÷ÊÀ½çÇø¿é")) {
+			else if (window.startsWith("ä¸»ä¸–ç•ŒåŒºå—")) {
 
 				e.setCancelled(true);
 				if (e.getRawSlot() < e.getInventory().getSize() && e.getCurrentItem()!= null && !e.getCurrentItem().getType().equals(Material.AIR)) {
@@ -437,14 +437,14 @@ public class InvListener implements Listener {
 					if (e.getClick().equals(ClickType.LEFT)) {
 							
 						String click = e.getCurrentItem().getItemMeta().getDisplayName();
-						String id = window.substring(5, window.indexOf("¸½½ü"));
+						String id = window.substring(5, window.indexOf("é™„è¿‘"));
 						nearbyClick(player, click, id, 0);
 						
 					}
 				}
 			}
 			
-			else if (window.startsWith("ÏÂ½çÇø¿é")) {
+			else if (window.startsWith("ä¸‹ç•ŒåŒºå—")) {
 
 				e.setCancelled(true);
 				if (e.getRawSlot() < e.getInventory().getSize() && e.getCurrentItem()!= null && !e.getCurrentItem().getType().equals(Material.AIR)) {
@@ -452,14 +452,14 @@ public class InvListener implements Listener {
 					if (e.getClick().equals(ClickType.LEFT)) {
 							
 						String click = e.getCurrentItem().getItemMeta().getDisplayName();
-						String id = window.substring(4, window.indexOf("¸½½ü"));
+						String id = window.substring(4, window.indexOf("é™„è¿‘"));
 						nearbyClick(player, click, id, 1);
 						
 					}
 				}
 			}
 			
-			else if (window.startsWith("Ä©µØÇø¿é")) {
+			else if (window.startsWith("æœ«åœ°åŒºå—")) {
 
 				e.setCancelled(true);
 				if (e.getRawSlot() < e.getInventory().getSize() && e.getCurrentItem()!= null && !e.getCurrentItem().getType().equals(Material.AIR)) {
@@ -467,14 +467,14 @@ public class InvListener implements Listener {
 					if (e.getClick().equals(ClickType.LEFT)) {
 							
 						String click = e.getCurrentItem().getItemMeta().getDisplayName();
-						String id = window.substring(4, window.indexOf("¸½½ü"));
+						String id = window.substring(4, window.indexOf("é™„è¿‘"));
 						nearbyClick(player, click, id, 2);
 						
 					}
 				}
 			}
 			
-			else if (window.startsWith("´´Ôì½çÇø¿é")) {
+			else if (window.startsWith("åˆ›é€ ç•ŒåŒºå—")) {
 
 				e.setCancelled(true);
 				if (e.getRawSlot() < e.getInventory().getSize() && e.getCurrentItem()!= null && !e.getCurrentItem().getType().equals(Material.AIR)) {
@@ -482,14 +482,14 @@ public class InvListener implements Listener {
 					if (e.getClick().equals(ClickType.LEFT)) {
 							
 						String click = e.getCurrentItem().getItemMeta().getDisplayName();
-						String id = window.substring(5, window.indexOf("¸½½ü"));
+						String id = window.substring(5, window.indexOf("é™„è¿‘"));
 						nearbyClick(player, click, id, 3);
 						
 					}
 				}
 			}
 			
-			else if (window.startsWith("Ð¡ÓÎÏ·½çÇø¿é")) {
+			else if (window.startsWith("å°æ¸¸æˆç•ŒåŒºå—")) {
 
 				e.setCancelled(true);
 				if (e.getRawSlot() < e.getInventory().getSize() && e.getCurrentItem()!= null && !e.getCurrentItem().getType().equals(Material.AIR)) {
@@ -497,7 +497,7 @@ public class InvListener implements Listener {
 					if (e.getClick().equals(ClickType.LEFT)) {
 							
 						String click = e.getCurrentItem().getItemMeta().getDisplayName();
-						String id = window.substring(6, window.indexOf("¸½½ü"));
+						String id = window.substring(6, window.indexOf("é™„è¿‘"));
 						nearbyClick(player, click, id, 4);
 						
 					}
@@ -507,37 +507,37 @@ public class InvListener implements Listener {
 	}
 	
 	private void spaceClick(Player player, String click, String id, int world, String w) {
-		if (click.startsWith("¡ìa¡ìl¿Õ¼ä")) {
+		if (click.startsWith("Â§aÂ§lç©ºé—´")) {
 			String spaceid = click.substring(6);
 			SpaceOpen.openSpace(player, spaceid, world);
 		}
-		else if (click.equals("¡ìe¡ìlÖÜÎ§Çø¿é")) {
+		else if (click.equals("Â§eÂ§lå‘¨å›´åŒºå—")) {
 			SpaceOpen.openNearbyChunks(player, id.substring(0, id.lastIndexOf(".")), world);
 		}
-		else if (click.equals("¡ìe¡ìlÈ¨ÏÞ×é1")) {
+		else if (click.equals("Â§eÂ§læƒé™ç»„1")) {
 			SpaceOpen.openPermission(player, id, world, 1);
 		}
-		else if (click.equals("¡ìe¡ìlÈ¨ÏÞ×é2")) {
+		else if (click.equals("Â§eÂ§læƒé™ç»„2")) {
 			SpaceOpen.openPermission(player, id, world, 2);
 		}
-		else if (click.equals("¡ìe¡ìlÈ¨ÏÞ×é3")) {
+		else if (click.equals("Â§eÂ§læƒé™ç»„3")) {
 			SpaceOpen.openPermission(player, id, world, 3);
 		}
-		else if (click.equals("¡ìe¡ìlÈ¨ÏÞ×é4")) {
+		else if (click.equals("Â§eÂ§læƒé™ç»„4")) {
 			SpaceOpen.openPermission(player, id, world, 4);
 		}
-		else if (click.startsWith("¡ìa¡ìl¹ºÂò¿Õ¼ä")) {
+		else if (click.startsWith("Â§aÂ§lè´­ä¹°ç©ºé—´")) {
 			SpaceOpen.openBuy(player, id, world);
 		}
-		else if (click.startsWith("¡ì4¡ìl·ÅÆú¿Õ¼ä")) {
+		else if (click.startsWith("Â§4Â§læ”¾å¼ƒç©ºé—´")) {
 			SpaceOpen.openGiveup(player, id, world);
 		}
-		else if (click.equals("¡ìa¡ìl"+w)) {
+		else if (click.equals("Â§aÂ§l"+w)) {
 			SpaceOpen.openWorld(player, world, 1);
 		}
-		else if (click.startsWith("¡ìe¡ìl¿Õ¼ä")) {
+		else if (click.startsWith("Â§eÂ§lç©ºé—´")) {
 			if (Space.getWorldid(player.getLocation()) != world)
-				player.sendMessage("¡ì7¡¾PoorSpace¡¿Äú²»ÔÚ´Ë¿Õ¼äËùÔÚÊÀ½ç£¬ÎÞ·¨²é¿´£¡");
+				player.sendMessage("Â§7ã€PoorSpaceã€‘æ‚¨ä¸åœ¨æ­¤ç©ºé—´æ‰€åœ¨ä¸–ç•Œï¼Œæ— æ³•æŸ¥çœ‹ï¼");
 			else {
 				int limit = Space.limit.containsKey(player.getName()) ? Space.limit.get(player.getName()) : 0;
 				if (limit < 1) {
@@ -545,7 +545,7 @@ public class InvListener implements Listener {
 					Space.limit.put(player.getName(), limit+1);
 				}
 				else {
-					player.sendMessage("¡ì7¡¾PoorSpace¡¿Äú×î¶àÍ¬Ê±²é¿´Ò»¸öÁ£×ÓÐ§¹û£¡");
+					player.sendMessage("Â§7ã€PoorSpaceã€‘æ‚¨æœ€å¤šåŒæ—¶æŸ¥çœ‹ä¸€ä¸ªç²’å­æ•ˆæžœï¼");
 				}
 			}
 				
@@ -575,7 +575,7 @@ public class InvListener implements Listener {
 	}
 	
 	private void buyClick(Player player, String id, String click, int world) {
-		if (click.equals("¡ìa¡ìlÈ·ÈÏ¹ºÂò")) {
+		if (click.equals("Â§aÂ§lç¡®è®¤è´­ä¹°")) {
 			
 			int totalexp = 0;
 			int explevel = player.getLevel();
@@ -604,7 +604,7 @@ public class InvListener implements Listener {
 				player.setExp(0);
 				player.giveExp(totalexp-cost);
 				new Space(id, world).setOwner(player.getName());
-				player.sendMessage("¡ì7¡¾PoorSpace¡¿¿Õ¼ä"+id+"¹ºÂò³É¹¦£¡");
+				player.sendMessage("Â§7ã€PoorSpaceã€‘ç©ºé—´"+id+"è´­ä¹°æˆåŠŸï¼");
 				SpaceOpen.openSpace(player, id, world);
 				
 				@SuppressWarnings("deprecation")
@@ -613,18 +613,18 @@ public class InvListener implements Listener {
 				pro.awardCriteria("first_space");
 			}
 			else {
-				player.sendMessage("¡ì7¡¾PoorSpace¡¿¾­ÑéÖµ²»×ã£¬¹ºÂòÊ§°Ü£¡");
+				player.sendMessage("Â§7ã€PoorSpaceã€‘ç»éªŒå€¼ä¸è¶³ï¼Œè´­ä¹°å¤±è´¥ï¼");
 				SpaceOpen.openSpace(player, id, world);
 			}
 			
 		}
-		else if (click.equals("¡ì4¡ìlÈ¡Ïû¹ºÂò")) {
+		else if (click.equals("Â§4Â§lå–æ¶ˆè´­ä¹°")) {
 			SpaceOpen.openSpace(player, id, world);
 		}
 	}
 	
 	private void giveupClick(Player player, String id, String click, int world) {
-		if (click.equals("¡ì4¡ìlÈ·ÈÏ·ÅÆú")) {
+		if (click.equals("Â§4Â§lç¡®è®¤æ”¾å¼ƒ")) {
 			new Space(id, world).remove();
 			SpaceOpen.openSpace(player, id, world);
 			
@@ -664,37 +664,37 @@ public class InvListener implements Listener {
 				pro3.awardCriteria("giveup_space3");
 			}
 		}
-		else if (click.equals("¡ìa¡ìlÈ¡Ïû")) {
+		else if (click.equals("Â§aÂ§lå–æ¶ˆ")) {
 			SpaceOpen.openSpace(player, id, world);
 		}
 	}
 	
 	private void nearbyClick(Player player, String click, String id, int world) {
-		if (click.startsWith("¡ìa¡ìlÇø¿é")) {
+		if (click.startsWith("Â§aÂ§låŒºå—")) {
 			SpaceOpen.openSpace(player, click.substring(6)+".0", world);
 		}
-		else if (click.equals("¡ìa¡ìl±±")) {
+		else if (click.equals("Â§aÂ§låŒ—")) {
 			int split = id.indexOf(".");
 			int x = Integer.parseInt(id.substring(0, split));
 			int z = Integer.parseInt(id.substring(split+1));
 			id = x+"."+(z-1);
 			SpaceOpen.openNearbyChunks(player, id, world);
 		}
-		else if (click.equals("¡ìa¡ìlÎ÷")) {
+		else if (click.equals("Â§aÂ§lè¥¿")) {
 			int split = id.indexOf(".");
 			int x = Integer.parseInt(id.substring(0, split));
 			int z = Integer.parseInt(id.substring(split+1));
 			id = (x-1)+"."+z;
 			SpaceOpen.openNearbyChunks(player, id, world);
 		}
-		else if (click.equals("¡ìa¡ìl¶«")) {
+		else if (click.equals("Â§aÂ§lä¸œ")) {
 			int split = id.indexOf(".");
 			int x = Integer.parseInt(id.substring(0, split));
 			int z = Integer.parseInt(id.substring(split+1));
 			id = (x+1)+"."+z;
 			SpaceOpen.openNearbyChunks(player, id, world);
 		}
-		else if (click.equals("¡ìa¡ìlÄÏ")) {
+		else if (click.equals("Â§aÂ§lå—")) {
 			int split = id.indexOf(".");
 			int x = Integer.parseInt(id.substring(0, split));
 			int z = Integer.parseInt(id.substring(split+1));

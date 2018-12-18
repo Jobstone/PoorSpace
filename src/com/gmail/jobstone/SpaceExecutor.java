@@ -52,11 +52,11 @@ public class SpaceExecutor implements CommandExecutor {
 							SpaceOpen.openSpace(player, id, world);
 						}
 						else
-							player.sendMessage("¡ì7¡¾PoorSpace¡¿¸Ã¿Õ¼ä²»´æÔÚ£¡");
+							player.sendMessage("Â§7ã€PoorSpaceã€‘è¯¥ç©ºé—´ä¸å­˜åœ¨ï¼");
 						
 					}
 					else
-						player.sendMessage("¡ì7¡¾PoorSpace¡¿¸ÃÊÀ½ç²»´æÔÚ£¡");
+						player.sendMessage("Â§7ã€PoorSpaceã€‘è¯¥ä¸–ç•Œä¸å­˜åœ¨ï¼");
 				}
 				else if (args[0].equals("group")) {
 					
@@ -96,26 +96,26 @@ public class SpaceExecutor implements CommandExecutor {
 										case "1":
 											config.set("group1", group);
 											if (msg.equals(""))
-												player.sendMessage("¡ì7¡¾PoorSpace¡¿ÒÑ½«"+SpaceOpen.world(world)+"µÄÄ¬ÈÏ¿Õ¼äÉèÖÃÖĞµÄÈ¨ÏŞ×é1Íæ¼ÒÁĞ±íÉèÎª¿Õ¡£");
+												player.sendMessage("Â§7ã€PoorSpaceã€‘å·²å°†"+SpaceOpen.world(world)+"çš„é»˜è®¤ç©ºé—´è®¾ç½®ä¸­çš„æƒé™ç»„1ç©å®¶åˆ—è¡¨è®¾ä¸ºç©ºã€‚");
 											else
-												player.sendMessage("¡ì7¡¾PoorSpace¡¿ÒÑ½«"+SpaceOpen.world(world)+"µÄÄ¬ÈÏ¿Õ¼äÉèÖÃÖĞµÄÈ¨ÏŞ×é1Íæ¼ÒÁĞ±íÉèÎª£º\n"+msg);
+												player.sendMessage("Â§7ã€PoorSpaceã€‘å·²å°†"+SpaceOpen.world(world)+"çš„é»˜è®¤ç©ºé—´è®¾ç½®ä¸­çš„æƒé™ç»„1ç©å®¶åˆ—è¡¨è®¾ä¸ºï¼š\n"+msg);
 											break;
 										case "2":
 											config.set("group2", group);
 											if (msg.equals(""))
-												player.sendMessage("¡ì7¡¾PoorSpace¡¿ÒÑ½«"+SpaceOpen.world(world)+"µÄÄ¬ÈÏ¿Õ¼äÉèÖÃÖĞµÄÈ¨ÏŞ×é2Íæ¼ÒÁĞ±íÉèÎª¿Õ¡£");
+												player.sendMessage("Â§7ã€PoorSpaceã€‘å·²å°†"+SpaceOpen.world(world)+"çš„é»˜è®¤ç©ºé—´è®¾ç½®ä¸­çš„æƒé™ç»„2ç©å®¶åˆ—è¡¨è®¾ä¸ºç©ºã€‚");
 											else
-												player.sendMessage("¡ì7¡¾PoorSpace¡¿ÒÑ½«"+SpaceOpen.world(world)+"µÄÄ¬ÈÏ¿Õ¼äÉèÖÃÖĞµÄÈ¨ÏŞ×é2Íæ¼ÒÁĞ±íÉèÎª£º\n"+msg);
+												player.sendMessage("Â§7ã€PoorSpaceã€‘å·²å°†"+SpaceOpen.world(world)+"çš„é»˜è®¤ç©ºé—´è®¾ç½®ä¸­çš„æƒé™ç»„2ç©å®¶åˆ—è¡¨è®¾ä¸ºï¼š\n"+msg);
 											break;
 										case "3":
 											config.set("group3", group);
 											if (msg.equals(""))
-												player.sendMessage("¡ì7¡¾PoorSpace¡¿ÒÑ½«"+SpaceOpen.world(world)+"µÄÄ¬ÈÏ¿Õ¼äÉèÖÃÖĞµÄÈ¨ÏŞ×é31Íæ¼ÒÁĞ±íÉèÎª¿Õ¡£");
+												player.sendMessage("Â§7ã€PoorSpaceã€‘å·²å°†"+SpaceOpen.world(world)+"çš„é»˜è®¤ç©ºé—´è®¾ç½®ä¸­çš„æƒé™ç»„31ç©å®¶åˆ—è¡¨è®¾ä¸ºç©ºã€‚");
 											else
-												player.sendMessage("¡ì7¡¾PoorSpace¡¿ÒÑ½«"+SpaceOpen.world(world)+"µÄÄ¬ÈÏ¿Õ¼äÉèÖÃÖĞµÄÈ¨ÏŞ×é3Íæ¼ÒÁĞ±íÉèÎª£º\n"+msg);
+												player.sendMessage("Â§7ã€PoorSpaceã€‘å·²å°†"+SpaceOpen.world(world)+"çš„é»˜è®¤ç©ºé—´è®¾ç½®ä¸­çš„æƒé™ç»„3ç©å®¶åˆ—è¡¨è®¾ä¸ºï¼š\n"+msg);
 											break;
 										default:
-											player.sendMessage("¡ì7¡¾PoorSpace¡¿È¨ÏŞ×é±àºÅ²»ºÏ·¨£¡");
+											player.sendMessage("Â§7ã€PoorSpaceã€‘æƒé™ç»„ç¼–å·ä¸åˆæ³•ï¼");
 										}
 										try {
 											config.save(file);
@@ -124,7 +124,7 @@ public class SpaceExecutor implements CommandExecutor {
 										}
 									}
 									else if (list.isEmpty()) {
-										player.sendMessage("¡ì7¡¾PoorSpace¡¿¿Õ¼äÑ¡ÔñÆ÷Î´ÕÒµ½ÈÎºÎÒÑÓµÓĞµÄ¿Õ¼ä£¨Ô­Òò¿ÉÄÜÎª¿Õ¼äÑ¡ÔñÆ÷²»ºÏ·¨£©£¡");
+										player.sendMessage("Â§7ã€PoorSpaceã€‘ç©ºé—´é€‰æ‹©å™¨æœªæ‰¾åˆ°ä»»ä½•å·²æ‹¥æœ‰çš„ç©ºé—´ï¼ˆåŸå› å¯èƒ½ä¸ºç©ºé—´é€‰æ‹©å™¨ä¸åˆæ³•ï¼‰ï¼");
 									}
 									else {
 										List<String> group = new ArrayList<String>();
@@ -137,7 +137,7 @@ public class SpaceExecutor implements CommandExecutor {
 										}
 										String msg = sb.toString();
 										
-										StringBuilder spacesb = new StringBuilder("¡ì7");
+										StringBuilder spacesb = new StringBuilder("Â§7");
 										
 										switch(args[4]) {
 										case "1":
@@ -149,12 +149,12 @@ public class SpaceExecutor implements CommandExecutor {
 												spacesb.append(space.id());
 											}
 											if (msg.equals("")) {
-												IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"¡ì7¡¾PoorSpace¡¿ÒÑ½«"+SpaceOpen.world(world)+"µÄ\",\"extra\":[{\"text\":\"¡ìnÕâĞ©¿Õ¼ä\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\""+spacesb.toString()+"\"}},{\"text\":\"¡ì7ÖĞµÄÈ¨ÏŞ×é1Íæ¼ÒÁĞ±íÉèÎª¿Õ¡£\"}]}");
+												IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"Â§7ã€PoorSpaceã€‘å·²å°†"+SpaceOpen.world(world)+"çš„\",\"extra\":[{\"text\":\"Â§nè¿™äº›ç©ºé—´\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\""+spacesb.toString()+"\"}},{\"text\":\"Â§7ä¸­çš„æƒé™ç»„1ç©å®¶åˆ—è¡¨è®¾ä¸ºç©ºã€‚\"}]}");
 									        	PacketPlayOutChat packet = new PacketPlayOutChat(comp);
 									        	((CraftPlayer)player).getHandle().playerConnection.sendPacket(packet);
 											}
 											else {
-												IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"¡ì7¡¾PoorSpace¡¿ÒÑ½«"+SpaceOpen.world(world)+"µÄ\",\"extra\":[{\"text\":\"¡ìnÕâĞ©¿Õ¼ä\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\""+spacesb.toString()+"\"}},{\"text\":\"¡ì7ÖĞµÄÈ¨ÏŞ×é1Íæ¼ÒÁĞ±íÉèÎª£º\\n¡ì7"+msg+"\"}]}");
+												IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"Â§7ã€PoorSpaceã€‘å·²å°†"+SpaceOpen.world(world)+"çš„\",\"extra\":[{\"text\":\"Â§nè¿™äº›ç©ºé—´\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\""+spacesb.toString()+"\"}},{\"text\":\"Â§7ä¸­çš„æƒé™ç»„1ç©å®¶åˆ—è¡¨è®¾ä¸ºï¼š\\nÂ§7"+msg+"\"}]}");
 									        	PacketPlayOutChat packet = new PacketPlayOutChat(comp);
 									        	((CraftPlayer)player).getHandle().playerConnection.sendPacket(packet);
 											}
@@ -168,12 +168,12 @@ public class SpaceExecutor implements CommandExecutor {
 												spacesb.append(space.id());
 											}
 											if (msg.equals("")) {
-												IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"¡ì7¡¾PoorSpace¡¿ÒÑ½«"+SpaceOpen.world(world)+"µÄ\",\"extra\":[{\"text\":\"¡ìnÕâĞ©¿Õ¼ä\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\""+spacesb.toString()+"\"}},{\"text\":\"¡ì7ÖĞµÄÈ¨ÏŞ×é2Íæ¼ÒÁĞ±íÉèÎª¿Õ¡£\"}]}");
+												IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"Â§7ã€PoorSpaceã€‘å·²å°†"+SpaceOpen.world(world)+"çš„\",\"extra\":[{\"text\":\"Â§nè¿™äº›ç©ºé—´\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\""+spacesb.toString()+"\"}},{\"text\":\"Â§7ä¸­çš„æƒé™ç»„2ç©å®¶åˆ—è¡¨è®¾ä¸ºç©ºã€‚\"}]}");
 									        	PacketPlayOutChat packet = new PacketPlayOutChat(comp);
 									        	((CraftPlayer)player).getHandle().playerConnection.sendPacket(packet);
 											}
 											else {
-												IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"¡ì7¡¾PoorSpace¡¿ÒÑ½«"+SpaceOpen.world(world)+"µÄ\",\"extra\":[{\"text\":\"¡ìnÕâĞ©¿Õ¼ä\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\""+spacesb.toString()+"\"}},{\"text\":\"¡ì7ÖĞµÄÈ¨ÏŞ×é2Íæ¼ÒÁĞ±íÉèÎª£º\\n¡ì7"+msg+"\"}]}");
+												IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"Â§7ã€PoorSpaceã€‘å·²å°†"+SpaceOpen.world(world)+"çš„\",\"extra\":[{\"text\":\"Â§nè¿™äº›ç©ºé—´\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\""+spacesb.toString()+"\"}},{\"text\":\"Â§7ä¸­çš„æƒé™ç»„2ç©å®¶åˆ—è¡¨è®¾ä¸ºï¼š\\nÂ§7"+msg+"\"}]}");
 									        	PacketPlayOutChat packet = new PacketPlayOutChat(comp);
 									        	((CraftPlayer)player).getHandle().playerConnection.sendPacket(packet);
 											}
@@ -187,23 +187,23 @@ public class SpaceExecutor implements CommandExecutor {
 												spacesb.append(space.id());
 											}
 											if (msg.equals("")) {
-												IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"¡ì7¡¾PoorSpace¡¿ÒÑ½«"+SpaceOpen.world(world)+"µÄ\",\"extra\":[{\"text\":\"¡ìnÕâĞ©¿Õ¼ä\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\""+spacesb.toString()+"\"}},{\"text\":\"¡ì7ÖĞµÄÈ¨ÏŞ×é3Íæ¼ÒÁĞ±íÉèÎª¿Õ¡£\"}]}");
+												IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"Â§7ã€PoorSpaceã€‘å·²å°†"+SpaceOpen.world(world)+"çš„\",\"extra\":[{\"text\":\"Â§nè¿™äº›ç©ºé—´\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\""+spacesb.toString()+"\"}},{\"text\":\"Â§7ä¸­çš„æƒé™ç»„3ç©å®¶åˆ—è¡¨è®¾ä¸ºç©ºã€‚\"}]}");
 									        	PacketPlayOutChat packet = new PacketPlayOutChat(comp);
 									        	((CraftPlayer)player).getHandle().playerConnection.sendPacket(packet);
 											}
 											else {
-												IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"¡ì7¡¾PoorSpace¡¿ÒÑ½«"+SpaceOpen.world(world)+"µÄ\",\"extra\":[{\"text\":\"¡ìnÕâĞ©¿Õ¼ä\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\""+spacesb.toString()+"\"}},{\"text\":\"¡ì7ÖĞµÄÈ¨ÏŞ×é3Íæ¼ÒÁĞ±íÉèÎª£º\\n¡ì7"+msg+"\"}]}");
+												IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"Â§7ã€PoorSpaceã€‘å·²å°†"+SpaceOpen.world(world)+"çš„\",\"extra\":[{\"text\":\"Â§nè¿™äº›ç©ºé—´\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\""+spacesb.toString()+"\"}},{\"text\":\"Â§7ä¸­çš„æƒé™ç»„3ç©å®¶åˆ—è¡¨è®¾ä¸ºï¼š\\nÂ§7"+msg+"\"}]}");
 									        	PacketPlayOutChat packet = new PacketPlayOutChat(comp);
 									        	((CraftPlayer)player).getHandle().playerConnection.sendPacket(packet);
 											}
 											break;
 										default:
-											player.sendMessage("¡ì7¡¾PoorSpace¡¿È¨ÏŞ×é±àºÅ²»´æÔÚ£¡");
+											player.sendMessage("Â§7ã€PoorSpaceã€‘æƒé™ç»„ç¼–å·ä¸å­˜åœ¨ï¼");
 										}
 									}
 								}
 								else
-									player.sendMessage("¡ì7¡¾PoorSpace¡¿¸ÃÊÀ½ç²»´æÔÚ£¡");
+									player.sendMessage("Â§7ã€PoorSpaceã€‘è¯¥ä¸–ç•Œä¸å­˜åœ¨ï¼");
 							}
 							
 						}.start();
@@ -239,37 +239,37 @@ public class SpaceExecutor implements CommandExecutor {
 										case "1":
 											if (args[5].length() == 8 && isPermissionLegal(args[5])) {
 												config.set("permission1", args[5]);
-												player.sendMessage("¡ì7¡¾PoorSpace¡¿ÒÑ½«"+SpaceOpen.world(world)+"µÄÄ¬ÈÏ¿Õ¼äÉèÖÃÖĞµÄÈ¨ÏŞ×é1È¨ÏŞÉèÖÃÎª£º"+args[5]);
+												player.sendMessage("Â§7ã€PoorSpaceã€‘å·²å°†"+SpaceOpen.world(world)+"çš„é»˜è®¤ç©ºé—´è®¾ç½®ä¸­çš„æƒé™ç»„1æƒé™è®¾ç½®ä¸ºï¼š"+args[5]);
 											}
 											else
-												player.sendMessage("¡ì7¡¾PoorSpace¡¿È¨ÏŞÉèÖÃ²»ºÏ·¨£¡");
+												player.sendMessage("Â§7ã€PoorSpaceã€‘æƒé™è®¾ç½®ä¸åˆæ³•ï¼");
 											break;
 										case "2":
 											if (args[5].length() == 8 && isPermissionLegal(args[5])) {
 												config.set("permission2", args[5]);
-												player.sendMessage("¡ì7¡¾PoorSpace¡¿ÒÑ½«"+SpaceOpen.world(world)+"µÄÄ¬ÈÏ¿Õ¼äÉèÖÃÖĞµÄÈ¨ÏŞ×é2È¨ÏŞÉèÖÃÎª£º"+args[5]);
+												player.sendMessage("Â§7ã€PoorSpaceã€‘å·²å°†"+SpaceOpen.world(world)+"çš„é»˜è®¤ç©ºé—´è®¾ç½®ä¸­çš„æƒé™ç»„2æƒé™è®¾ç½®ä¸ºï¼š"+args[5]);
 											}
 											else
-												player.sendMessage("¡ì7¡¾PoorSpace¡¿È¨ÏŞÉèÖÃ²»ºÏ·¨£¡");
+												player.sendMessage("Â§7ã€PoorSpaceã€‘æƒé™è®¾ç½®ä¸åˆæ³•ï¼");
 											break;
 										case "3":
 											if (args[5].length() == 8 && isPermissionLegal(args[5])) {
 												config.set("permission3", args[5]);
-												player.sendMessage("¡ì7¡¾PoorSpace¡¿ÒÑ½«"+SpaceOpen.world(world)+"µÄÄ¬ÈÏ¿Õ¼äÉèÖÃÖĞµÄÈ¨ÏŞ×é3È¨ÏŞÉèÖÃÎª£º"+args[5]);
+												player.sendMessage("Â§7ã€PoorSpaceã€‘å·²å°†"+SpaceOpen.world(world)+"çš„é»˜è®¤ç©ºé—´è®¾ç½®ä¸­çš„æƒé™ç»„3æƒé™è®¾ç½®ä¸ºï¼š"+args[5]);
 											}
 											else
-												player.sendMessage("¡ì7¡¾PoorSpace¡¿È¨ÏŞÉèÖÃ²»ºÏ·¨£¡");
+												player.sendMessage("Â§7ã€PoorSpaceã€‘æƒé™è®¾ç½®ä¸åˆæ³•ï¼");
 											break;
 										case "4":
 											if (args[5].length() == 10 && isPermissionLegal(args[5])) {
 												config.set("permission4", args[5]);
-												player.sendMessage("¡ì7¡¾PoorSpace¡¿ÒÑ½«"+SpaceOpen.world(world)+"µÄÄ¬ÈÏ¿Õ¼äÉèÖÃÖĞµÄÈ¨ÏŞ×é4È¨ÏŞÉèÖÃÎª£º"+args[5]);
+												player.sendMessage("Â§7ã€PoorSpaceã€‘å·²å°†"+SpaceOpen.world(world)+"çš„é»˜è®¤ç©ºé—´è®¾ç½®ä¸­çš„æƒé™ç»„4æƒé™è®¾ç½®ä¸ºï¼š"+args[5]);
 											}
 											else
-												player.sendMessage("¡ì7¡¾PoorSpace¡¿È¨ÏŞÉèÖÃ²»ºÏ·¨£¡");
+												player.sendMessage("Â§7ã€PoorSpaceã€‘æƒé™è®¾ç½®ä¸åˆæ³•ï¼");
 											break;
 										default:
-											player.sendMessage("¡ì7¡¾PoorSpace¡¿È¨ÏŞ×é±àºÅ²»´æÔÚ£¡");
+											player.sendMessage("Â§7ã€PoorSpaceã€‘æƒé™ç»„ç¼–å·ä¸å­˜åœ¨ï¼");
 										}
 										
 										try {
@@ -280,10 +280,10 @@ public class SpaceExecutor implements CommandExecutor {
 										
 									}
 									else if (list.isEmpty()) {
-										player.sendMessage("¡ì7¡¾PoorSpace¡¿¿Õ¼äÑ¡ÔñÆ÷Î´ÕÒµ½ÈÎºÎÒÑÓµÓĞµÄ¿Õ¼ä£¨Ô­Òò¿ÉÄÜÎª¿Õ¼äÑ¡ÔñÆ÷²»ºÏ·¨£©£¡");
+										player.sendMessage("Â§7ã€PoorSpaceã€‘ç©ºé—´é€‰æ‹©å™¨æœªæ‰¾åˆ°ä»»ä½•å·²æ‹¥æœ‰çš„ç©ºé—´ï¼ˆåŸå› å¯èƒ½ä¸ºç©ºé—´é€‰æ‹©å™¨ä¸åˆæ³•ï¼‰ï¼");
 									}
 									else {
-										StringBuilder spacesb = new StringBuilder("¡ì7");
+										StringBuilder spacesb = new StringBuilder("Â§7");
 										switch(args[4]) {
 										case "1":
 											if (args[5].length() == 8 && isPermissionLegal(args[5])) {
@@ -294,12 +294,12 @@ public class SpaceExecutor implements CommandExecutor {
 													space.setPermission(1, args[5].toCharArray());
 													spacesb.append(space.id());
 												}
-												IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"¡ì7¡¾PoorSpace¡¿ÒÑ½«"+SpaceOpen.world(world)+"µÄ\",\"extra\":[{\"text\":\"¡ìnÕâĞ©¿Õ¼ä\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\""+spacesb.toString()+"\"}},{\"text\":\"¡ì7ÖĞµÄÈ¨ÏŞ×é1È¨ÏŞÉèÖÃÎª£º"+args[5]+"\"}]}");
+												IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"Â§7ã€PoorSpaceã€‘å·²å°†"+SpaceOpen.world(world)+"çš„\",\"extra\":[{\"text\":\"Â§nè¿™äº›ç©ºé—´\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\""+spacesb.toString()+"\"}},{\"text\":\"Â§7ä¸­çš„æƒé™ç»„1æƒé™è®¾ç½®ä¸ºï¼š"+args[5]+"\"}]}");
 									        	PacketPlayOutChat packet = new PacketPlayOutChat(comp);
 									        	((CraftPlayer)player).getHandle().playerConnection.sendPacket(packet);
 											}
 											else
-												player.sendMessage("¡ì7¡¾PoorSpace¡¿È¨ÏŞÉèÖÃ²»ºÏ·¨£¡");
+												player.sendMessage("Â§7ã€PoorSpaceã€‘æƒé™è®¾ç½®ä¸åˆæ³•ï¼");
 											break;
 										case "2":
 											if (args[5].length() == 8 && isPermissionLegal(args[5])) {
@@ -310,12 +310,12 @@ public class SpaceExecutor implements CommandExecutor {
 													space.setPermission(2, args[5].toCharArray());
 													spacesb.append(space.id());
 												}
-												IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"¡ì7¡¾PoorSpace¡¿ÒÑ½«"+SpaceOpen.world(world)+"µÄ\",\"extra\":[{\"text\":\"¡ìnÕâĞ©¿Õ¼ä\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\""+spacesb.toString()+"\"}},{\"text\":\"¡ì7ÖĞµÄÈ¨ÏŞ×é2È¨ÏŞÉèÖÃÎª£º"+args[5]+"\"}]}");
+												IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"Â§7ã€PoorSpaceã€‘å·²å°†"+SpaceOpen.world(world)+"çš„\",\"extra\":[{\"text\":\"Â§nè¿™äº›ç©ºé—´\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\""+spacesb.toString()+"\"}},{\"text\":\"Â§7ä¸­çš„æƒé™ç»„2æƒé™è®¾ç½®ä¸ºï¼š"+args[5]+"\"}]}");
 									        	PacketPlayOutChat packet = new PacketPlayOutChat(comp);
 									        	((CraftPlayer)player).getHandle().playerConnection.sendPacket(packet);
 											}
 											else
-												player.sendMessage("¡ì7¡¾PoorSpace¡¿È¨ÏŞÉèÖÃ²»ºÏ·¨£¡");
+												player.sendMessage("Â§7ã€PoorSpaceã€‘æƒé™è®¾ç½®ä¸åˆæ³•ï¼");
 											break;
 										case "3":
 											if (args[5].length() == 8 && isPermissionLegal(args[5])) {
@@ -326,12 +326,12 @@ public class SpaceExecutor implements CommandExecutor {
 													space.setPermission(3, args[5].toCharArray());
 													spacesb.append(space.id());
 												}
-												IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"¡ì7¡¾PoorSpace¡¿ÒÑ½«"+SpaceOpen.world(world)+"µÄ\",\"extra\":[{\"text\":\"¡ìnÕâĞ©¿Õ¼ä\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\""+spacesb.toString()+"\"}},{\"text\":\"¡ì7ÖĞµÄÈ¨ÏŞ×é3È¨ÏŞÉèÖÃÎª£º"+args[5]+"\"}]}");
+												IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"Â§7ã€PoorSpaceã€‘å·²å°†"+SpaceOpen.world(world)+"çš„\",\"extra\":[{\"text\":\"Â§nè¿™äº›ç©ºé—´\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\""+spacesb.toString()+"\"}},{\"text\":\"Â§7ä¸­çš„æƒé™ç»„3æƒé™è®¾ç½®ä¸ºï¼š"+args[5]+"\"}]}");
 									        	PacketPlayOutChat packet = new PacketPlayOutChat(comp);
 									        	((CraftPlayer)player).getHandle().playerConnection.sendPacket(packet);
 											}
 											else
-												player.sendMessage("¡ì7¡¾PoorSpace¡¿È¨ÏŞÉèÖÃ²»ºÏ·¨£¡");
+												player.sendMessage("Â§7ã€PoorSpaceã€‘æƒé™è®¾ç½®ä¸åˆæ³•ï¼");
 											break;
 										case "4":
 											if (args[5].length() == 10 && isPermissionLegal(args[5])) {
@@ -342,20 +342,20 @@ public class SpaceExecutor implements CommandExecutor {
 													space.setPermission(4, args[5].toCharArray());
 													spacesb.append(space.id());
 												}
-												IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"¡ì7¡¾PoorSpace¡¿ÒÑ½«"+SpaceOpen.world(world)+"µÄ\",\"extra\":[{\"text\":\"¡ìnÕâĞ©¿Õ¼ä\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\""+spacesb.toString()+"\"}},{\"text\":\"¡ì7ÖĞµÄÈ¨ÏŞ×é4È¨ÏŞÉèÖÃÎª£º"+args[5]+"\"}]}");
+												IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"Â§7ã€PoorSpaceã€‘å·²å°†"+SpaceOpen.world(world)+"çš„\",\"extra\":[{\"text\":\"Â§nè¿™äº›ç©ºé—´\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\""+spacesb.toString()+"\"}},{\"text\":\"Â§7ä¸­çš„æƒé™ç»„4æƒé™è®¾ç½®ä¸ºï¼š"+args[5]+"\"}]}");
 									        	PacketPlayOutChat packet = new PacketPlayOutChat(comp);
 									        	((CraftPlayer)player).getHandle().playerConnection.sendPacket(packet);
 											}
 											else
-												player.sendMessage("¡ì7¡¾PoorSpace¡¿È¨ÏŞÉèÖÃ²»ºÏ·¨£¡");
+												player.sendMessage("Â§7ã€PoorSpaceã€‘æƒé™è®¾ç½®ä¸åˆæ³•ï¼");
 											break;
 										default:
-											player.sendMessage("¡ì7¡¾PoorSpace¡¿È¨ÏŞ×é±àºÅ²»´æÔÚ£¡");
+											player.sendMessage("Â§7ã€PoorSpaceã€‘æƒé™ç»„ç¼–å·ä¸å­˜åœ¨ï¼");
 										}
 									}
 								}
 								else
-									player.sendMessage("¡ì7¡¾PoorSpace¡¿¸ÃÊÀ½ç²»´æÔÚ£¡");
+									player.sendMessage("Â§7ã€PoorSpaceã€‘è¯¥ä¸–ç•Œä¸å­˜åœ¨ï¼");
 							}
 						}.start();
 						
@@ -388,11 +388,11 @@ public class SpaceExecutor implements CommandExecutor {
 						SpacePlayer spaceplayer = new SpacePlayer(player.getName());
 						Set<String> set = spaceplayer.getSelectors();
 						if (set.size() >= 10 && !set.contains(args[2])) {
-							player.sendMessage("¡ì7¡¾PoorSpace¡¿Ñ¡ÔñÆ÷ÉèÖÃÊ§°Ü£º×î¶àÄÜÉèÖÃÊ®¸ö×Ô¶¨ÒåÑ¡ÔñÆ÷Ãû³Æ¡£");
+							player.sendMessage("Â§7ã€PoorSpaceã€‘é€‰æ‹©å™¨è®¾ç½®å¤±è´¥ï¼šæœ€å¤šèƒ½è®¾ç½®åä¸ªè‡ªå®šä¹‰é€‰æ‹©å™¨åç§°ã€‚");
 						}
 						else {
 							spaceplayer.setSelector(args[2], args[3]);
-							player.sendMessage("¡ì7¡¾PoorSpace¡¿³É¹¦½«Ñ¡ÔñÆ÷\""+args[3]+"\"ÉèÖÃÎª\""+args[2]+"\"£¡");
+							player.sendMessage("Â§7ã€PoorSpaceã€‘æˆåŠŸå°†é€‰æ‹©å™¨\""+args[3]+"\"è®¾ç½®ä¸º\""+args[2]+"\"ï¼");
 						}
 						
 					}
@@ -401,10 +401,10 @@ public class SpaceExecutor implements CommandExecutor {
 						SpacePlayer spaceplayer = new SpacePlayer(player.getName());
 						if (spaceplayer.containsSelector(args[2])) {
 							spaceplayer.setSelector(args[2], null);
-							player.sendMessage("¡ì7¡¾PoorSpace¡¿³É¹¦ÒÆ³ıÑ¡ÔñÆ÷\""+args[2]+"\"£¡");
+							player.sendMessage("Â§7ã€PoorSpaceã€‘æˆåŠŸç§»é™¤é€‰æ‹©å™¨\""+args[2]+"\"ï¼");
 						}
 						else {
-							player.sendMessage("¡ì7¡¾PoorSpace¡¿Ñ¡ÔñÆ÷ÒÆ³ıÊ§°Ü£ºÃûÎª\""+args[2]+"\"µÄÑ¡ÔñÆ÷²»´æÔÚ¡£");
+							player.sendMessage("Â§7ã€PoorSpaceã€‘é€‰æ‹©å™¨ç§»é™¤å¤±è´¥ï¼šåä¸º\""+args[2]+"\"çš„é€‰æ‹©å™¨ä¸å­˜åœ¨ã€‚");
 						}
 						
 					}
@@ -416,10 +416,10 @@ public class SpaceExecutor implements CommandExecutor {
 						ConfigurationSection section = config.getConfigurationSection("selectors");
 						Set<String> set = section.getKeys(false);
 						if (set.isEmpty()) {
-							player.sendMessage("¡ì7¡¾PoorSpace¡¿ÄúÎ´ÉèÖÃÈÎºÎÑ¡ÔñÆ÷¡£");
+							player.sendMessage("Â§7ã€PoorSpaceã€‘æ‚¨æœªè®¾ç½®ä»»ä½•é€‰æ‹©å™¨ã€‚");
 						}
 						else {
-							StringBuilder sbd = new StringBuilder("¡ì7¡¾PoorSpace¡¿ÄúÒÑÉèÖÃµÄÑ¡ÔñÆ÷ÈçÏÂ£º");
+							StringBuilder sbd = new StringBuilder("Â§7ã€PoorSpaceã€‘æ‚¨å·²è®¾ç½®çš„é€‰æ‹©å™¨å¦‚ä¸‹ï¼š");
 							for (String name : set)
 								sbd.append("\n - "+name+" : "+section.getString(name));
 							player.sendMessage(sbd.toString());

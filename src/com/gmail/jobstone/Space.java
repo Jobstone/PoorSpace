@@ -207,10 +207,10 @@ public class Space {
 		ItemStack item = new ItemStack(Material.PAPER);
 		ItemMeta meta = item.getItemMeta();
 		meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-		meta.setDisplayName("§a§l空间"+id);
+		meta.setDisplayName("搂a搂l绌洪棿"+id);
 		ArrayList<String> lore = new ArrayList<String>();
-		lore.add("§7所有者：§e"+owner);
-		lore.add("§e点击查看");
+		lore.add("搂7鎵�鏈夎�咃細搂e"+owner);
+		lore.add("搂e鐐瑰嚮鏌ョ湅");
 		meta.setLore(lore);
 		item.setItemMeta(meta);
 		return item;

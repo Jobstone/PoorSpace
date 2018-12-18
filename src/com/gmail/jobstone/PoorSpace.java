@@ -36,7 +36,7 @@ public class PoorSpace extends JavaPlugin {
 			new File(chunks, "Minigame").mkdir();
 		}
 		
-		//ÎÄ¼ş¸üĞÂ
+		//æ–‡ä»¶æ›´æ–°
 		filesUpdate();
 		
 		new BukkitRunnable() {
@@ -60,16 +60,16 @@ public class PoorSpace extends JavaPlugin {
 					obj = board.getObjective("PoorSpace");
 					if (obj != null)
 						obj.unregister();
-					//obj = board.registerNewObjective("PoorSpace", "dummy", "¡ìe¡ìlPoorSpace");
+					//obj = board.registerNewObjective("PoorSpace", "dummy", "Â§eÂ§lPoorSpace");
 					//obj.setDisplaySlot(DisplaySlot.SIDEBAR);
-					obj = board.registerNewObjective("PoorSpace", "dummy", "¡ìe¡ìlPoorSpace");
+					obj = board.registerNewObjective("PoorSpace", "dummy", "Â§eÂ§lPoorSpace");
 					obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 					Location loc = player.getLocation();
 					Space space = new Space(Space.getSpaceid(loc), Space.getWorldid(loc));
-					Score score1 = obj.getScore("¡ìaµ±Ç°¿Õ¼ä£º"+space.id());
+					Score score1 = obj.getScore("Â§aå½“å‰ç©ºé—´ï¼š"+space.id());
 					score1.setScore(0);
-					String owner = space.owner() == null ? "ÎŞ" : space.owner();
-					Score score2 = obj.getScore("¡ìaËùÓĞÕß£º"+owner);
+					String owner = space.owner() == null ? "æ— " : space.owner();
+					Score score2 = obj.getScore("Â§aæ‰€æœ‰è€…ï¼š"+owner);
 					score2.setScore(0);
 					player.setScoreboard(board);
 				}
