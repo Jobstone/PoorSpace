@@ -1,0 +1,16 @@
+name: PoorSpace
+version: 1.0
+main: com.gmail.jobstone.PoorSpace
+description: A plugin.
+author: Jobstone
+api-version: 1.13
+commands:
+    poorspace:
+        aliases: ps
+        usage: /<command>
+        permission: poorspace.basic
+        permission-message: You don't have permission:<permission>
+permissions:
+    poorspace.basic:
+        description: Gives access.
+        default: true

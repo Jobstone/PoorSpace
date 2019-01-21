@@ -71,7 +71,9 @@ public class PoorSpace extends JavaPlugin {
 					String owner = space.owner() == null ? "无" : space.owner();
 					Score score2 = obj.getScore("§a所有者："+owner);
 					score2.setScore(0);
-					player.setScoreboard(board);
+					try {
+						player.setScoreboard(board);
+					} catch (IllegalStateException e) {}
 				}
 				
 			}
