@@ -196,6 +196,7 @@ public class SpaceListener implements Listener {
 			return;
 		Location loc = e.getEntity().getLocation();
 		if (!playerpm(damager.getName(), loc, 6)) {
+			sendActionBarMessage(damager, "您没有攻击该空间实体的权限！");
 			e.setCancelled(true);
 		}
 		

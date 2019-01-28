@@ -338,7 +338,7 @@ public class SpaceOpen {
 		lore.add("§7玩家可以使用方块，如箱子、按钮等");
 		inv.setItem(18, newItem(Material.CHEST, "§e§l使用方块", lore));
 		lore.clear();
-		lore.add("§7玩家可以与生物交互，如攻击、交易等");
+		lore.add("§7玩家可以与实体交互，如攻击、交易等");
 		inv.setItem(20, newItem(Material.EMERALD, "§e§l实体", lore));
 		lore.clear();
 		lore.add("§7玩家可以放置和破坏火把、红石火把（非流体中）");
