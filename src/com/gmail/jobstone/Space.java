@@ -627,4 +627,12 @@ public class Space {
 		return false;
 	}
 
+	@Override
+	public int hashCode() {
+		int result = 7;
+		result = 31 * result + this.world;
+		result = 31 * result + this.id().hashCode();
+		return result;
+	}
+
 }
