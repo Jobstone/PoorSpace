@@ -8,16 +8,7 @@ import org.bukkit.Material;
 import org.bukkit.TravelAgent;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_13_R2.entity.CraftPlayer;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Boat;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Flying;
-import org.bukkit.entity.Minecart;
-import org.bukkit.entity.Monster;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
-import org.bukkit.entity.Slime;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -185,7 +176,7 @@ public class SpaceListener implements Listener {
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void interact4(EntityDamageByEntityEvent e) {
 		Entity entity = e.getEntity();
-		if ((entity instanceof Monster || entity instanceof Slime || entity instanceof Flying) && e.getEntity().getCustomName() == null)
+		if ((entity instanceof Monster || entity instanceof Slime || entity instanceof Flying || entity instanceof Shulker) && e.getEntity().getCustomName() == null)
 			return;
 		Player damager;
 		if (e.getDamager() instanceof Player)
