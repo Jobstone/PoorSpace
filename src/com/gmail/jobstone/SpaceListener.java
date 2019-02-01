@@ -163,7 +163,7 @@ public class SpaceListener implements Listener {
 	
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void interact3(PlayerInteractEntityEvent e) {
-		if (e.getHand().equals(EquipmentSlot.HAND) && !(e.getRightClicked() instanceof Player)) {
+		if ((e.getHand().equals(EquipmentSlot.HAND) || e.getHand().equals(EquipmentSlot.OFF_HAND)) && !(e.getRightClicked() instanceof Player)) {
 			Player player = e.getPlayer();
 			Location loc = e.getRightClicked().getLocation();
 			if (!playerpm(player.getName(), loc, 6)) {
