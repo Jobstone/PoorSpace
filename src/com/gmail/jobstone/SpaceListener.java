@@ -3,6 +3,7 @@ package com.gmail.jobstone;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.TravelAgent;
@@ -17,19 +18,10 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockBurnEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.BlockSpreadEvent;
-import org.bukkit.event.entity.EntityChangeBlockEvent;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityExplodeEvent;
-import org.bukkit.event.entity.EntityPickupItemEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.hanging.HangingPlaceEvent;
-import org.bukkit.event.player.PlayerBucketEmptyEvent;
-import org.bukkit.event.player.PlayerBucketFillEvent;
-import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerInteractAtEntityEvent;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerPortalEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.event.vehicle.VehicleDamageEvent;
 import org.bukkit.inventory.EquipmentSlot;
@@ -178,11 +170,14 @@ public class SpaceListener implements Listener {
 		Entity entity = e.getEntity();
 		if ((entity instanceof Monster || entity instanceof Slime || entity instanceof Flying || entity instanceof Shulker) && e.getEntity().getCustomName() == null)
 			return;
+		if (entity instanceof Player)
+			return;
 		Player damager;
 		if (e.getDamager() instanceof Player)
 			damager = (Player)e.getDamager();
-		else if (e.getDamager() instanceof Projectile && ((Projectile)e.getDamager()).getShooter() instanceof Player)
-			damager = (Player) ((Projectile)e.getDamager()).getShooter();
+		else if (e.getDamager() instanceof Projectile && ((Projectile)e.getDamager()).getShooter() instanceof Player) {
+			damager = (Player) ((Projectile) e.getDamager()).getShooter();
+		}
 		else 
 			return;
 		Location loc = e.getEntity().getLocation();
@@ -191,6 +186,19 @@ public class SpaceListener implements Listener {
 			e.setCancelled(true);
 		}
 		
+	}
+
+	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+	public void entity11 (ProjectileHitEvent e) {
+		if (e.getEntity() instanceof Arrow && e.getHitEntity() != null && e.getHitEntity() instanceof LivingEntity && !(e.getHitEntity() instanceof Player)) {
+			if (e.getEntity().getShooter() instanceof Player) {
+				Player player = (Player)e.getEntity().getShooter();
+				Location loc = e.getHitEntity().getLocation();
+				if (!playerpm(player.getName(), loc, 6)) {
+					e.getEntity().setFireTicks(-1);
+				}
+			}
+		}
 	}
 	
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
@@ -237,7 +245,7 @@ public class SpaceListener implements Listener {
 	
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void entity8 (PlayerInteractEvent e) {
-		if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK) && e.getItem() != null && (boatOrCart(e.getMaterial()) || spawnEggs(e.getMaterial()))) {
+		if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK) && e.getItem() != null && (boatCartArmorstand(e.getMaterial()) || spawnEggs(e.getMaterial()))) {
 			Player player = e.getPlayer();
 			Location loc = e.getClickedBlock().getLocation();
 			if (!playerpm(player.getName(), loc, 6)) {
@@ -254,6 +262,18 @@ public class SpaceListener implements Listener {
 		if (!playerpm(player.getName(), loc, 6)) {
 			sendActionBarMessage(player, "您没有在该空间内放置实体的权限！");
 			e.setCancelled(true);
+		}
+	}
+
+	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+	public void entity10 (PlayerFishEvent e) {
+		if (e.getState().equals(PlayerFishEvent.State.CAUGHT_ENTITY)) {
+			Player player = e.getPlayer();
+			Location loc = e.getCaught().getLocation();
+			if (!playerpm(player.getName(), loc, 6)) {
+				sendActionBarMessage(player, "您没有使用该空间实体的权限！");
+				e.setCancelled(true);
+			}
 		}
 	}
 	
@@ -313,7 +333,7 @@ public class SpaceListener implements Listener {
 	}
 	*/
 	
-	private boolean boatOrCart(Material material) {
+	private boolean boatCartArmorstand(Material material) {
 		switch(material) {
 		case ACACIA_BOAT:
 		case BIRCH_BOAT:
@@ -327,6 +347,7 @@ public class SpaceListener implements Listener {
 		case HOPPER_MINECART:
 		case MINECART:
 		case TNT_MINECART:
+		case ARMOR_STAND:
 			return true;
 		default:
 			return false;
