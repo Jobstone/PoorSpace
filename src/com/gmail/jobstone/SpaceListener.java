@@ -20,6 +20,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.BlockSpreadEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
+import org.bukkit.event.hanging.HangingBreakEvent;
 import org.bukkit.event.hanging.HangingPlaceEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
@@ -223,12 +224,6 @@ public class SpaceListener implements Listener {
 				e.setCancelled(true);
 			}
 		}
-		else {
-			Location loc = e.getEntity().getLocation();
-			Space space = new Space(Space.getSpaceid(loc), Space.getWorldid(loc));
-			if (!space.canExplode())
-				e.setCancelled(true);
-		}
 	}
 	
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
@@ -286,6 +281,28 @@ public class SpaceListener implements Listener {
 			Space space = new Space(Space.getSpaceid(loc), Space.getWorldid(loc));
 			if (!space.canExplode())
 				e.blockList().remove(block);
+		}
+	}
+
+
+	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+	public void explode2 (EntityDamageEvent e) {
+		if (e.getEntity() instanceof ArmorStand && (e.getCause().equals(EntityDamageEvent.DamageCause.BLOCK_EXPLOSION) || e.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_EXPLOSION))) {
+			Location loc = e.getEntity().getLocation();
+			Space space = new Space(Space.getSpaceid(loc), Space.getWorldid(loc));
+			if (!space.canExplode())
+				e.setCancelled(true);
+		}
+	}
+
+
+	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+	public void explode3 (HangingBreakEvent e) {
+		if (e.getCause().equals(HangingBreakEvent.RemoveCause.EXPLOSION)) {
+			Location loc = e.getEntity().getLocation();
+			Space space = new Space(Space.getSpaceid(loc), Space.getWorldid(loc));
+			if (!space.canExplode())
+				e.setCancelled(true);
 		}
 	}
 	
