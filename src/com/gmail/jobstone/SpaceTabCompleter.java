@@ -77,11 +77,7 @@ public class SpaceTabCompleter implements TabCompleter {
 					else if (args[0].equals("selector") && args[1].equals("remove")) {
 						
 						SpacePlayer spaceplayer = new SpacePlayer(player.getName());
-						File file = spaceplayer.getFile();
-						FileConfiguration config = YamlConfiguration.loadConfiguration(file);
-						ConfigurationSection section = config.getConfigurationSection("selectors");
-						Set<String> set = section.getKeys(false);
-						for (String selector : set)
+						for (String selector : spaceplayer.getSelectors())
 							if (selector.startsWith(args[2].toLowerCase()))
 								list.add(selector);
 						
@@ -97,11 +93,7 @@ public class SpaceTabCompleter implements TabCompleter {
 							list.add("new");
 						
 						SpacePlayer spaceplayer = new SpacePlayer(player.getName());
-						File file = spaceplayer.getFile();
-						FileConfiguration config = YamlConfiguration.loadConfiguration(file);
-						ConfigurationSection section = config.getConfigurationSection("selectors");
-						Set<String> set = section.getKeys(false);
-						for (String selector : set)
+						for (String selector : spaceplayer.getSelectors())
 							if (selector.startsWith(args[3].toLowerCase()))
 								list.add(selector);
 					}
