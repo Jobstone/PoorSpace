@@ -30,6 +30,7 @@ public class Space {
 	private int world;
 	private File file;
 	private String owner;
+	private SpaceOwner.OwnerType ownerType;
 	private List<String> group1 = new ArrayList<String>();
 	private List<String> group2 = new ArrayList<String>();
 	private List<String> group3 = new ArrayList<String>();
@@ -63,6 +64,7 @@ public class Space {
 		if (file.exists()) {
 			FileConfiguration config = YamlConfiguration.loadConfiguration(file);
 			owner = config.getString("owner");
+			ownerType = SpaceOwner.OwnerType.valueOf(config.getString("owner_type"));
 			group1 = config.getStringList("group1");
 			group2 = config.getStringList("group2");
 			group3 = config.getStringList("group3");
@@ -92,6 +94,10 @@ public class Space {
 	
 	public String owner() {
 		return owner;
+	}
+
+	public SpaceOwner.OwnerType getOwnerType() {
+		return this.ownerType;
 	}
 	
 	public List<String> group(int i) {
@@ -142,6 +148,76 @@ public class Space {
 			e.printStackTrace();
 		}
 	}
+
+
+	//返回值：0.失败 1.成功 2.已经包括 3.人数已满
+	public int addGroup(int group, String name) {
+		FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+		switch(group) {
+			case 1:
+				if (group1.contains(name))
+					return 2;
+				if (group1.size() >= 9)
+					return 3;
+				group1.add(name);
+				config.set("group1", group1);
+				break;
+			case 2:
+				if (group2.contains(name))
+					return 2;
+				if (group2.size() >= 9)
+					return 3;
+				group2.add(name);
+				config.set("group2", group2);
+				break;
+			case 3:
+				if (group3.contains(name))
+					return 2;
+				if (group3.size() >= 9)
+					return 3;
+				group3.add(name);
+				config.set("group3", group3);
+				break;
+		}
+		try {
+			config.save(file);
+			return 1;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
+
+
+	//返回值：0.失败 1.成功 2.不存在
+	public int removeGroup(int group, String name) {
+		FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+		switch (group) {
+			case 1:
+				if (!group1.remove(name))
+					return 2;
+				config.set("group1", group1);
+				break;
+			case 2:
+				if (!group2.remove(name))
+					return 2;
+				config.set("group2", group2);
+				break;
+			case 3:
+				if (!group3.remove(name))
+					return 2;
+				config.set("group3", group3);
+				break;
+		}
+		try {
+			config.save(file);
+			return 1;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
+
 	
 	public void setPermission(int i, char[] pm) {
 		FileConfiguration config = YamlConfiguration.loadConfiguration(file);
@@ -209,37 +285,20 @@ public class Space {
 		meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 		meta.setDisplayName("§a§l空间"+id);
 		ArrayList<String> lore = new ArrayList<String>();
-		lore.add("§7所有者：§e"+owner);
+		if (this.ownerType.equals(SpaceOwner.OwnerType.PLAYER))
+			lore.add("§7所有者：§e"+owner);
+		else
+			lore.add("§7所有者：§e"+owner+"[群组]");
 		lore.add("§e点击查看");
 		meta.setLore(lore);
 		item.setItemMeta(meta);
 		return item;
 	}
 	
-	public void setOwner(String player) {
+	public void setOwner(SpaceOwner spaceOwner) {
 		FileConfiguration config = YamlConfiguration.loadConfiguration(file);
-		List<String> list = new ArrayList<String>();
-		String w = "Overworld";
-		switch(world) {
-		case 0:
-			w = "Overworld";
-			break;
-		case 1:
-			w = "Nether";
-			break;
-		case 2:
-			w = "End";
-			break;
-		case 3:
-			w = "Creative";
-			break;
-		case 4:
-			w = "Minigame";
-			break;
-		}
-		File pFile = new File(plugin.getDataFolder(), "players/"+player+"/"+w+".yml");
-		FileConfiguration pconfig = YamlConfiguration.loadConfiguration(pFile);
 		if (!file.exists()) {
+			List<String> list = new ArrayList<>();
 			config.set("group1", list);
 			config.set("group2", list);
 			config.set("group3", list);
@@ -249,71 +308,45 @@ public class Space {
 			config.set("permission4", String.valueOf(permission4));
 		}
 		else {
-			File bFile = new File(plugin.getDataFolder(), "players/"+owner+"/"+w+".yml");
-			FileConfiguration bconfig = YamlConfiguration.loadConfiguration(bFile);
-			List<String> list2 = bconfig.getStringList("list");
-			list2.remove(id);
-			bconfig.set("list", list2);
-			try {
-				bconfig.save(bFile);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			SpaceOwner oldSpaceOwner;
+			if (this.ownerType.equals(SpaceOwner.OwnerType.PLAYER))
+				oldSpaceOwner = new SpacePlayer(owner);
+			else
+				oldSpaceOwner = new SpaceGroup(owner);
+			oldSpaceOwner.removeSpace(world, id);
 		}
-		File newFile = new File(plugin.getDataFolder(), "players/"+player+"/Default_"+w+".yml");
-		if (newFile.exists()) {
-			FileConfiguration newconfig = YamlConfiguration.loadConfiguration(newFile);
-			config.set("group1", newconfig.getStringList("group1"));
-			config.set("group2", newconfig.getStringList("group2"));
-			config.set("group3", newconfig.getStringList("group3"));
-			config.set("permission1", newconfig.getString("permission1"));
-			config.set("permission2", newconfig.getString("permission2"));
-			config.set("permission3", newconfig.getString("permission3"));
-			config.set("permission4", newconfig.getString("permission4"));
+
+		File defaultFile = spaceOwner.getDefaultWorldFile(world);
+		if (defaultFile.exists()) {
+			FileConfiguration defaultConfig = YamlConfiguration.loadConfiguration(defaultFile);
+			config.set("group1", defaultConfig.getStringList("group1"));
+			config.set("group2", defaultConfig.getStringList("group2"));
+			config.set("group3", defaultConfig.getStringList("group3"));
+			config.set("permission1", defaultConfig.getString("permission1"));
+			config.set("permission2", defaultConfig.getString("permission2"));
+			config.set("permission3", defaultConfig.getString("permission3"));
+			config.set("permission4", defaultConfig.getString("permission4"));
 		}
-		List<String> list1 = pconfig.getStringList("list");
-		list1.add(id);
-		pconfig.set("list", list1);
-		owner = player;
+
+		spaceOwner.addSpace(world, id);
+		owner = spaceOwner.getName();
+		ownerType = spaceOwner.getType();
 		config.set("owner", owner);
+		config.set("owner_type", ownerType.name());
 		try {
 			config.save(file);
-			pconfig.save(pFile);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	public void remove() {
-		String w = "Overworld";
-		switch(world) {
-		case 0:
-			w = "Overworld";
-			break;
-		case 1:
-			w = "Nether";
-			break;
-		case 2:
-			w = "End";
-			break;
-		case 3:
-			w = "Creative";
-			break;
-		case 4:
-			w = "Minigame";
-			break;
-		}
-		File pFile = new File(plugin.getDataFolder(), "players/"+owner+"/"+w+".yml");
-		FileConfiguration config = YamlConfiguration.loadConfiguration(pFile);
-		List<String> list = config.getStringList("list");
-		list.remove(id);
-		config.set("list", list);
-		try {
-			config.save(file);
-			config.save(pFile);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		SpaceOwner spaceOwner;
+		if (this.ownerType.equals(SpaceOwner.OwnerType.PLAYER))
+			spaceOwner = new SpacePlayer(owner);
+		else
+			spaceOwner = new SpaceGroup(owner);
+		spaceOwner.removeSpace(world, id);
 		this.file.delete();
 	}
 	
