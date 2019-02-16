@@ -513,7 +513,7 @@ public class SpaceOpen {
 		else if (page < 1)
 			page = 1;
 
-		Inventory inv = Bukkit.getServer().createInventory(null, 54, "§1PoorSpace――搜索群组 第 "+page+"/"+totalpage+" 页");
+		Inventory inv = Bukkit.getServer().createInventory(null, 54, "§1PoorSpace――搜索群组 第"+page+"/"+totalpage+"页");
 		if (page < totalpage) {
 			imax = page*45;
 			inv.setItem(53, newItem(Material.ARROW, "§a§l下一页"));
@@ -545,13 +545,15 @@ public class SpaceOpen {
             List<String> members = group.getMembers();
             int totalsize = ops.size()+members.size();
             int totalpage = (totalsize+35)/36;
+            if (totalpage < 1)
+            	totalpage = 1;
             int imax;
             if (page > totalpage)
                 page = totalpage;
             else if (page < 1)
                 page = 1;
 
-            Inventory inv = Bukkit.getServer().createInventory(null, 54, "§1PoorSpace――群组："+name+" 第 "+page+"/"+totalpage+" 页");
+            Inventory inv = Bukkit.getServer().createInventory(null, 54, "§1PoorSpace――群组："+name+" 第"+page+"/"+totalpage+"页");
 			if (page < totalpage) {
 				imax = page*36;
 				inv.setItem(53, newItem(Material.ARROW, "§a§l下一页"));

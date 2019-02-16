@@ -547,14 +547,13 @@ public class InvListener implements Listener {
 							case ARROW:
 								if (e.getRawSlot() == 45) {
 									if (e.getClick().equals(ClickType.LEFT)) {
-										int page = Integer.parseInt(window.substring(window.indexOf(' ') + 1, window.lastIndexOf('/')));
-										if (page > 1)
-											SpaceOpen.openGroup(player, group.getName(), page-1);
+										int page = Integer.parseInt(window.substring(window.indexOf('第') + 1, window.lastIndexOf('/')));
+										SpaceOpen.openGroup(player, group.getName(), page-1);
 									}
 								}
 								else if (e.getRawSlot() == 53) {
 									if (e.getClick().equals(ClickType.LEFT)) {
-										int page = Integer.parseInt(window.substring(window.indexOf(' ') + 1, window.lastIndexOf('/')));
+										int page = Integer.parseInt(window.substring(window.indexOf('第') + 1, window.lastIndexOf('/')));
 										SpaceOpen.openGroup(player, group.getName(), page+1);
 									}
 								}
@@ -603,6 +602,29 @@ public class InvListener implements Listener {
 					}
 					else {
 						player.sendMessage("§7【PoorSpace】该群组不存在！");
+					}
+
+				}
+			}
+
+			else if (window.startsWith("搜索群组")) {
+				e.setCancelled(true);
+				if (e.getRawSlot() < e.getInventory().getSize() && e.getCurrentItem()!= null && !e.getCurrentItem().getType().equals(Material.AIR)) {
+
+					Player player = (Player) e.getWhoClicked();
+					int slot = e.getRawSlot();
+					if (slot < 45) {
+						String click = e.getCurrentItem().getItemMeta().getDisplayName();
+						String name = click.substring(4);
+						SpaceOpen.openGroup(player, name, 1);
+					}
+					else if (slot == 45) {
+						int page = Integer.parseInt(window.substring(window.indexOf('第') + 1, window.lastIndexOf('/')));
+						SpaceOpen.subSearchGroups(player, page-1);
+					}
+					else if (slot == 53) {
+						int page = Integer.parseInt(window.substring(window.indexOf('第') + 1, window.lastIndexOf('/')));
+						SpaceOpen.subSearchGroups(player, page+1);
 					}
 
 				}
