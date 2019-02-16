@@ -78,6 +78,8 @@ public class SpaceOpen {
 	
 	private static void subOpenWorld(Player player, List<String> list, String w, Material material, int page, int world) {
 		int totalpage = (list.size()-1)/45+1;
+		if (totalpage < 1)
+			totalpage = 1;
 		int imax;
 		if (page > totalpage)
 			page = totalpage;
@@ -503,6 +505,8 @@ public class SpaceOpen {
 
 		List<String> groups = SpaceOpen.searchResults.get(player.getName());
 		int totalpage = (groups.size()-1)/45+1;
+		if (totalpage < 1)
+			totalpage = 1;
 		int imax;
 		if (page > totalpage)
 			page = totalpage;

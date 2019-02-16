@@ -155,6 +155,8 @@ public class PoorSpace extends JavaPlugin {
 				e.printStackTrace();
 			}
 		}
+
+		(new File(PoorSpace.plugin.getDataFolder(), "groups")).mkdirs();
 		
 	}
 
