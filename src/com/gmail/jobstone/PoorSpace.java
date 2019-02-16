@@ -8,10 +8,13 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -22,6 +25,9 @@ import org.bukkit.scoreboard.Scoreboard;
 public class PoorSpace extends JavaPlugin {
 	
 	public static PoorSpace plugin;
+	public static SkullMeta slime;
+	public static SkullMeta pig;
+	public static SkullMeta chicken;
 	
 	public void onEnable() {
 		
@@ -36,6 +42,16 @@ public class PoorSpace extends JavaPlugin {
 			new File(chunks, "Creative").mkdir();
 			new File(chunks, "Minigame").mkdir();
 		}
+
+		ItemStack item = new ItemStack(Material.PLAYER_HEAD);
+		SkullMeta meta = (SkullMeta)item.getItemMeta();
+		meta.setOwningPlayer(Bukkit.getOfflinePlayer("MHF_Slime"));
+		PoorSpace.slime = meta.clone();
+		meta.setOwningPlayer(Bukkit.getOfflinePlayer("MHF_Pig"));
+		PoorSpace.pig = meta.clone();
+		meta.setOwningPlayer(Bukkit.getOfflinePlayer("MHF_Chicken"));
+		PoorSpace.chicken = meta.clone();
+
 		
 		//文件更新
 		filesUpdate();

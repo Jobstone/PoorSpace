@@ -41,9 +41,18 @@ public class SpaceTabCompleter implements TabCompleter {
 						list.add("group");
 				}
 				else if (args.length == 2) {
-					if (args[0].equals("permission") || args[0].equals("pmgroup"))
+					if (args[0].equals("permission"))
 						list.add("set");
-					
+
+					else if (args[0].equals("pmgroup")) {
+						if ("set".startsWith(args[1].toLowerCase()))
+							list.add("set");
+						if ("add".startsWith(args[1].toLowerCase()))
+							list.add("add");
+						if ("remove".startsWith(args[1].toLowerCase()))
+							list.add("remove");
+					}
+
 					else if (args[0].equals("selector")) {
 						if ("set".startsWith(args[1].toLowerCase()))
 							list.add("set");
@@ -76,7 +85,7 @@ public class SpaceTabCompleter implements TabCompleter {
 					}
 				}
 				else if (args.length == 3) {
-					if ((args[0].equals("permission") || args[0].equals("pmgroup")) && args[1].equals("set")) {
+					if ((args[0].equals("permission") && args[1].equals("set")) || (args[0].equals("pmgroup") && (args[1].equals("set") || args[1].equals("add") || args[1].equals("remove")))) {
 						if ("world".startsWith(args[2].toLowerCase()))
 							list.add("world");
 						if ("world_nether".startsWith(args[2].toLowerCase()))

@@ -53,32 +53,37 @@ public class SpaceGroup {
     }
 
 
-    public void addMembers(Set<String> names) {
-        new Thread(() -> {
-            File file = new File(this.folder, "data.yml");
-            FileConfiguration config = YamlConfiguration.loadConfiguration(file);
-            String owner = getOwner();
-            List<String> ops = config.getStringList("ops");
-            List<String> members = config.getStringList("members");
-            for (String name : names) {
-                if (!(owner.equals(name) || ops.contains(name) || members.contains(name))) {
-                    members.add(name);
-                    SpacePlayer player = new SpacePlayer(name);
-                    if (player.exists())
+    public Set<String> addMembers(Set<String> names) {
+        File file = new File(this.folder, "data.yml");
+        FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+        String owner = getOwner();
+        List<String> ops = config.getStringList("ops");
+        List<String> members = config.getStringList("members");
+        Set<String> fails = new HashSet<>();
+        for (String name : names) {
+            if (!(owner.equals(name) || ops.contains(name) || members.contains(name))) {
+                SpacePlayer player = new SpacePlayer(name);
+                if (player.exists())
+                    if (player.getGroups().size() < 9) {
                         player.joinGroup(this.name);
-                    else {
-                        player.createFiles();
-                        player.joinGroup(this.name);
+                        members.add(name);
                     }
+                    else
+                        fails.add(name);
+                else {
+                    members.add(name);
+                    player.createFiles();
+                    player.joinGroup(this.name);
                 }
             }
-            config.set("members", members);
-            try {
-                config.save(file);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }).start();
+        }
+        config.set("members", members);
+        try {
+            config.save(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return fails;
     }
 
 
@@ -116,62 +121,70 @@ public class SpaceGroup {
 
 
     public void setOp(String name) {
-        new Thread(() -> {
-            File file = new File(this.folder, "data.yml");
-            FileConfiguration config = YamlConfiguration.loadConfiguration(file);
-            List<String> ops = config.getStringList("ops");
-            List<String> members = config.getStringList("members");
-            if (members.remove(name)) {
-                config.set("members", members);
-                config.set("ops", ops.add(name));
-                try {
-                    config.save(file);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        File file = new File(this.folder, "data.yml");
+        FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+        List<String> ops = config.getStringList("ops");
+        List<String> members = config.getStringList("members");
+        if (members.remove(name)) {
+            config.set("members", members);
+            ops.add(name);
+            config.set("ops", ops);
+            try {
+                config.save(file);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        }).start();
+        }
     }
 
 
     public void deOp(String name) {
-        new Thread(() -> {
-            File file = new File(this.folder, "data.yml");
-            FileConfiguration config = YamlConfiguration.loadConfiguration(file);
-            List<String> ops = config.getStringList("ops");
+        File file = new File(this.folder, "data.yml");
+        FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+        List<String> ops = config.getStringList("ops");
+        List<String> members = config.getStringList("members");
+        if (ops.remove(name)) {
+            config.set("ops", ops);
+            members.add(name);
+            config.set("members", members);
+            try {
+                config.save(file);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    public void removeOne(String name) {
+        File file = new File(this.folder, "data.yml");
+        FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+        List<String> ops = config.getStringList("ops");
+        if (ops.contains(name)) {
+            ops.remove(name);
+            config.set("ops", ops);
+            SpacePlayer player = new SpacePlayer(name);
+            player.quitGroup(this.name);
+            try {
+                config.save(file);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else {
             List<String> members = config.getStringList("members");
-            if (ops.remove(name)) {
-                config.set("ops", ops);
-                config.set("members", members.add(name));
+            if (members.contains(name)) {
+                members.remove(name);
+                config.set("members", members);
+                SpacePlayer player = new SpacePlayer(name);
+                player.quitGroup(this.name);
                 try {
                     config.save(file);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-        }).start();
-    }
-
-
-    public void removeOne(String name) {
-        new Thread(() -> {
-            File file = new File(this.folder, "data.yml");
-            FileConfiguration config = YamlConfiguration.loadConfiguration(file);
-            List<String> ops = config.getStringList("ops");
-            if (ops.contains(name)) {
-                config.set("ops", ops.remove(name));
-                SpacePlayer player = new SpacePlayer(name);
-                player.quitGroup(this.name);
-            }
-            else {
-                List<String> members = config.getStringList("members");
-                if (members.contains(name)) {
-                    config.set("members", members.remove(name));
-                    SpacePlayer player = new SpacePlayer(name);
-                    player.quitGroup(this.name);
-                }
-            }
-        }).start();
+        }
     }
 
 
@@ -217,15 +230,19 @@ public class SpaceGroup {
 
 
     public void setOwner(String name) {
-        new Thread(() -> {
-            File file = new File(this.folder, "data.yml");
-            FileConfiguration config = YamlConfiguration.loadConfiguration(file);
-            List<String> ops = config.getStringList("ops");
-            if (ops.remove(name)) {
-                config.set("ops", ops.add(getOwner()));
-                config.set("owner", name);
+        File file = new File(this.folder, "data.yml");
+        FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+        List<String> ops = config.getStringList("ops");
+        if (ops.remove(name)) {
+            ops.add(config.getString("owner"));
+            config.set("ops", ops);
+            config.set("owner", name);
+            try {
+                config.save(file);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        }).start();
+        }
     }
 
 
@@ -254,6 +271,7 @@ public class SpaceGroup {
         config.set("members", new ArrayList<String>());
         try {
             config.save(file);
+            (new SpacePlayer(owner)).joinGroup(this.name);
             return true;
         } catch (IOException e) {
             e.printStackTrace();

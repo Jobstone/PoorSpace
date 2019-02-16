@@ -30,8 +30,9 @@ public class InvListener implements Listener {
 	
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void click(InventoryClickEvent e) {
-		if(e.getInventory().getHolder() == null && e.getInventory().getName().startsWith("§1PoorSpace――")) {
-			String window = e.getInventory().getName().substring(13);
+		String invName = e.getView().getTitle();
+		if(e.getInventory().getHolder() == null && invName.startsWith("§1PoorSpace――")) {
+			String window = invName.substring(13);
 			if (window.equals("个人")) {
 				e.setCancelled(true);
 				if (e.getRawSlot() < e.getInventory().getSize() && e.getCurrentItem()!= null && !e.getCurrentItem().getType().equals(Material.AIR)) {
@@ -514,7 +515,7 @@ public class InvListener implements Listener {
 					if (e.getClick().equals(ClickType.LEFT)) {
 
 						String click = e.getCurrentItem().getItemMeta().getDisplayName();
-						String name = window.substring(4);
+						String name = click.substring(4);
 						SpaceOpen.openGroup(player, name, 1);
 
 					}
@@ -538,9 +539,11 @@ public class InvListener implements Listener {
 										case OP:
 										case MEMBER:
 											group.removeOne(player.getName());
+											player.closeInventory();
 											break;
 										case OWNER:
 											group.remove();
+											player.closeInventory();
 									}
 								}
 								break;
@@ -565,34 +568,53 @@ public class InvListener implements Listener {
 							case PLAYER_HEAD:
 								if (e.getRawSlot() != 1) {
 									String name = e.getCurrentItem().getItemMeta().getDisplayName();
-									name = name.substring(2, name.lastIndexOf('§'));
+									name = name.substring(2);
+									if (name.indexOf('§') != -1)
+										name = name.substring(0, name.indexOf('§'));
 									SpaceGroup.GroupRole clickRole = group.getRole(name);
 									switch (clickRole) {
 										case OP:
 											if (role.equals(SpaceGroup.GroupRole.OWNER)) {
 
+												int page = Integer.parseInt(window.substring(window.indexOf('第') + 1, window.lastIndexOf('/')));
 												switch (e.getClick()) {
 													case LEFT:
 														group.deOp(name);
+														SpaceOpen.openGroup(player, group.getName(), page);
 														break;
 													case MIDDLE:
 														group.setOwner(name);
+														SpaceOpen.openGroup(player, group.getName(), page);
 														break;
 													case RIGHT:
 														group.removeOne(name);
+														SpaceOpen.openGroup(player, group.getName(), page);
 												}
 
 											}
 											break;
 										case MEMBER:
-											if (role.equals(SpaceGroup.GroupRole.OWNER) || role.equals(SpaceGroup.GroupRole.OP)) {
+											if (role.equals(SpaceGroup.GroupRole.OWNER)) {
 
+												int page = Integer.parseInt(window.substring(window.indexOf('第') + 1, window.lastIndexOf('/')));
 												switch (e.getClick()) {
 													case LEFT:
 														group.setOp(name);
+														SpaceOpen.openGroup(player, group.getName(), page);
 														break;
 													case RIGHT:
 														group.removeOne(name);
+														SpaceOpen.openGroup(player, group.getName(), page);
+												}
+
+											}
+											else if (role.equals(SpaceGroup.GroupRole.OP)) {
+
+												switch (e.getClick()) {
+													case RIGHT:
+														group.removeOne(name);
+														int page = Integer.parseInt(window.substring(window.indexOf('第') + 1, window.lastIndexOf('/')));
+														SpaceOpen.openGroup(player, group.getName(), page);
 												}
 
 											}

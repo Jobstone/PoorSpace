@@ -56,14 +56,30 @@ public class SpacePlayer extends SpaceOwner{
 
 
 	public void joinGroup(String group) {
-		FileConfiguration config = YamlConfiguration.loadConfiguration(getSettingsFile());
-		config.set("groups", config.getStringList("groups").add(group));
+		File file = getSettingsFile();
+		FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+		List<String> groups = config.getStringList("groups");
+		groups.add(group);
+		config.set("groups", groups);
+		try {
+			config.save(file);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 
 	public void quitGroup(String group) {
-		FileConfiguration config = YamlConfiguration.loadConfiguration(getSettingsFile());
-		config.set("groups", config.getStringList("groups").remove(group));
+		File file = getSettingsFile();
+		FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+		List<String> groups = config.getStringList("groups");
+		groups.remove(group);
+		config.set("groups", groups);
+		try {
+			config.save(file);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 

@@ -325,6 +325,7 @@ public class SpaceExecutor implements CommandExecutor {
 															PacketPlayOutChat packet = new PacketPlayOutChat(comp);
 															((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
 														}
+														break;
 
 													default:
 														player.sendMessage("§7【PoorSpace】权限组编号不存在！");
@@ -431,6 +432,8 @@ public class SpaceExecutor implements CommandExecutor {
 														PacketPlayOutChat packet = new PacketPlayOutChat(comp);
 														((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
 
+														break;
+
 													default:
 														player.sendMessage("§7【PoorSpace】权限组编号不存在！");
 												}
@@ -467,11 +470,25 @@ public class SpaceExecutor implements CommandExecutor {
 
 								SpaceGroup.GroupRole role = group.getRole(player.getName());
 								if (role.equals(SpaceGroup.GroupRole.OWNER) || role.equals(SpaceGroup.GroupRole.OP)) {
-									Set<String> members = new HashSet<>();
-									for (int i = 3; i < args.length; i++)
-										members.add(args[i]);
-									group.addMembers(members);
-									player.sendMessage("§7【PoorSpace】成功添加相关玩家！");
+									new Thread(() -> {
+										Set<String> members = new HashSet<>();
+										for (int i = 3; i < args.length; i++)
+											members.add(args[i]);
+										Set<String> fails = group.addMembers(members);
+										StringBuilder fail = new StringBuilder("");
+										boolean b = true;
+										for (String f : fails) {
+											if (!b)
+												fail.append(", ");
+											else
+												b = false;
+											fail.append(f);
+										}
+										String msg = "§7【PoorSpace】已添加相关玩家！";
+										if (!fails.isEmpty())
+											msg += "以下玩家因加入的群组数已满添加失败：\n§7"+fail.toString();
+										player.sendMessage(msg);
+									}).start();
 								}
 								else
 									player.sendMessage("§7【PoorSpace】你没有权限为该群组添加玩家！");
@@ -491,18 +508,22 @@ public class SpaceExecutor implements CommandExecutor {
 
 								SpaceGroup.GroupRole role = group.getRole(player.getName());
 								if (role.equals(SpaceGroup.GroupRole.OP)) {
-									Set<String> members = new HashSet<>();
-									for (int i = 3; i < args.length; i++)
-										members.add(args[i]);
-									group.removeMembers(members);
-									player.sendMessage("§7【PoorSpace】成功移除相关玩家！");
+									new Thread(() -> {
+										Set<String> members = new HashSet<>();
+										for (int i = 3; i < args.length; i++)
+											members.add(args[i]);
+										group.removeMembers(members);
+										player.sendMessage("§7【PoorSpace】成功移除相关玩家！");
+									}).start();
 								}
 								else if (role.equals(SpaceGroup.GroupRole.OWNER)) {
-									Set<String> members = new HashSet<>();
-									for (int i = 3; i < args.length; i++)
-										members.add(args[i]);
-									group.removeAll(members);
-									player.sendMessage("§7【PoorSpace】成功移除相关玩家！");
+									new Thread(() -> {
+										Set<String> members = new HashSet<>();
+										for (int i = 3; i < args.length; i++)
+											members.add(args[i]);
+										group.removeAll(members);
+										player.sendMessage("§7【PoorSpace】成功移除相关玩家！");
+									}).start();
 								}
 								else
 									player.sendMessage("§7【PoorSpace】你没有权限移除该权限组的玩家！");
@@ -517,22 +538,24 @@ public class SpaceExecutor implements CommandExecutor {
 					else if (args[1].equals("create")) {
 						if (args.length == 3) {
 
-							Pattern pattern = Pattern.compile("[\\s\\\\/:\\*\\?\\\"<>\\|]");
-							Matcher matcher = pattern.matcher(args[2]);
-							if (matcher.find()) {
-								player.sendMessage("§7【PoorSpace】群组名称中不能包括空白字符及\"\\/:*?\"<>|\"！");
-							}
-							else {
-								if (args[2].length() <= 10) {
-									SpaceGroup group = new SpaceGroup(args[2]);
-									if (group.exists())
-										player.sendMessage("§7【PoorSpace】名为" + args[2] + "的群组已经存在！");
-									else
-										SpaceOpen.createGroup(player, args[2]);
+							if ((new SpacePlayer(player.getName())).getGroups().size() < 9) {
+								Pattern pattern = Pattern.compile("[\\s\\\\/:\\*\\?\\\"<>\\|]");
+								Matcher matcher = pattern.matcher(args[2]);
+								if (matcher.find()) {
+									player.sendMessage("§7【PoorSpace】群组名称中不能包括空白字符及\"\\/:*?\"<>|\"！");
+								} else {
+									if (args[2].length() <= 10) {
+										SpaceGroup group = new SpaceGroup(args[2]);
+										if (group.exists())
+											player.sendMessage("§7【PoorSpace】名为" + args[2] + "的群组已经存在！");
+										else
+											SpaceOpen.createGroup(player, args[2]);
+									} else
+										player.sendMessage("§7【PoorSpace】群组名称不能超过10个字符！");
 								}
-								else
-									player.sendMessage("§7【PoorSpace】群组名称不能超过10个字符！");
 							}
+							else
+								player.sendMessage("§7【PoorSpace】您加入的群组数已到达上限！");
 
 						}
 					}

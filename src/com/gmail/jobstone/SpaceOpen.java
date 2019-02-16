@@ -569,13 +569,13 @@ public class SpaceOpen {
 			int istart = (page-1)*36;
             int opsize = ops.size();
             ItemStack item = new ItemStack(Material.PLAYER_HEAD);
-            SkullMeta meta = (SkullMeta)item.getItemMeta();
+            SkullMeta meta;
             ArrayList<String> lore = new ArrayList<>();
-            for (int i = istart; i <= imax; i++) {
+            for (int i = istart; i < imax; i++) {
                 if (i < opsize) {
 
+                	meta = PoorSpace.pig.clone();
                     meta.setDisplayName("§a"+ops.get(i)+"§b[管理员]");
-                    meta.setOwningPlayer(Bukkit.getOfflinePlayer("MHF_Pig"));
                     if (role.equals(SpaceGroup.GroupRole.OWNER)) {
                         lore.add("§e点击左键取消其管理，中键设置其为群主，右键将其移出群组");
                         meta.setLore(lore);
@@ -588,8 +588,8 @@ public class SpaceOpen {
                 }
                 else {
 
+					meta = PoorSpace.chicken.clone();
                     meta.setDisplayName("§a"+members.get(i-opsize));
-                    meta.setOwningPlayer(Bukkit.getOfflinePlayer("MHF_Chicken"));
                     if (role.equals(SpaceGroup.GroupRole.OWNER) || role.equals(SpaceGroup.GroupRole.OP)) {
                         lore.add("§e点击左键设置其为管理，右键将其移出群组");
                         meta.setLore(lore);
@@ -602,8 +602,8 @@ public class SpaceOpen {
                 }
 				inv.setItem(i + 9, item);
             }
+            meta = PoorSpace.slime.clone();
             meta.setDisplayName("§e群主："+group.getOwner());
-            meta.setOwningPlayer(Bukkit.getOfflinePlayer("MHF_Slime"));
             meta.setLore(lore);
             item.setItemMeta(meta);
             inv.setItem(1, item);
@@ -634,7 +634,7 @@ public class SpaceOpen {
 
 	public static void createGroup(Player player, String name) {
 
-		Inventory inv = Bukkit.getServer().createInventory(null, 54, "§1PoorSpace——创建群组"+name+" 选择图标");
+		Inventory inv = Bukkit.getServer().createInventory(null, 9, "§1PoorSpace――创建群组"+name+" 选择图标");
 
 		inv.setItem(1, newItem(Material.OAK_DOOR, "§a点击选择图标"));
 		inv.setItem(2, newItem(Material.SPRUCE_DOOR, "§a点击选择图标"));
