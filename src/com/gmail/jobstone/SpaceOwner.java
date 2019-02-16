@@ -93,8 +93,7 @@ public abstract class SpaceOwner {
     public abstract OwnerType getType();
 
     public enum OwnerType {
-        PLAYER,
-        GROUP
+        PLAYER
     }
 
 }

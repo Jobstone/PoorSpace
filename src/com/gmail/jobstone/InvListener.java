@@ -487,6 +487,7 @@ public class InvListener implements Listener {
 						
 					}
 				}
+
 			}
 			
 			else if (window.startsWith("小游戏界区块")) {
@@ -501,6 +502,126 @@ public class InvListener implements Listener {
 						nearbyClick(player, click, id, 4);
 						
 					}
+				}
+
+			}
+
+			else if (window.equals("个人群组")) {
+				e.setCancelled(true);
+				if (e.getRawSlot() < e.getInventory().getSize() && e.getCurrentItem()!= null && !e.getCurrentItem().getType().equals(Material.AIR)) {
+
+					Player player = (Player) e.getWhoClicked();
+					if (e.getClick().equals(ClickType.LEFT)) {
+
+						String click = e.getCurrentItem().getItemMeta().getDisplayName();
+						String name = window.substring(4);
+						SpaceOpen.openGroup(player, name, 1);
+
+					}
+
+				}
+			}
+
+			else if (window.startsWith("群组")) {
+				e.setCancelled(true);
+				if (e.getRawSlot() < e.getInventory().getSize() && e.getCurrentItem()!= null && !e.getCurrentItem().getType().equals(Material.AIR)) {
+
+					Player player = (Player) e.getWhoClicked();
+					SpaceGroup group = new SpaceGroup(window.substring(3, window.indexOf(' ')));
+					if (group.exists()) {
+						SpaceGroup.GroupRole role = group.getRole(player.getName());
+						Material m = e.getCurrentItem().getType();
+						switch (m) {
+							case BARRIER:
+								if (e.getClick().equals(ClickType.DOUBLE_CLICK)) {
+									switch (role) {
+										case OP:
+										case MEMBER:
+											group.removeOne(player.getName());
+											break;
+										case OWNER:
+											group.remove();
+									}
+								}
+								break;
+							case ARROW:
+								if (e.getRawSlot() == 45) {
+									if (e.getClick().equals(ClickType.LEFT)) {
+										int page = Integer.parseInt(window.substring(window.indexOf(' ') + 1, window.lastIndexOf('/')));
+										if (page > 1)
+											SpaceOpen.openGroup(player, group.getName(), page-1);
+									}
+								}
+								else if (e.getRawSlot() == 53) {
+									if (e.getClick().equals(ClickType.LEFT)) {
+										int page = Integer.parseInt(window.substring(window.indexOf(' ') + 1, window.lastIndexOf('/')));
+										SpaceOpen.openGroup(player, group.getName(), page+1);
+									}
+								}
+								break;
+							case STRUCTURE_VOID:
+								if (e.getClick().equals(ClickType.LEFT))
+									SpaceOpen.openGroups(player);
+								break;
+							case PLAYER_HEAD:
+								if (e.getRawSlot() != 1) {
+									String name = e.getCurrentItem().getItemMeta().getDisplayName();
+									name = name.substring(2, name.lastIndexOf('§'));
+									SpaceGroup.GroupRole clickRole = group.getRole(name);
+									switch (clickRole) {
+										case OP:
+											if (role.equals(SpaceGroup.GroupRole.OWNER)) {
+
+												switch (e.getClick()) {
+													case LEFT:
+														group.deOp(name);
+														break;
+													case MIDDLE:
+														group.setOwner(name);
+														break;
+													case RIGHT:
+														group.removeOne(name);
+												}
+
+											}
+											break;
+										case MEMBER:
+											if (role.equals(SpaceGroup.GroupRole.OWNER) || role.equals(SpaceGroup.GroupRole.OP)) {
+
+												switch (e.getClick()) {
+													case LEFT:
+														group.setOp(name);
+														break;
+													case RIGHT:
+														group.removeOne(name);
+												}
+
+											}
+									}
+								}
+						}
+					}
+					else {
+						player.sendMessage("§7【PoorSpace】该群组不存在！");
+					}
+
+				}
+			}
+
+			else if (window.startsWith("创建群组")) {
+				e.setCancelled(true);
+				if (e.getRawSlot() < e.getInventory().getSize() && e.getCurrentItem()!= null && !e.getCurrentItem().getType().equals(Material.AIR)) {
+
+					String name = window.substring(4, window.indexOf(' '));
+					SpaceGroup group = new SpaceGroup(name);
+					Player player = (Player) e.getWhoClicked();
+					if (group.create(e.getCurrentItem().getType(), player.getName()))
+						SpaceOpen.openGroup(player, name, 1);
+					else {
+						player.closeInventory();
+						player.sendMessage("§7【PoorSpace】创建失败：该群组已经存在。");
+					}
+
 				}
 			}
 		}
@@ -603,7 +724,7 @@ public class InvListener implements Listener {
 				player.setLevel(0);
 				player.setExp(0);
 				player.giveExp(totalexp-cost);
-				new Space(id, world).setOwner(player.getName());
+				new Space(id, world).setOwner(new SpacePlayer(player.getName()));
 				player.sendMessage("§7【PoorSpace】空间"+id+"购买成功！");
 				SpaceOpen.openSpace(player, id, world);
 				

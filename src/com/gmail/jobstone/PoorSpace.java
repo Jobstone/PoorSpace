@@ -2,6 +2,7 @@ package com.gmail.jobstone;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -93,12 +94,11 @@ public class PoorSpace extends JavaPlugin {
 		
 		File players = new File(PoorSpace.plugin.getDataFolder(), "players");
 		for (File pFile : players.listFiles()) {
-			List<String> list = Arrays.asList(pFile.list());
-			
-			if (!list.contains("stats.yml")) {
-				File file = new File(pFile, "stats.yml");
-				FileConfiguration config = YamlConfiguration.loadConfiguration(file);
-				config.set("giveups", 0);
+
+			File file = new File(pFile, "settings.yml");
+			FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+			if (!config.contains("groups")) {
+				config.set("groups", new ArrayList<String>());
 				try {
 					config.save(file);
 				} catch (IOException e) {

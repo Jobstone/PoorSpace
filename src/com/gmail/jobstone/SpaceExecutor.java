@@ -3,8 +3,10 @@ package com.gmail.jobstone;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.bukkit.Location;
@@ -42,351 +44,672 @@ public class SpaceExecutor implements CommandExecutor {
 					Location loc = player.getLocation();
 					SpaceOpen.openSpace(player, Space.getSpaceid(loc), Space.getWorldid(loc));
 				}
-				else if (args.length == 3 && args[0].equals("space")) {
-					
-					int world;
-					if ((world = Space.getWorldid(args[1])) != -1) {
-						
-						String id = args[2];
-						if (Space.isSpaceLegal(id, world)) {
-							SpaceOpen.openSpace(player, id, world);
-						}
-						else
-							player.sendMessage("§7【PoorSpace】该空间不存在！");
-						
+				else if (args[0].equals("space")) {
+
+					if (args.length == 3) {
+						int world;
+						if ((world = Space.getWorldid(args[1])) != -1) {
+
+							String id = args[2];
+							if (Space.isSpaceLegal(id, world)) {
+								SpaceOpen.openSpace(player, id, world);
+							} else
+								player.sendMessage("§7【PoorSpace】该空间不存在！");
+
+						} else
+							player.sendMessage("§7【PoorSpace】该世界不存在！");
 					}
-					else
-						player.sendMessage("§7【PoorSpace】该世界不存在！");
+
+				}
+				else if (args[0].equals("pmgroup")) {
+					
+					if (args.length >= 5 && args.length <= 15) {
+
+						if (args[1].equals("set")) {
+							new Thread() {
+
+								@Override
+								public void run() {
+									int world;
+									if ((world = Space.getWorldid(args[2])) != -1) {
+										List<Space> list = getSpaceList(player, args[3], world);
+										if (list == null) {
+											File file = new File(PoorSpace.plugin.getDataFolder(), "players/" + player.getName() + "/Default_" + Space.getWorldName(world) + ".yml");
+											FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+											if (!file.exists()) {
+												List<String> empty = new ArrayList<>();
+												config.set("group1", empty);
+												config.set("group2", empty);
+												config.set("group3", empty);
+												config.set("permission1", "11111111");
+												config.set("permission2", "11111111");
+												config.set("permission3", "11111111");
+												config.set("permission4", "1100100010");
+											}
+											List<String> group = new ArrayList<>();
+											StringBuilder sb = new StringBuilder("");
+											for (int i = 5; i < args.length; i++) {
+												group.add(args[i]);
+												if (i != 5)
+													sb.append("\n");
+												sb.append("§7 - " + args[i]);
+											}
+											String msg = sb.toString();
+
+											switch (args[4]) {
+												case "1":
+													config.set("group1", group);
+													if (msg.equals(""))
+														player.sendMessage("§7【PoorSpace】已将" + SpaceOpen.world(world) + "的默认空间设置中的权限组1玩家列表设为空。");
+													else
+														player.sendMessage("§7【PoorSpace】已将" + SpaceOpen.world(world) + "的默认空间设置中的权限组1玩家列表设为：\n" + msg);
+													break;
+												case "2":
+													config.set("group2", group);
+													if (msg.equals(""))
+														player.sendMessage("§7【PoorSpace】已将" + SpaceOpen.world(world) + "的默认空间设置中的权限组2玩家列表设为空。");
+													else
+														player.sendMessage("§7【PoorSpace】已将" + SpaceOpen.world(world) + "的默认空间设置中的权限组2玩家列表设为：\n" + msg);
+													break;
+												case "3":
+													config.set("group3", group);
+													if (msg.equals(""))
+														player.sendMessage("§7【PoorSpace】已将" + SpaceOpen.world(world) + "的默认空间设置中的权限组31玩家列表设为空。");
+													else
+														player.sendMessage("§7【PoorSpace】已将" + SpaceOpen.world(world) + "的默认空间设置中的权限组3玩家列表设为：\n" + msg);
+													break;
+												default:
+													player.sendMessage("§7【PoorSpace】权限组编号不合法！");
+											}
+											try {
+												config.save(file);
+											} catch (IOException e) {
+												e.printStackTrace();
+											}
+										} else if (list.isEmpty()) {
+											player.sendMessage("§7【PoorSpace】空间选择器未找到任何已拥有的空间（原因可能为空间选择器不合法）！");
+										} else {
+											List<String> group = new ArrayList<String>();
+											StringBuilder sb = new StringBuilder();
+											for (int i = 5; i < args.length; i++) {
+												group.add(args[i]);
+												if (i != 5)
+													sb.append("\n");
+												sb.append("§7 - " + args[i]);
+											}
+											String msg = sb.toString();
+
+											StringBuilder spacesb = new StringBuilder("§7");
+
+											switch (args[4]) {
+												case "1":
+													for (int i = 0; i < list.size(); i++) {
+														if (i != 0)
+															spacesb.append(", ");
+														Space space = list.get(i);
+														space.setGroup(1, group);
+														spacesb.append(space.id());
+													}
+													if (msg.equals("")) {
+														IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"§7【PoorSpace】已将" + SpaceOpen.world(world) + "的\",\"extra\":[{\"text\":\"§n这些空间\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"" + spacesb.toString() + "\"}},{\"text\":\"§7中的权限组1玩家列表设为空。\"}]}");
+														PacketPlayOutChat packet = new PacketPlayOutChat(comp);
+														((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+													} else {
+														IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"§7【PoorSpace】已将" + SpaceOpen.world(world) + "的\",\"extra\":[{\"text\":\"§n这些空间\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"" + spacesb.toString() + "\"}},{\"text\":\"§7中的权限组1玩家列表设为：\\n§7" + msg + "\"}]}");
+														PacketPlayOutChat packet = new PacketPlayOutChat(comp);
+														((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+													}
+													break;
+												case "2":
+													for (int i = 0; i < list.size(); i++) {
+														if (i != 0)
+															spacesb.append(", ");
+														Space space = list.get(i);
+														space.setGroup(2, group);
+														spacesb.append(space.id());
+													}
+													if (msg.equals("")) {
+														IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"§7【PoorSpace】已将" + SpaceOpen.world(world) + "的\",\"extra\":[{\"text\":\"§n这些空间\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"" + spacesb.toString() + "\"}},{\"text\":\"§7中的权限组2玩家列表设为空。\"}]}");
+														PacketPlayOutChat packet = new PacketPlayOutChat(comp);
+														((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+													} else {
+														IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"§7【PoorSpace】已将" + SpaceOpen.world(world) + "的\",\"extra\":[{\"text\":\"§n这些空间\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"" + spacesb.toString() + "\"}},{\"text\":\"§7中的权限组2玩家列表设为：\\n§7" + msg + "\"}]}");
+														PacketPlayOutChat packet = new PacketPlayOutChat(comp);
+														((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+													}
+													break;
+												case "3":
+													for (int i = 0; i < list.size(); i++) {
+														if (i != 0)
+															spacesb.append(", ");
+														Space space = list.get(i);
+														space.setGroup(3, group);
+														spacesb.append(space.id());
+													}
+													if (msg.equals("")) {
+														IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"§7【PoorSpace】已将" + SpaceOpen.world(world) + "的\",\"extra\":[{\"text\":\"§n这些空间\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"" + spacesb.toString() + "\"}},{\"text\":\"§7中的权限组3玩家列表设为空。\"}]}");
+														PacketPlayOutChat packet = new PacketPlayOutChat(comp);
+														((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+													} else {
+														IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"§7【PoorSpace】已将" + SpaceOpen.world(world) + "的\",\"extra\":[{\"text\":\"§n这些空间\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"" + spacesb.toString() + "\"}},{\"text\":\"§7中的权限组3玩家列表设为：\\n§7" + msg + "\"}]}");
+														PacketPlayOutChat packet = new PacketPlayOutChat(comp);
+														((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+													}
+													break;
+												default:
+													player.sendMessage("§7【PoorSpace】权限组编号不存在！");
+											}
+										}
+									} else
+										player.sendMessage("§7【PoorSpace】该世界不存在！");
+								}
+
+							}.start();
+						}
+						else if (args.length != 5) {
+							if (args[1].equals("add")) {
+
+								new Thread() {
+
+									@Override
+									public void run() {
+										int world;
+										if ((world = Space.getWorldid(args[2])) != -1) {
+											List<Space> list = getSpaceList(player, args[3], world);
+											if (list == null) {
+												int groupnum = 0;
+												switch(args[4]) {
+													case "3":
+														groupnum++;
+													case "2":
+														groupnum++;
+													case "1":
+														groupnum++;
+
+														int previous;
+														File file = new File(PoorSpace.plugin.getDataFolder(), "players/" + player.getName() + "/Default_" + Space.getWorldName(world) + ".yml");
+														FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+														if (!file.exists()) {
+															List<String> empty = new ArrayList<>();
+															config.set("group1", empty);
+															config.set("group2", empty);
+															config.set("group3", empty);
+															config.set("permission1", "11111111");
+															config.set("permission2", "11111111");
+															config.set("permission3", "11111111");
+															config.set("permission4", "1100100010");
+															previous = 0;
+														}
+														else {
+															previous = config.getStringList("group"+groupnum).size();
+														}
+
+														if (args.length + previous <= 15) {
+															List<String> group = config.getStringList("group"+groupnum);
+															StringBuilder sb = new StringBuilder("");
+															for (int i = 5; i < args.length; i++) {
+																group.add(args[i]);
+																if (i != 5)
+																	sb.append("\n");
+																sb.append("§7 - " + args[i]);
+															}
+															String msg = sb.toString();
+
+															config.set("group"+groupnum, group);
+															player.sendMessage("§7【PoorSpace】已将以下玩家/群组添加至"+SpaceOpen.world(world)+"的默认空间设置的权限组"+groupnum+"中：\n" + msg);
+															try {
+																config.save(file);
+															} catch (IOException e) {
+																e.printStackTrace();
+															}
+														}
+														else
+															player.sendMessage("§7【PoorSpace】操作失败：一个权限组最多设置10个玩家/群组！");
+
+														break;
+													default:
+														player.sendMessage("§7【PoorSpace】权限组编号不存在！");
+
+												}
+											} else if (list.isEmpty()) {
+												player.sendMessage("§7【PoorSpace】空间选择器未找到任何已拥有的空间（原因可能为空间选择器不合法）！");
+											} else {
+												int groupnum = 0;
+												switch (args[4]) {
+													case "3":
+														groupnum++;
+													case "2":
+														groupnum++;
+													case "1":
+														groupnum++;
+
+														List<String> group = new ArrayList<>();
+														StringBuilder sb = new StringBuilder();
+														for (int i = 5; i < args.length; i++) {
+															group.add(args[i]);
+															if (i != 5)
+																sb.append("\n");
+															sb.append("§7 - " + args[i]);
+														}
+														String msg = sb.toString();
+
+														StringBuilder space_success = new StringBuilder("§7");
+														StringBuilder space_fail = new StringBuilder("§7");
+														boolean i = true, j = true;
+
+														for (Space space : list) {
+															int result = space.addGroup(groupnum, group);
+															if (result == 1) {
+																if (!i)
+																	space_success.append(", ");
+																else
+																	i = false;
+																space_success.append(space.id());
+															}
+															else if (result == 2){
+																if (!j)
+																	space_fail.append(", ");
+																else
+																	j = false;
+																space_fail.append(space.id());
+															}
+														}
+
+														if (!i) {
+															IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"§7【PoorSpace】已将以下玩家/群组添加至" + SpaceOpen.world(world) + "的\",\"extra\":[{\"text\":\"§n这些空间\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"" + space_success.toString() + "\"}},{\"text\":\"§7的权限组" + groupnum + "中：\\n§7" + msg + "\"}]}");
+															PacketPlayOutChat packet = new PacketPlayOutChat(comp);
+															((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+														}
+														if (!j) {
+															IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"§7【PoorSpace】" + SpaceOpen.world(world) + "的\",\"extra\":[{\"text\":\"\n§7§n这些空间\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"" + space_fail.toString() + "\"}},{\"text\":\"§7因添加后玩家/群组数即将超过10个，添加失败。\"}]}");
+															PacketPlayOutChat packet = new PacketPlayOutChat(comp);
+															((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+														}
+
+													default:
+														player.sendMessage("§7【PoorSpace】权限组编号不存在！");
+												}
+											}
+										} else
+											player.sendMessage("§7【PoorSpace】该世界不存在！");
+									}
+
+								}.start();
+
+							}
+
+							else if (args[1].equals("remove")) {
+
+								new Thread() {
+
+									@Override
+									public void run() {
+										int world;
+										if ((world = Space.getWorldid(args[2])) != -1) {
+											List<Space> list = getSpaceList(player, args[3], world);
+											if (list == null) {
+												int groupnum = 0;
+												switch(args[4]) {
+													case "3":
+														groupnum++;
+													case "2":
+														groupnum++;
+													case "1":
+														groupnum++;
+
+														File file = new File(PoorSpace.plugin.getDataFolder(), "players/" + player.getName() + "/Default_" + Space.getWorldName(world) + ".yml");
+														FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+														if (!file.exists()) {
+															List<String> empty = new ArrayList<>();
+															config.set("group1", empty);
+															config.set("group2", empty);
+															config.set("group3", empty);
+															config.set("permission1", "11111111");
+															config.set("permission2", "11111111");
+															config.set("permission3", "11111111");
+															config.set("permission4", "1100100010");
+														}
+
+														List<String> group = config.getStringList("group"+groupnum);
+														StringBuilder sb = new StringBuilder("");
+														for (int i = 5; i < args.length; i++) {
+															group.remove(args[i]);
+															if (i != 5)
+																sb.append("\n");
+															sb.append("§7 - " + args[i]);
+														}
+														String msg = sb.toString();
+
+														config.set("group"+groupnum, group);
+														player.sendMessage("§7【PoorSpace】已将以下玩家/群组从"+SpaceOpen.world(world)+"的默认空间设置的权限组"+groupnum+"中移除：\n" + msg);
+														try {
+															config.save(file);
+														} catch (IOException e) {
+															e.printStackTrace();
+														}
+
+														break;
+													default:
+														player.sendMessage("§7【PoorSpace】权限组编号不存在！");
+
+												}
+											} else if (list.isEmpty()) {
+												player.sendMessage("§7【PoorSpace】空间选择器未找到任何已拥有的空间（原因可能为空间选择器不合法）！");
+											} else {
+												int groupnum = 0;
+												switch (args[4]) {
+													case "3":
+														groupnum++;
+													case "2":
+														groupnum++;
+													case "1":
+														groupnum++;
+
+														List<String> group = new ArrayList<>();
+														StringBuilder sb = new StringBuilder();
+														for (int i = 5; i < args.length; i++) {
+															group.add(args[i]);
+															if (i != 5)
+																sb.append("\n");
+															sb.append("§7 - " + args[i]);
+														}
+														String msg = sb.toString();
+
+														StringBuilder space_success = new StringBuilder("§7");
+														boolean i = true;
+
+														for (Space space : list) {
+															space.removeGroup(groupnum, group);
+															if (!i)
+																space_success.append(", ");
+															else
+																i = false;
+															space_success.append(space.id());
+														}
+
+														IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"§7【PoorSpace】已将以下玩家/群组从" + SpaceOpen.world(world) + "的\",\"extra\":[{\"text\":\"§n这些空间\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"" + space_success.toString() + "\"}},{\"text\":\"§7的权限组" + groupnum + "中移除：\\n§7" + msg + "\"}]}");
+														PacketPlayOutChat packet = new PacketPlayOutChat(comp);
+														((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+
+													default:
+														player.sendMessage("§7【PoorSpace】权限组编号不存在！");
+												}
+											}
+										} else
+											player.sendMessage("§7【PoorSpace】该世界不存在！");
+									}
+
+								}.start();
+
+							}
+						}
+					}
+					
 				}
 				else if (args[0].equals("group")) {
-					
-					if (args.length >= 5 && args.length <= 10 && args[1].equals("set")) {
-						
-						new Thread() {
-							
-							@Override
-							public void run() {
-								int world;
-								if ((world = Space.getWorldid(args[2])) != -1) {
-									List<Space> list = getSpaceList(player, args[3], world);
-									if (list == null) {
-										File file = new File(PoorSpace.plugin.getDataFolder(), "players/"+player.getName()+"/Default_"+Space.getWorldName(world)+".yml");
-										FileConfiguration config = YamlConfiguration.loadConfiguration(file);
-										if (!file.exists()) {
-											List<String> empty = new ArrayList<String>();
-											config.set("group1", empty);
-											config.set("group2", empty);
-											config.set("group3", empty);
-											config.set("permission1", "11111111");
-											config.set("permission2", "11111111");
-											config.set("permission3", "11111111");
-											config.set("permission4", "1100100010");
-										}
-										List<String> group = new ArrayList<String>();
-										StringBuilder sb = new StringBuilder("");
-										for (int i = 5; i < args.length; i++) {
-											group.add(args[i]);
-											if (i != 5)
-												sb.append("\n");
-											sb.append(" - "+args[i]);
-										}
-										String msg = sb.toString();
-										
-										switch(args[4]) {
-										case "1":
-											config.set("group1", group);
-											if (msg.equals(""))
-												player.sendMessage("§7【PoorSpace】已将"+SpaceOpen.world(world)+"的默认空间设置中的权限组1玩家列表设为空。");
-											else
-												player.sendMessage("§7【PoorSpace】已将"+SpaceOpen.world(world)+"的默认空间设置中的权限组1玩家列表设为：\n"+msg);
-											break;
-										case "2":
-											config.set("group2", group);
-											if (msg.equals(""))
-												player.sendMessage("§7【PoorSpace】已将"+SpaceOpen.world(world)+"的默认空间设置中的权限组2玩家列表设为空。");
-											else
-												player.sendMessage("§7【PoorSpace】已将"+SpaceOpen.world(world)+"的默认空间设置中的权限组2玩家列表设为：\n"+msg);
-											break;
-										case "3":
-											config.set("group3", group);
-											if (msg.equals(""))
-												player.sendMessage("§7【PoorSpace】已将"+SpaceOpen.world(world)+"的默认空间设置中的权限组31玩家列表设为空。");
-											else
-												player.sendMessage("§7【PoorSpace】已将"+SpaceOpen.world(world)+"的默认空间设置中的权限组3玩家列表设为：\n"+msg);
-											break;
-										default:
-											player.sendMessage("§7【PoorSpace】权限组编号不合法！");
-										}
-										try {
-											config.save(file);
-										} catch (IOException e) {
-											e.printStackTrace();
-										}
-									}
-									else if (list.isEmpty()) {
-										player.sendMessage("§7【PoorSpace】空间选择器未找到任何已拥有的空间（原因可能为空间选择器不合法）！");
-									}
-									else {
-										List<String> group = new ArrayList<String>();
-										StringBuilder sb = new StringBuilder();
-										for (int i = 5; i < args.length; i++) {
-											group.add(args[i]);
-											if (i != 5)
-												sb.append("\n");
-											sb.append(" - "+args[i]);
-										}
-										String msg = sb.toString();
-										
-										StringBuilder spacesb = new StringBuilder("§7");
-										
-										switch(args[4]) {
-										case "1":
-											for (int i = 0; i < list.size(); i++) {
-												if (i != 0)
-													spacesb.append(", ");
-												Space space = list.get(i);
-												space.setGroup(1, group);
-												spacesb.append(space.id());
-											}
-											if (msg.equals("")) {
-												IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"§7【PoorSpace】已将"+SpaceOpen.world(world)+"的\",\"extra\":[{\"text\":\"§n这些空间\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\""+spacesb.toString()+"\"}},{\"text\":\"§7中的权限组1玩家列表设为空。\"}]}");
-									        	PacketPlayOutChat packet = new PacketPlayOutChat(comp);
-									        	((CraftPlayer)player).getHandle().playerConnection.sendPacket(packet);
-											}
-											else {
-												IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"§7【PoorSpace】已将"+SpaceOpen.world(world)+"的\",\"extra\":[{\"text\":\"§n这些空间\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\""+spacesb.toString()+"\"}},{\"text\":\"§7中的权限组1玩家列表设为：\\n§7"+msg+"\"}]}");
-									        	PacketPlayOutChat packet = new PacketPlayOutChat(comp);
-									        	((CraftPlayer)player).getHandle().playerConnection.sendPacket(packet);
-											}
-											break;
-										case "2":
-											for (int i = 0; i < list.size(); i++) {
-												if (i != 0)
-													spacesb.append(", ");
-												Space space = list.get(i);
-												space.setGroup(2, group);
-												spacesb.append(space.id());
-											}
-											if (msg.equals("")) {
-												IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"§7【PoorSpace】已将"+SpaceOpen.world(world)+"的\",\"extra\":[{\"text\":\"§n这些空间\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\""+spacesb.toString()+"\"}},{\"text\":\"§7中的权限组2玩家列表设为空。\"}]}");
-									        	PacketPlayOutChat packet = new PacketPlayOutChat(comp);
-									        	((CraftPlayer)player).getHandle().playerConnection.sendPacket(packet);
-											}
-											else {
-												IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"§7【PoorSpace】已将"+SpaceOpen.world(world)+"的\",\"extra\":[{\"text\":\"§n这些空间\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\""+spacesb.toString()+"\"}},{\"text\":\"§7中的权限组2玩家列表设为：\\n§7"+msg+"\"}]}");
-									        	PacketPlayOutChat packet = new PacketPlayOutChat(comp);
-									        	((CraftPlayer)player).getHandle().playerConnection.sendPacket(packet);
-											}
-											break;
-										case "3":
-											for (int i = 0; i < list.size(); i++) {
-												if (i != 0)
-													spacesb.append(", ");
-												Space space = list.get(i);
-												space.setGroup(3, group);
-												spacesb.append(space.id());
-											}
-											if (msg.equals("")) {
-												IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"§7【PoorSpace】已将"+SpaceOpen.world(world)+"的\",\"extra\":[{\"text\":\"§n这些空间\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\""+spacesb.toString()+"\"}},{\"text\":\"§7中的权限组3玩家列表设为空。\"}]}");
-									        	PacketPlayOutChat packet = new PacketPlayOutChat(comp);
-									        	((CraftPlayer)player).getHandle().playerConnection.sendPacket(packet);
-											}
-											else {
-												IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"§7【PoorSpace】已将"+SpaceOpen.world(world)+"的\",\"extra\":[{\"text\":\"§n这些空间\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\""+spacesb.toString()+"\"}},{\"text\":\"§7中的权限组3玩家列表设为：\\n§7"+msg+"\"}]}");
-									        	PacketPlayOutChat packet = new PacketPlayOutChat(comp);
-									        	((CraftPlayer)player).getHandle().playerConnection.sendPacket(packet);
-											}
-											break;
-										default:
-											player.sendMessage("§7【PoorSpace】权限组编号不存在！");
-										}
-									}
+
+					if (args.length == 1) {
+						SpaceOpen.openGroups(player);
+					}
+
+					else if (args[1].equals("search")) {
+						if (args.length == 2)
+							SpaceOpen.searchGroups(player);
+						else if (args.length == 3)
+							SpaceOpen.searchGroups(player, args[2]);
+					}
+
+					else if (args[1].equals("add")) {
+						if (args.length >= 4 && args.length <= 13) {
+
+							SpaceGroup group = new SpaceGroup(args[2]);
+							if (group.exists()) {
+
+								SpaceGroup.GroupRole role = group.getRole(player.getName());
+								if (role.equals(SpaceGroup.GroupRole.OWNER) || role.equals(SpaceGroup.GroupRole.OP)) {
+									Set<String> members = new HashSet<>();
+									for (int i = 3; i < args.length; i++)
+										members.add(args[i]);
+									group.addMembers(members);
+									player.sendMessage("§7【PoorSpace】成功添加相关玩家！");
 								}
 								else
-									player.sendMessage("§7【PoorSpace】该世界不存在！");
+									player.sendMessage("§7【PoorSpace】你没有权限为该群组添加玩家！");
+
 							}
-							
-						}.start();
+							else
+								player.sendMessage("§7【PoorSpace】未找到名为“"+args[2]+"”的群组。");
+
+						}
 					}
-					
-				}
-				else if (args.length == 6 && args[0].equals("permission")) {
-					
-					if (args[1].equals("set")) {
-						
-						new Thread() {
-							@Override
-							public void run() {
-								int world;
-								if ((world = Space.getWorldid(args[2])) != -1) {
-									List<Space> list = getSpaceList(player, args[3], world);
-									if (list == null) {
-										
-										File file = new File(PoorSpace.plugin.getDataFolder(), "players/"+player.getName()+"/Default_"+Space.getWorldName(world)+".yml");
-										FileConfiguration config = YamlConfiguration.loadConfiguration(file);
-										if (!file.exists()) {
-											List<String> empty = new ArrayList<String>();
-											config.set("group1", empty);
-											config.set("group2", empty);
-											config.set("group3", empty);
-											config.set("permission1", "11111111");
-											config.set("permission2", "11111111");
-											config.set("permission3", "11111111");
-											config.set("permission4", "1100111110");
-										}
-										
-										switch(args[4]) {
-										case "1":
-											if (args[5].length() == 8 && isPermissionLegal(args[5])) {
-												config.set("permission1", args[5]);
-												player.sendMessage("§7【PoorSpace】已将"+SpaceOpen.world(world)+"的默认空间设置中的权限组1权限设置为："+args[5]);
-											}
-											else
-												player.sendMessage("§7【PoorSpace】权限设置不合法！");
-											break;
-										case "2":
-											if (args[5].length() == 8 && isPermissionLegal(args[5])) {
-												config.set("permission2", args[5]);
-												player.sendMessage("§7【PoorSpace】已将"+SpaceOpen.world(world)+"的默认空间设置中的权限组2权限设置为："+args[5]);
-											}
-											else
-												player.sendMessage("§7【PoorSpace】权限设置不合法！");
-											break;
-										case "3":
-											if (args[5].length() == 8 && isPermissionLegal(args[5])) {
-												config.set("permission3", args[5]);
-												player.sendMessage("§7【PoorSpace】已将"+SpaceOpen.world(world)+"的默认空间设置中的权限组3权限设置为："+args[5]);
-											}
-											else
-												player.sendMessage("§7【PoorSpace】权限设置不合法！");
-											break;
-										case "4":
-											if (args[5].length() == 10 && isPermissionLegal(args[5])) {
-												config.set("permission4", args[5]);
-												player.sendMessage("§7【PoorSpace】已将"+SpaceOpen.world(world)+"的默认空间设置中的权限组4权限设置为："+args[5]);
-											}
-											else
-												player.sendMessage("§7【PoorSpace】权限设置不合法！");
-											break;
-										default:
-											player.sendMessage("§7【PoorSpace】权限组编号不存在！");
-										}
-										
-										try {
-											config.save(file);
-										} catch (IOException e) {
-											e.printStackTrace();
-										}
-										
-									}
-									else if (list.isEmpty()) {
-										player.sendMessage("§7【PoorSpace】空间选择器未找到任何已拥有的空间（原因可能为空间选择器不合法）！");
-									}
-									else {
-										StringBuilder spacesb = new StringBuilder("§7");
-										switch(args[4]) {
-										case "1":
-											if (args[5].length() == 8 && isPermissionLegal(args[5])) {
-												for (int i = 0; i < list.size(); i++) {
-													if (i != 0)
-														spacesb.append(", ");
-													Space space = list.get(i);
-													space.setPermission(1, args[5].toCharArray());
-													spacesb.append(space.id());
-												}
-												IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"§7【PoorSpace】已将"+SpaceOpen.world(world)+"的\",\"extra\":[{\"text\":\"§n这些空间\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\""+spacesb.toString()+"\"}},{\"text\":\"§7中的权限组1权限设置为："+args[5]+"\"}]}");
-									        	PacketPlayOutChat packet = new PacketPlayOutChat(comp);
-									        	((CraftPlayer)player).getHandle().playerConnection.sendPacket(packet);
-											}
-											else
-												player.sendMessage("§7【PoorSpace】权限设置不合法！");
-											break;
-										case "2":
-											if (args[5].length() == 8 && isPermissionLegal(args[5])) {
-												for (int i = 0; i < list.size(); i++) {
-													if (i != 0)
-														spacesb.append(", ");
-													Space space = list.get(i);
-													space.setPermission(2, args[5].toCharArray());
-													spacesb.append(space.id());
-												}
-												IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"§7【PoorSpace】已将"+SpaceOpen.world(world)+"的\",\"extra\":[{\"text\":\"§n这些空间\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\""+spacesb.toString()+"\"}},{\"text\":\"§7中的权限组2权限设置为："+args[5]+"\"}]}");
-									        	PacketPlayOutChat packet = new PacketPlayOutChat(comp);
-									        	((CraftPlayer)player).getHandle().playerConnection.sendPacket(packet);
-											}
-											else
-												player.sendMessage("§7【PoorSpace】权限设置不合法！");
-											break;
-										case "3":
-											if (args[5].length() == 8 && isPermissionLegal(args[5])) {
-												for (int i = 0; i < list.size(); i++) {
-													if (i != 0)
-														spacesb.append(", ");
-													Space space = list.get(i);
-													space.setPermission(3, args[5].toCharArray());
-													spacesb.append(space.id());
-												}
-												IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"§7【PoorSpace】已将"+SpaceOpen.world(world)+"的\",\"extra\":[{\"text\":\"§n这些空间\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\""+spacesb.toString()+"\"}},{\"text\":\"§7中的权限组3权限设置为："+args[5]+"\"}]}");
-									        	PacketPlayOutChat packet = new PacketPlayOutChat(comp);
-									        	((CraftPlayer)player).getHandle().playerConnection.sendPacket(packet);
-											}
-											else
-												player.sendMessage("§7【PoorSpace】权限设置不合法！");
-											break;
-										case "4":
-											if (args[5].length() == 10 && isPermissionLegal(args[5])) {
-												for (int i = 0; i < list.size(); i++) {
-													if (i != 0)
-														spacesb.append(", ");
-													Space space = list.get(i);
-													space.setPermission(4, args[5].toCharArray());
-													spacesb.append(space.id());
-												}
-												IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"§7【PoorSpace】已将"+SpaceOpen.world(world)+"的\",\"extra\":[{\"text\":\"§n这些空间\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\""+spacesb.toString()+"\"}},{\"text\":\"§7中的权限组4权限设置为："+args[5]+"\"}]}");
-									        	PacketPlayOutChat packet = new PacketPlayOutChat(comp);
-									        	((CraftPlayer)player).getHandle().playerConnection.sendPacket(packet);
-											}
-											else
-												player.sendMessage("§7【PoorSpace】权限设置不合法！");
-											break;
-										default:
-											player.sendMessage("§7【PoorSpace】权限组编号不存在！");
-										}
-									}
+
+					else if (args[1].equals("remove")) {
+						if (args.length >= 4 && args.length <= 13) {
+
+							SpaceGroup group = new SpaceGroup(args[2]);
+							if (group.exists()) {
+
+								SpaceGroup.GroupRole role = group.getRole(player.getName());
+								if (role.equals(SpaceGroup.GroupRole.OP)) {
+									Set<String> members = new HashSet<>();
+									for (int i = 3; i < args.length; i++)
+										members.add(args[i]);
+									group.removeMembers(members);
+									player.sendMessage("§7【PoorSpace】成功移除相关玩家！");
+								}
+								else if (role.equals(SpaceGroup.GroupRole.OWNER)) {
+									Set<String> members = new HashSet<>();
+									for (int i = 3; i < args.length; i++)
+										members.add(args[i]);
+									group.removeAll(members);
+									player.sendMessage("§7【PoorSpace】成功移除相关玩家！");
 								}
 								else
-									player.sendMessage("§7【PoorSpace】该世界不存在！");
+									player.sendMessage("§7【PoorSpace】你没有权限移除该权限组的玩家！");
+
 							}
-						}.start();
-						
+							else
+								player.sendMessage("§7【PoorSpace】未找到名为“"+args[2]+"”的群组。");
+
+						}
+					}
+
+					else if (args[1].equals("create")) {
+						if (args.length == 3) {
+
+							Pattern pattern = Pattern.compile("[\\s\\\\/:\\*\\?\\\"<>\\|]");
+							Matcher matcher = pattern.matcher(args[2]);
+							if (matcher.find()) {
+								player.sendMessage("§7【PoorSpace】群组名称中不能包括空白字符及\"\\/:*?\"<>|\"！");
+							}
+							else {
+								SpaceGroup group = new SpaceGroup(args[2]);
+								if (group.exists())
+									player.sendMessage("§7【PoorSpace】名为" + args[2] + "的群组已经存在！");
+								else
+									SpaceOpen.createGroup(player, args[2]);
+							}
+
+						}
+					}
+
+				}
+				else if (args[0].equals("permission")) {
+
+					if (args.length == 6) {
+						if (args[1].equals("set")) {
+
+							new Thread() {
+								@Override
+								public void run() {
+									int world;
+									if ((world = Space.getWorldid(args[2])) != -1) {
+										List<Space> list = getSpaceList(player, args[3], world);
+										if (list == null) {
+
+											File file = new File(PoorSpace.plugin.getDataFolder(), "players/" + player.getName() + "/Default_" + Space.getWorldName(world) + ".yml");
+											FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+											if (!file.exists()) {
+												List<String> empty = new ArrayList<String>();
+												config.set("group1", empty);
+												config.set("group2", empty);
+												config.set("group3", empty);
+												config.set("permission1", "11111111");
+												config.set("permission2", "11111111");
+												config.set("permission3", "11111111");
+												config.set("permission4", "1100111110");
+											}
+
+											switch (args[4]) {
+												case "1":
+													if (args[5].length() == 8 && isPermissionLegal(args[5])) {
+														config.set("permission1", args[5]);
+														player.sendMessage("§7【PoorSpace】已将" + SpaceOpen.world(world) + "的默认空间设置中的权限组1权限设置为：" + args[5]);
+													} else
+														player.sendMessage("§7【PoorSpace】权限设置不合法！");
+													break;
+												case "2":
+													if (args[5].length() == 8 && isPermissionLegal(args[5])) {
+														config.set("permission2", args[5]);
+														player.sendMessage("§7【PoorSpace】已将" + SpaceOpen.world(world) + "的默认空间设置中的权限组2权限设置为：" + args[5]);
+													} else
+														player.sendMessage("§7【PoorSpace】权限设置不合法！");
+													break;
+												case "3":
+													if (args[5].length() == 8 && isPermissionLegal(args[5])) {
+														config.set("permission3", args[5]);
+														player.sendMessage("§7【PoorSpace】已将" + SpaceOpen.world(world) + "的默认空间设置中的权限组3权限设置为：" + args[5]);
+													} else
+														player.sendMessage("§7【PoorSpace】权限设置不合法！");
+													break;
+												case "4":
+													if (args[5].length() == 10 && isPermissionLegal(args[5])) {
+														config.set("permission4", args[5]);
+														player.sendMessage("§7【PoorSpace】已将" + SpaceOpen.world(world) + "的默认空间设置中的权限组4权限设置为：" + args[5]);
+													} else
+														player.sendMessage("§7【PoorSpace】权限设置不合法！");
+													break;
+												default:
+													player.sendMessage("§7【PoorSpace】权限组编号不存在！");
+											}
+
+											try {
+												config.save(file);
+											} catch (IOException e) {
+												e.printStackTrace();
+											}
+
+										} else if (list.isEmpty()) {
+											player.sendMessage("§7【PoorSpace】空间选择器未找到任何已拥有的空间（原因可能为空间选择器不合法）！");
+										} else {
+											StringBuilder spacesb = new StringBuilder("§7");
+											switch (args[4]) {
+												case "1":
+													if (args[5].length() == 8 && isPermissionLegal(args[5])) {
+														for (int i = 0; i < list.size(); i++) {
+															if (i != 0)
+																spacesb.append(", ");
+															Space space = list.get(i);
+															space.setPermission(1, args[5].toCharArray());
+															spacesb.append(space.id());
+														}
+														IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"§7【PoorSpace】已将" + SpaceOpen.world(world) + "的\",\"extra\":[{\"text\":\"§n这些空间\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"" + spacesb.toString() + "\"}},{\"text\":\"§7中的权限组1权限设置为：" + args[5] + "\"}]}");
+														PacketPlayOutChat packet = new PacketPlayOutChat(comp);
+														((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+													} else
+														player.sendMessage("§7【PoorSpace】权限设置不合法！");
+													break;
+												case "2":
+													if (args[5].length() == 8 && isPermissionLegal(args[5])) {
+														for (int i = 0; i < list.size(); i++) {
+															if (i != 0)
+																spacesb.append(", ");
+															Space space = list.get(i);
+															space.setPermission(2, args[5].toCharArray());
+															spacesb.append(space.id());
+														}
+														IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"§7【PoorSpace】已将" + SpaceOpen.world(world) + "的\",\"extra\":[{\"text\":\"§n这些空间\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"" + spacesb.toString() + "\"}},{\"text\":\"§7中的权限组2权限设置为：" + args[5] + "\"}]}");
+														PacketPlayOutChat packet = new PacketPlayOutChat(comp);
+														((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+													} else
+														player.sendMessage("§7【PoorSpace】权限设置不合法！");
+													break;
+												case "3":
+													if (args[5].length() == 8 && isPermissionLegal(args[5])) {
+														for (int i = 0; i < list.size(); i++) {
+															if (i != 0)
+																spacesb.append(", ");
+															Space space = list.get(i);
+															space.setPermission(3, args[5].toCharArray());
+															spacesb.append(space.id());
+														}
+														IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"§7【PoorSpace】已将" + SpaceOpen.world(world) + "的\",\"extra\":[{\"text\":\"§n这些空间\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"" + spacesb.toString() + "\"}},{\"text\":\"§7中的权限组3权限设置为：" + args[5] + "\"}]}");
+														PacketPlayOutChat packet = new PacketPlayOutChat(comp);
+														((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+													} else
+														player.sendMessage("§7【PoorSpace】权限设置不合法！");
+													break;
+												case "4":
+													if (args[5].length() == 10 && isPermissionLegal(args[5])) {
+														for (int i = 0; i < list.size(); i++) {
+															if (i != 0)
+																spacesb.append(", ");
+															Space space = list.get(i);
+															space.setPermission(4, args[5].toCharArray());
+															spacesb.append(space.id());
+														}
+														IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"§7【PoorSpace】已将" + SpaceOpen.world(world) + "的\",\"extra\":[{\"text\":\"§n这些空间\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"" + spacesb.toString() + "\"}},{\"text\":\"§7中的权限组4权限设置为：" + args[5] + "\"}]}");
+														PacketPlayOutChat packet = new PacketPlayOutChat(comp);
+														((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+													} else
+														player.sendMessage("§7【PoorSpace】权限设置不合法！");
+													break;
+												default:
+													player.sendMessage("§7【PoorSpace】权限组编号不存在！");
+											}
+										}
+									} else
+										player.sendMessage("§7【PoorSpace】该世界不存在！");
+								}
+							}.start();
+
+						}
 					}
 					
 				}
-				else if (args.length == 1 && args[0].equals("on")) {
-					File pFile = new File(PoorSpace.plugin.getDataFolder(), "players/"+player.getName()+"/settings.yml");
-					FileConfiguration config = YamlConfiguration.loadConfiguration(pFile);
-					config.set("spaceinfo", true);
-					try {
-						config.save(pFile);
-					} catch (IOException e) {
-						e.printStackTrace();
+				else if (args[0].equals("on")) {
+
+					if (args.length == 1) {
+						File pFile = new File(PoorSpace.plugin.getDataFolder(), "players/" + player.getName() + "/settings.yml");
+						FileConfiguration config = YamlConfiguration.loadConfiguration(pFile);
+						config.set("spaceinfo", true);
+						try {
+							config.save(pFile);
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
 					}
+
 				}
-				else if (args.length == 1 && args[0].equals("off")) {
-					File pFile = new File(PoorSpace.plugin.getDataFolder(), "players/"+player.getName()+"/settings.yml");
-					FileConfiguration config = YamlConfiguration.loadConfiguration(pFile);
-					config.set("spaceinfo", false);
-					try {
-						config.save(pFile);
-					} catch (IOException e) {
-						e.printStackTrace();
+				else if (args[0].equals("off")) {
+
+					if (args.length == 1) {
+						File pFile = new File(PoorSpace.plugin.getDataFolder(), "players/" + player.getName() + "/settings.yml");
+						FileConfiguration config = YamlConfiguration.loadConfiguration(pFile);
+						config.set("spaceinfo", false);
+						try {
+							config.save(pFile);
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
 					}
+
 				}
 				else if (args[0].equals("selector")) {
 					if (args.length == 4 && args[1].equals("set")) {
 						
 						SpacePlayer spaceplayer = new SpacePlayer(player.getName());
-						Set<String> set = spaceplayer.getSelectors();
+						Set<String> set = spaceplayer.getSelectorsSet();
 						if (set.size() >= 10 && !set.contains(args[2])) {
 							player.sendMessage("§7【PoorSpace】选择器设置失败：最多能设置十个自定义选择器名称。");
 						}
@@ -411,7 +734,7 @@ public class SpaceExecutor implements CommandExecutor {
 					else if (args.length == 2 && args[1].equals("list")) {
 						
 						SpacePlayer spaceplayer = new SpacePlayer(player.getName());
-						File file = spaceplayer.getFile();
+						File file = spaceplayer.getSettingsFile();
 						FileConfiguration config = YamlConfiguration.loadConfiguration(file);
 						ConfigurationSection section = config.getConfigurationSection("selectors");
 						Set<String> set = section.getKeys(false);

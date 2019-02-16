@@ -486,8 +486,10 @@ public class SpaceListener implements Listener {
 		String spaceid = Space.getSpaceid(loc);
 		int worldid = Space.getWorldid(loc);
 		Space space = new Space(spaceid, worldid);
-		if (Space.isOwned(spaceid, worldid) && space.owner().equals(player))
-			return true;
+		if (Space.isOwned(spaceid, worldid)) {
+			if (space.getOwnerType().equals(SpaceOwner.OwnerType.PLAYER) && player.equals(space.owner()))
+				return true;
+		}
 		int group = checkGroup(space, player);
 		char[] pm = space.permission(group);
 		if (pm[pmid] == '1')
@@ -498,8 +500,15 @@ public class SpaceListener implements Listener {
 	
 	private static int checkGroup(Space space, String player) {
 		for (int i = 1; i < 4; i++) {
-			if (space.group(i).contains(player))
-				return i;
+			for (String s : space.group(i)) {
+				if (s.startsWith(">")) {
+					SpaceGroup group = new SpaceGroup(s.substring(1));
+					if (group.exists() && group.contains(player))
+						return i;
+				}
+				else if (s.equals(player))
+					return i;
+			}
 		}
 		return 4;
 	}

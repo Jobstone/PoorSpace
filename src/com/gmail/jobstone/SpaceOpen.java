@@ -1,9 +1,9 @@
 package com.gmail.jobstone;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
+import net.minecraft.server.v1_13_R2.MojangsonParser;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -14,10 +14,12 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 
 public class SpaceOpen {
 	
 	public static PoorSpace plugin;
+	public static Map<String, List<String>> searchResults = new HashMap<>();
 	
 	public SpaceOpen(PoorSpace plugin) {
 		SpaceOpen.plugin = plugin;
@@ -27,7 +29,7 @@ public class SpaceOpen {
 		
 		Inventory pinv = Bukkit.getServer().createInventory(null, 9, "§1PoorSpace――个人");
 		
-		ArrayList<String> lore = new ArrayList<String>();
+		ArrayList<String> lore = new ArrayList<>();
 		lore.add("§a点击查看您在主世界拥有的空间");
 		pinv.setItem(2, newItem(Material.GRASS_BLOCK, "§a§l主世界", lore));
 		lore.clear();
@@ -75,7 +77,7 @@ public class SpaceOpen {
 	}
 	
 	private static void subOpenWorld(Player player, List<String> list, String w, Material material, int page, int world) {
-		int totalpage = (list.size()/45)+1;
+		int totalpage = (list.size()-1)/45+1;
 		int imax;
 		if (page > totalpage)
 			page = totalpage;
@@ -86,6 +88,8 @@ public class SpaceOpen {
 		if (page < totalpage) {
 			imax = page*45;
 			inv.setItem(53, newItem(Material.ARROW, "§a§l下一页"));
+			if (page > 1)
+				inv.setItem(45, newItem(Material.ARROW, "§a§l上一页"));
 		}
 		else {
 			imax = list.size();
@@ -458,6 +462,184 @@ public class SpaceOpen {
 		inv.setItem(25, newItem(Material.COMPASS, "§a§l方位"));
 		
 		player.openInventory(inv);
+	}
+
+	public static void openGroups(Player player) {
+
+		Inventory inv = Bukkit.getServer().createInventory(null, 9, "§1PoorSpace――个人群组");
+
+		SpacePlayer spacePlayer = new SpacePlayer(player.getName());
+		List<String> groups = spacePlayer.getGroups();
+		int size = groups.size();
+		for (int i = 0; i < size; i++) {
+			inv.setItem(i, (new SpaceGroup(groups.get(i))).toItem());
+		}
+
+		player.openInventory(inv);
+
+	}
+
+	public static void searchGroups(Player player, String s) {
+
+		List<String> groups = new ArrayList<>();
+		for (String group : SpaceGroup.getAllGroups()) {
+			if (group.contains(s))
+				groups.add(group);
+		}
+
+		SpaceOpen.searchResults.put(player.getName(), groups);
+		SpaceOpen.subSearchGroups(player, 1);
+
+	}
+
+	public static void searchGroups(Player player) {
+
+		SpaceOpen.searchResults.put(player.getName(), Arrays.asList(SpaceGroup.getAllGroups()));
+		SpaceOpen.subSearchGroups(player, 1);
+
+	}
+
+	public static void subSearchGroups(Player player, int page) {
+
+		List<String> groups = SpaceOpen.searchResults.get(player.getName());
+		int totalpage = (groups.size()-1)/45+1;
+		int imax;
+		if (page > totalpage)
+			page = totalpage;
+		else if (page < 1)
+			page = 1;
+
+		Inventory inv = Bukkit.getServer().createInventory(null, 54, "§1PoorSpace――搜索群组 第 "+page+"/"+totalpage+" 页");
+		if (page < totalpage) {
+			imax = page*45;
+			inv.setItem(53, newItem(Material.ARROW, "§a§l下一页"));
+			if (page > 1)
+				inv.setItem(45, newItem(Material.ARROW, "§a§l上一页"));
+		}
+		else {
+			imax = groups.size();
+			if (page > 1)
+				inv.setItem(45, newItem(Material.ARROW, "§a§l上一页"));
+		}
+
+		int istart = (page-1)*45+1;
+		for (int i = istart; i <= imax; i++) {
+			inv.setItem(i-istart, (new SpaceGroup(groups.get(i-1))).toItem());
+		}
+
+		player.openInventory(inv);
+
+	}
+
+	public static void openGroup(Player player, String name, int page) {
+
+        SpaceGroup group = new SpaceGroup(name);
+        if (group.exists()) {
+
+            SpaceGroup.GroupRole role = group.getRole(player.getName());
+            List<String> ops = group.getOps();
+            List<String> members = group.getMembers();
+            int totalsize = ops.size()+members.size();
+            int totalpage = (totalsize+35)/36;
+            int imax;
+            if (page > totalpage)
+                page = totalpage;
+            else if (page < 1)
+                page = 1;
+
+            Inventory inv = Bukkit.getServer().createInventory(null, 54, "§1PoorSpace――群组："+name+" 第 "+page+"/"+totalpage+" 页");
+			if (page < totalpage) {
+				imax = page*36;
+				inv.setItem(53, newItem(Material.ARROW, "§a§l下一页"));
+				if (page > 1)
+					inv.setItem(45, newItem(Material.ARROW, "§a§l上一页"));
+			}
+			else {
+				imax = totalsize;
+				if (page > 1)
+					inv.setItem(45, newItem(Material.ARROW, "§a§l上一页"));
+			}
+
+			int istart = (page-1)*36;
+            int opsize = ops.size();
+            ItemStack item = new ItemStack(Material.PLAYER_HEAD);
+            SkullMeta meta = (SkullMeta)item.getItemMeta();
+            ArrayList<String> lore = new ArrayList<>();
+            for (int i = istart; i <= imax; i++) {
+                if (i < opsize) {
+
+                    meta.setDisplayName("§a"+ops.get(i)+"§b[管理员]");
+                    meta.setOwningPlayer(Bukkit.getOfflinePlayer("MHF_Pig"));
+                    if (role.equals(SpaceGroup.GroupRole.OWNER)) {
+                        lore.add("§e点击左键取消其管理，中键设置其为群主，右键将其移出群组");
+                        meta.setLore(lore);
+                        lore.clear();
+                    }
+                    else
+                        meta.setLore(lore);
+                    item.setItemMeta(meta);
+
+                }
+                else {
+
+                    meta.setDisplayName("§a"+members.get(i-opsize));
+                    meta.setOwningPlayer(Bukkit.getOfflinePlayer("MHF_Chicken"));
+                    if (role.equals(SpaceGroup.GroupRole.OWNER) || role.equals(SpaceGroup.GroupRole.OP)) {
+                        lore.add("§e点击左键设置其为管理，右键将其移出群组");
+                        meta.setLore(lore);
+                        lore.clear();
+                    }
+                    else
+                        meta.setLore(lore);
+                    item.setItemMeta(meta);
+
+                }
+				inv.setItem(i + 9, item);
+            }
+            meta.setDisplayName("§e群主："+group.getOwner());
+            meta.setOwningPlayer(Bukkit.getOfflinePlayer("MHF_Slime"));
+            meta.setLore(lore);
+            item.setItemMeta(meta);
+            inv.setItem(1, item);
+
+            inv.setItem(0, group.toItem());
+            inv.setItem(49, newItem(Material.STRUCTURE_VOID, "§a§l返回个人群组界面"));
+            switch (role) {
+				case OWNER:
+					lore.add("§e双击解散群组，无法撤销！");
+					inv.setItem(8, newItem(Material.BARRIER, "§4§l解散群组", lore));
+					break;
+				case OP:
+				case MEMBER:
+					lore.add("§e双击退出群组，无法撤销！");
+					inv.setItem(8, newItem(Material.BARRIER, "§4§l退出群组", lore));
+					break;
+			}
+
+            player.openInventory(inv);
+
+        }
+        else {
+        	player.closeInventory();
+			player.sendMessage("§7【PoorSpace】该群组不存在！");
+		}
+
+	}
+
+	public static void createGroup(Player player, String name) {
+
+		Inventory inv = Bukkit.getServer().createInventory(null, 54, "§1PoorSpace——创建群组"+name+" 选择图标");
+
+		inv.setItem(1, newItem(Material.OAK_DOOR, "§a点击选择图标"));
+		inv.setItem(2, newItem(Material.SPRUCE_DOOR, "§a点击选择图标"));
+		inv.setItem(3, newItem(Material.BIRCH_DOOR, "§a点击选择图标"));
+		inv.setItem(4, newItem(Material.DARK_OAK_DOOR, "§a点击选择图标"));
+		inv.setItem(5, newItem(Material.ACACIA_DOOR, "§a点击选择图标"));
+		inv.setItem(6, newItem(Material.JUNGLE_DOOR, "§a点击选择图标"));
+		inv.setItem(7, newItem(Material.IRON_DOOR, "§a点击选择图标"));
+
+		player.openInventory(inv);
+
 	}
 	
 	private static String spaceY(int m, int world) {

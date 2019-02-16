@@ -27,8 +27,8 @@ public class SpaceTabCompleter implements TabCompleter {
 				if (args.length == 1) {
 					if ("permission".startsWith(args[0].toLowerCase()))
 						list.add("permission");
-					if ("group".startsWith(args[0].toLowerCase()))
-						list.add("group");
+					if ("pmgroup".startsWith(args[0].toLowerCase()))
+						list.add("pmgroup");
 					if ("on".startsWith(args[0].toLowerCase()))
 						list.add("on");
 					if ("off".startsWith(args[0].toLowerCase()))
@@ -37,9 +37,11 @@ public class SpaceTabCompleter implements TabCompleter {
 						list.add("selector");
 					if ("space".startsWith(args[0].toLowerCase()))
 						list.add("space");
+					if ("group".startsWith(args[0].toLowerCase()))
+						list.add("group");
 				}
 				else if (args.length == 2) {
-					if (args[0].equals("permission") || args[0].equals("group"))
+					if (args[0].equals("permission") || args[0].equals("pmgroup"))
 						list.add("set");
 					
 					else if (args[0].equals("selector")) {
@@ -61,9 +63,20 @@ public class SpaceTabCompleter implements TabCompleter {
 						if ("creative".startsWith(args[2].toLowerCase()))
 							list.add("creative");
 					}
+
+					else if (args[0].equals("group")) {
+						if ("search".startsWith(args[2].toLowerCase()))
+							list.add("search");
+						if ("add".startsWith(args[2].toLowerCase()))
+							list.add("add");
+						if ("remove".startsWith(args[2].toLowerCase()))
+							list.add("remove");
+						if ("create".startsWith(args[2].toLowerCase()))
+							list.add("create");
+					}
 				}
 				else if (args.length == 3) {
-					if ((args[0].equals("permission") || args[0].equals("group")) && args[1].equals("set")) {
+					if ((args[0].equals("permission") || args[0].equals("pmgroup")) && args[1].equals("set")) {
 						if ("world".startsWith(args[2].toLowerCase()))
 							list.add("world");
 						if ("world_nether".startsWith(args[2].toLowerCase()))
@@ -77,14 +90,32 @@ public class SpaceTabCompleter implements TabCompleter {
 					else if (args[0].equals("selector") && args[1].equals("remove")) {
 						
 						SpacePlayer spaceplayer = new SpacePlayer(player.getName());
-						for (String selector : spaceplayer.getSelectors())
+						for (String selector : spaceplayer.getSelectorsSet())
 							if (selector.startsWith(args[2].toLowerCase()))
 								list.add(selector);
-						
+
+					}
+
+					else if (args[0].equals("group")) {
+
+						switch (args[1]) {
+							case "add":
+							case "remove":
+								String name = player.getName();
+								List<String> groups = (new SpacePlayer(name)).getGroups();
+								for (String group : groups) {
+									switch ((new SpaceGroup(group)).getRole(name)) {
+										case OP:
+										case OWNER:
+											list.add(group);
+									}
+								}
+						}
+
 					}
 				}
 				else if (args.length == 4) {
-					if ((args[0].equals("permission") || args[0].equals("group")) && args[1].equals("set") && Space.getWorldid(args[2]) != -1) {
+					if ((args[0].equals("permission") || args[0].equals("pmgroup")) && args[1].equals("set") && Space.getWorldid(args[2]) != -1) {
 						if ("now".startsWith(args[3].toLowerCase()))
 							list.add("now");
 						if ("all".startsWith(args[3].toLowerCase()))
@@ -93,13 +124,13 @@ public class SpaceTabCompleter implements TabCompleter {
 							list.add("new");
 						
 						SpacePlayer spaceplayer = new SpacePlayer(player.getName());
-						for (String selector : spaceplayer.getSelectors())
+						for (String selector : spaceplayer.getSelectorsSet())
 							if (selector.startsWith(args[3].toLowerCase()))
 								list.add(selector);
 					}
 				}
 				else if (args.length == 5) {
-					if ((args[0].equals("permission") || args[0].equals("group")) && args[1].equals("set") && Space.getWorldid(args[2]) != -1) {
+					if ((args[0].equals("permission") || args[0].equals("pmgroup")) && args[1].equals("set") && Space.getWorldid(args[2]) != -1) {
 						if ("1".startsWith(args[4]))
 							list.add("1");
 						if ("2".startsWith(args[4]))
@@ -111,7 +142,7 @@ public class SpaceTabCompleter implements TabCompleter {
 					}
 				}
 				else if (args.length >= 6) {
-					if (args[0].equals("group") && args[1].equals("set") && Space.getWorldid(args[2]) != -1) {
+					if (args[0].equals("pmgroup") && args[1].equals("set") && Space.getWorldid(args[2]) != -1) {
 						switch(args[4]) {
 						case "1":
 						case "2":

@@ -75,6 +75,7 @@ public class Space {
 		}
 		else {
 			owner = null;
+			ownerType = null;
 			if (world == 3)
 				permission4[7] = '0';
 		}
@@ -99,6 +100,15 @@ public class Space {
 	public SpaceOwner.OwnerType getOwnerType() {
 		return this.ownerType;
 	}
+
+
+	public SpaceOwner getOwner() {
+		if (this.ownerType.equals(SpaceOwner.OwnerType.PLAYER))
+			return new SpacePlayer(owner);
+		else
+			return null;
+	}
+
 	
 	public List<String> group(int i) {
 		switch(i) {
@@ -150,32 +160,39 @@ public class Space {
 	}
 
 
-	//返回值：0.失败 1.成功 2.已经包括 3.人数已满
-	public int addGroup(int group, String name) {
+	//返回值：0.失败 1.成功 2.人数已满
+	public int addGroup(int group, List<String> names) {
 		FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+		int repeat = 0;
 		switch(group) {
 			case 1:
-				if (group1.contains(name))
+				for (String name : names) {
+					if (group1.contains(name))
+						repeat++;
+				}
+				if (names.size()+group1.size()-repeat > 10)
 					return 2;
-				if (group1.size() >= 9)
-					return 3;
-				group1.add(name);
+				group1.addAll(names);
 				config.set("group1", group1);
 				break;
 			case 2:
-				if (group2.contains(name))
+				for (String name : names) {
+					if (group2.contains(name))
+						repeat++;
+				}
+				if (names.size()+group2.size()-repeat > 10)
 					return 2;
-				if (group2.size() >= 9)
-					return 3;
-				group2.add(name);
+				group2.addAll(names);
 				config.set("group2", group2);
 				break;
 			case 3:
-				if (group3.contains(name))
+				for (String name : names) {
+					if (group3.contains(name))
+						repeat++;
+				}
+				if (names.size()+group3.size()-repeat > 10)
 					return 2;
-				if (group3.size() >= 9)
-					return 3;
-				group3.add(name);
+				group3.addAll(names);
 				config.set("group3", group3);
 				break;
 		}
@@ -189,32 +206,29 @@ public class Space {
 	}
 
 
-	//返回值：0.失败 1.成功 2.不存在
-	public int removeGroup(int group, String name) {
+	//返回值：0.失败 1.成功
+	public boolean removeGroup(int group, List<String> names) {
 		FileConfiguration config = YamlConfiguration.loadConfiguration(file);
 		switch (group) {
 			case 1:
-				if (!group1.remove(name))
-					return 2;
+				group1.removeAll(names);
 				config.set("group1", group1);
 				break;
 			case 2:
-				if (!group2.remove(name))
-					return 2;
+				group2.removeAll(names);
 				config.set("group2", group2);
 				break;
 			case 3:
-				if (!group3.remove(name))
-					return 2;
+				group3.removeAll(names);
 				config.set("group3", group3);
 				break;
 		}
 		try {
 			config.save(file);
-			return 1;
+			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
-			return 0;
+			return false;
 		}
 	}
 
@@ -307,14 +321,8 @@ public class Space {
 			config.set("permission3", String.valueOf(permission3));
 			config.set("permission4", String.valueOf(permission4));
 		}
-		else {
-			SpaceOwner oldSpaceOwner;
-			if (this.ownerType.equals(SpaceOwner.OwnerType.PLAYER))
-				oldSpaceOwner = new SpacePlayer(owner);
-			else
-				oldSpaceOwner = new SpaceGroup(owner);
-			oldSpaceOwner.removeSpace(world, id);
-		}
+		else
+			this.getOwner().removeSpace(world, id);
 
 		File defaultFile = spaceOwner.getDefaultWorldFile(world);
 		if (defaultFile.exists()) {
@@ -345,7 +353,7 @@ public class Space {
 		if (this.ownerType.equals(SpaceOwner.OwnerType.PLAYER))
 			spaceOwner = new SpacePlayer(owner);
 		else
-			spaceOwner = new SpaceGroup(owner);
+			return;
 		spaceOwner.removeSpace(world, id);
 		this.file.delete();
 	}
