@@ -523,11 +523,15 @@ public class SpaceExecutor implements CommandExecutor {
 								player.sendMessage("§7【PoorSpace】群组名称中不能包括空白字符及\"\\/:*?\"<>|\"！");
 							}
 							else {
-								SpaceGroup group = new SpaceGroup(args[2]);
-								if (group.exists())
-									player.sendMessage("§7【PoorSpace】名为" + args[2] + "的群组已经存在！");
+								if (args[2].length() <= 10) {
+									SpaceGroup group = new SpaceGroup(args[2]);
+									if (group.exists())
+										player.sendMessage("§7【PoorSpace】名为" + args[2] + "的群组已经存在！");
+									else
+										SpaceOpen.createGroup(player, args[2]);
+								}
 								else
-									SpaceOpen.createGroup(player, args[2]);
+									player.sendMessage("§7【PoorSpace】群组名称不能超过10个字符！");
 							}
 
 						}
