@@ -54,24 +54,24 @@ public class SpaceTabCompleter implements TabCompleter {
 					}
 					
 					else if (args[0].equals("space")) {
-						if ("world".startsWith(args[2].toLowerCase()))
+						if ("world".startsWith(args[1].toLowerCase()))
 							list.add("world");
-						if ("world_nether".startsWith(args[2].toLowerCase()))
+						if ("world_nether".startsWith(args[1].toLowerCase()))
 							list.add("world_nether");
-						if ("world_the_end".startsWith(args[2].toLowerCase()))
+						if ("world_the_end".startsWith(args[1].toLowerCase()))
 							list.add("world_the_end");
-						if ("creative".startsWith(args[2].toLowerCase()))
+						if ("creative".startsWith(args[1].toLowerCase()))
 							list.add("creative");
 					}
 
 					else if (args[0].equals("group")) {
-						if ("search".startsWith(args[2].toLowerCase()))
+						if ("search".startsWith(args[1].toLowerCase()))
 							list.add("search");
-						if ("add".startsWith(args[2].toLowerCase()))
+						if ("add".startsWith(args[1].toLowerCase()))
 							list.add("add");
-						if ("remove".startsWith(args[2].toLowerCase()))
+						if ("remove".startsWith(args[1].toLowerCase()))
 							list.add("remove");
-						if ("create".startsWith(args[2].toLowerCase()))
+						if ("create".startsWith(args[1].toLowerCase()))
 							list.add("create");
 					}
 				}
