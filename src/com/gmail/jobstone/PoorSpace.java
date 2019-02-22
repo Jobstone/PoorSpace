@@ -107,7 +107,7 @@ public class PoorSpace extends JavaPlugin {
 	}
 
 	private void filesUpdate() {
-		
+		/*
 		File players = new File(PoorSpace.plugin.getDataFolder(), "players");
 		for (File pFile : players.listFiles()) {
 
@@ -173,7 +173,7 @@ public class PoorSpace extends JavaPlugin {
 		}
 
 		(new File(PoorSpace.plugin.getDataFolder(), "groups")).mkdirs();
-		
+		*/
 	}
 
 }
