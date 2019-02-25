@@ -171,7 +171,7 @@ public class SpaceListener implements Listener {
 		Entity entity = e.getEntity();
 		if ((entity instanceof Monster || entity instanceof Slime || entity instanceof Flying || entity instanceof Shulker) && e.getEntity().getCustomName() == null)
 			return;
-		if (entity instanceof Player)
+		if (entity instanceof Projectile || entity instanceof Player)
 			return;
 		Player damager;
 		if (e.getDamager() instanceof Player)
