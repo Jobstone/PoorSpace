@@ -394,7 +394,7 @@ public class SpaceListener implements Listener {
 	private boolean trigger(Block block) {
 		switch(block.getType()) {
 		case CHEST:
-		case ENDER_CHEST:
+		//case ENDER_CHEST:
 		case TRAPPED_CHEST:
 		case WHITE_SHULKER_BOX:
 		case ORANGE_SHULKER_BOX:
@@ -443,7 +443,7 @@ public class SpaceListener implements Listener {
 		case JUNGLE_FENCE_GATE:
 		case DARK_OAK_FENCE_GATE:
 		case ACACIA_FENCE_GATE:
-		case CRAFTING_TABLE:
+		//case CRAFTING_TABLE:
 		case FURNACE:
 		case HOPPER:
 		case BREWING_STAND:
