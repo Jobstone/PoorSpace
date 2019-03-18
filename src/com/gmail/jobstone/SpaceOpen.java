@@ -338,8 +338,8 @@ public class SpaceOpen {
 		lore.add("§7玩家可以破坏方块（不包括火把）");
 		inv.setItem(6, newItem(Material.WOODEN_PICKAXE, "§e§l破坏方块", lore));
 		lore.clear();
-		lore.add("§7玩家可以触发方块，如耕地、压力板等");
-		inv.setItem(8, newItem(Material.OAK_PRESSURE_PLATE, "§e§l触发方块", lore));
+		lore.add("§7玩家可以使用船和矿车，包括放置、破坏和乘坐");
+		inv.setItem(8, newItem(Material.OAK_BOAT, "§e§l交通工具", lore));
 		lore.clear();
 		lore.add("§7玩家可以使用方块，如箱子、按钮等");
 		inv.setItem(18, newItem(Material.CHEST, "§e§l使用方块", lore));

@@ -10,6 +10,7 @@ import org.bukkit.TravelAgent;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_13_R2.entity.CraftPlayer;
 import org.bukkit.entity.*;
+import org.bukkit.entity.minecart.RideableMinecart;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -130,17 +131,6 @@ public class SpaceListener implements Listener {
 	}
 	
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
-	public void interact1(PlayerInteractEvent e) {
-		if (e.getAction().equals(Action.PHYSICAL)) {
-			Player player = e.getPlayer();
-			Location loc = e.getClickedBlock().getLocation();
-			if (!playerpm(player.getName(), loc, 4)) {
-				e.setCancelled(true);
-			}
-		}
-	}
-	
-	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void interact2(PlayerInteractEvent e) {
 		if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
 			if (trigger(e.getClickedBlock()) && (!e.getPlayer().isSneaking() || e.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.AIR))) {
@@ -159,9 +149,17 @@ public class SpaceListener implements Listener {
 		if ((e.getHand().equals(EquipmentSlot.HAND) || e.getHand().equals(EquipmentSlot.OFF_HAND)) && !(e.getRightClicked() instanceof Player)) {
 			Player player = e.getPlayer();
 			Location loc = e.getRightClicked().getLocation();
-			if (!playerpm(player.getName(), loc, 6)) {
-				sendActionBarMessage(player, "您没有使用该空间实体的权限！");
-				e.setCancelled(true);
+			if (e.getRightClicked() instanceof RideableMinecart || e.getRightClicked() instanceof Boat) {
+				if (!playerpm(player.getName(), loc, 4)) {
+					sendActionBarMessage(player, "您没有使用该空间交通工具的权限！");
+					e.setCancelled(true);
+				}
+			}
+			else {
+				if (!playerpm(player.getName(), loc, 6)) {
+					sendActionBarMessage(player, "您没有使用该空间实体的权限！");
+					e.setCancelled(true);
+				}
 			}
 		}
 	}
@@ -228,11 +226,11 @@ public class SpaceListener implements Listener {
 	
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void entity7 (VehicleDamageEvent e) {
-		if (e.getAttacker() instanceof Player && (e.getVehicle() instanceof Minecart || e.getVehicle() instanceof Boat)) {
+		if (e.getAttacker() instanceof Player && (e.getVehicle() instanceof RideableMinecart || e.getVehicle() instanceof Boat)) {
 			Player player = (Player) e.getAttacker();
 			Location loc = e.getVehicle().getLocation();
-			if (!playerpm(player.getName(), loc, 6)) {
-				sendActionBarMessage(player, "您没有破坏该空间实体的权限！");
+			if (!playerpm(player.getName(), loc, 4)) {
+				sendActionBarMessage(player, "您没有破坏该空间交通工具的权限！");
 				e.setCancelled(true);
 			}
 		}
@@ -240,13 +238,25 @@ public class SpaceListener implements Listener {
 	
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void entity8 (PlayerInteractEvent e) {
-		if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK) && e.getItem() != null && (boatCartArmorstand(e.getMaterial()) || spawnEggs(e.getMaterial()))) {
-			Player player = e.getPlayer();
-			Location loc = e.getClickedBlock().getLocation();
-			if (!playerpm(player.getName(), loc, 6)) {
-				sendActionBarMessage(player, "您没有在该空间内放置实体的权限！");
-				e.setCancelled(true);
+		if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK) && e.getItem() != null) {
+
+			if (cartArmorstand(e.getMaterial()) || spawnEggs(e.getMaterial())) {
+				Player player = e.getPlayer();
+				Location loc = e.getClickedBlock().getLocation();
+				if (!playerpm(player.getName(), loc, 6)) {
+					sendActionBarMessage(player, "您没有在该空间内放置实体的权限！");
+					e.setCancelled(true);
+				}
 			}
+			else if (transport(e.getMaterial())) {
+				Player player = e.getPlayer();
+				Location loc = e.getClickedBlock().getLocation();
+				if (!playerpm(player.getName(), loc, 4)) {
+					sendActionBarMessage(player, "您没有在该空间内放置交通工具的权限！");
+					e.setCancelled(true);
+				}
+			}
+
 		}
 	}
 	
@@ -350,24 +360,32 @@ public class SpaceListener implements Listener {
 	}
 	*/
 	
-	private boolean boatCartArmorstand(Material material) {
+	private boolean cartArmorstand(Material material) {
 		switch(material) {
-		case ACACIA_BOAT:
-		case BIRCH_BOAT:
-		case DARK_OAK_BOAT:
-		case JUNGLE_BOAT:
-		case OAK_BOAT:
-		case SPRUCE_BOAT:
-		case CHEST_MINECART:
-		case COMMAND_BLOCK_MINECART:
-		case FURNACE_MINECART:
-		case HOPPER_MINECART:
-		case MINECART:
-		case TNT_MINECART:
-		case ARMOR_STAND:
-			return true;
-		default:
-			return false;
+			case CHEST_MINECART:
+			case COMMAND_BLOCK_MINECART:
+			case FURNACE_MINECART:
+			case HOPPER_MINECART:
+			case TNT_MINECART:
+			case ARMOR_STAND:
+				return true;
+			default:
+				return false;
+		}
+	}
+
+	private boolean transport(Material material) {
+		switch (material) {
+			case ACACIA_BOAT:
+			case BIRCH_BOAT:
+			case DARK_OAK_BOAT:
+			case JUNGLE_BOAT:
+			case OAK_BOAT:
+			case SPRUCE_BOAT:
+			case MINECART:
+				return true;
+			default:
+				return false;
 		}
 	}
 	
