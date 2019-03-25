@@ -283,7 +283,7 @@ public class SpaceOpen {
 		String w = world(world);
 		Inventory inv = Bukkit.getServer().createInventory(null, 9, "§1PoorSpace――"+w+"空间"+id+"购买");
 		
-		ArrayList<String> lore = new ArrayList<String>();
+		ArrayList<String> lore = new ArrayList<>();
 		
 		FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "players/"+player.getName()+"/Overworld.yml"));
 		List<String> list = config.getStringList("list");
@@ -309,7 +309,7 @@ public class SpaceOpen {
 		String w = world(world);
 		Inventory inv = Bukkit.getServer().createInventory(null, 9, "§1PoorSpace――"+w+"空间"+id+"放弃");
 		
-		ArrayList<String> lore = new ArrayList<String>();
+		ArrayList<String> lore = new ArrayList<>();
 		lore.add("§c点击确认放弃该空间（无经验返还！）");
 		inv.setItem(3, newItem(Material.COBWEB, "§4§l确认放弃", lore));
 		lore.clear();
@@ -325,7 +325,7 @@ public class SpaceOpen {
 		
 		Inventory inv = Bukkit.getServer().createInventory(null, 54, "§1PoorSpace――"+w+"空间"+id+"权限组"+group);
 		
-		ArrayList<String> lore = new ArrayList<String>();
+		ArrayList<String> lore = new ArrayList<>();
 		lore.add("§7玩家可以拾起地上的物品");
 		inv.setItem(0, newItem(Material.DIAMOND, "§e§l拾起物品", lore));
 		lore.clear();
