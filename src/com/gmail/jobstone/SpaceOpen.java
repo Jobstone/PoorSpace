@@ -325,39 +325,38 @@ public class SpaceOpen {
 		
 		Inventory inv = Bukkit.getServer().createInventory(null, 54, "§1PoorSpace――"+w+"空间"+id+"权限组"+group);
 		
-		ArrayList<String> lore = new ArrayList<String>();
-		lore.add("§7玩家可以拾起地上的物品");
-		inv.setItem(0, newItem(Material.DIAMOND, "§e§l拾起物品", lore));
+		ArrayList<String> lore = new ArrayList<>();
+		lore.add("§7玩家可以放置、破坏方块（不包括火把）");
+		inv.setItem(0, newItem(Material.GRASS_BLOCK, "§e§l放置破坏方块", lore));
 		lore.clear();
-		lore.add("§7玩家可以丢弃物品");
-		inv.setItem(2, newItem(Material.ROTTEN_FLESH, "§e§l丢弃物品", lore));
+		lore.add("§7玩家可以放置、破坏（红石）火把");
+		inv.setItem(2, newItem(Material.TORCH, "§e§l火把", lore));
 		lore.clear();
-		lore.add("§7玩家可以放置方块（不包括火把）");
-		inv.setItem(4, newItem(Material.BRICK, "§e§l放置方块", lore));
+		lore.add("§7玩家可以使用方块，如箱子、木门等");
+		inv.setItem(4, newItem(Material.CHEST, "§e§l使用方块", lore));
 		lore.clear();
-		lore.add("§7玩家可以破坏方块（不包括火把）");
-		inv.setItem(6, newItem(Material.WOODEN_PICKAXE, "§e§l破坏方块", lore));
+		lore.add("§7玩家可以放置、破坏实体");
+		lore.add("§7（不包括船、矿车、未命名敌对生物）");
+		inv.setItem(6, newItem(Material.PAINTING, "§e§l放置、破坏实体", lore));
 		lore.clear();
-		lore.add("§7玩家可以触发方块，如耕地、压力板等");
-		inv.setItem(8, newItem(Material.OAK_PRESSURE_PLATE, "§e§l触发方块", lore));
+		lore.add("§7玩家可以使用实体，如盔甲架、村民等");
+		inv.setItem(8, newItem(Material.ARMOR_STAND, "§e§l使用实体", lore));
 		lore.clear();
-		lore.add("§7玩家可以使用方块，如箱子、按钮等");
-		inv.setItem(18, newItem(Material.CHEST, "§e§l使用方块", lore));
+		lore.add("§7玩家可以放置、破坏、使用船和矿车");
+		inv.setItem(18, newItem(Material.OAK_BOAT, "§e§l交通工具", lore));
 		lore.clear();
-		lore.add("§7玩家可以与实体交互，如攻击、交易等");
-		inv.setItem(20, newItem(Material.EMERALD, "§e§l实体", lore));
-		lore.clear();
-		lore.add("§7玩家可以放置和破坏火把、红石火把（非流体中）");
-		inv.setItem(22, newItem(Material.TORCH, "§e§l火把", lore));
-		int m = 8;
+		lore.add("§7玩家可以拾起、丢弃物品");
+		inv.setItem(20, newItem(Material.DIAMOND, "§e§l物品", lore));
+		int m = 7;
 		if (group == 4) {
 			lore.clear();
-			lore.add("§7防止爆炸对方块产生的破坏");
-			inv.setItem(24, newItem(Material.TNT, "§e§l防爆", lore));
+			lore.add("§7防止爆炸对方块产生的破坏、");
+			lore.add("§7凋零破坏方块、僵尸破门");
+			inv.setItem(22, newItem(Material.TNT, "§e§l防爆", lore));
 			lore.clear();
 			lore.add("§7防止火蔓延至此空间");
-			inv.setItem(26, newItem(Material.FLINT_AND_STEEL, "§e§l防火", lore));
-			m = 10;
+			inv.setItem(24, newItem(Material.FLINT_AND_STEEL, "§e§l防火", lore));
+			m = 9;
 		}
 		
 		char[] pm = space.permission(group);

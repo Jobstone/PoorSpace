@@ -34,10 +34,10 @@ public class Space {
 	private List<String> group1 = new ArrayList<String>();
 	private List<String> group2 = new ArrayList<String>();
 	private List<String> group3 = new ArrayList<String>();
-	private char[] permission1 = {'1', '1', '1', '1', '1', '1', '1', '1'};
-	private char[] permission2 = {'1', '1', '1', '1', '1', '1', '1', '1'};
-	private char[] permission3 = {'1', '1', '1', '1', '1', '1', '1', '1'};
-	private char[] permission4 = {'1', '1', '0', '0', '1', '1', '1', '1', '1', '0'};
+	private char[] permission1 = {'1', '1', '1', '1', '1', '1', '1'};
+	private char[] permission2 = {'1', '1', '1', '1', '1', '1', '1'};
+	private char[] permission3 = {'1', '1', '1', '1', '1', '1', '1'};
+	private char[] permission4 = {'0', '1', '1', '1', '1', '1', '1', '1', '0'};
 	
 	public Space(String s, int world) {
 		id = s;
@@ -77,7 +77,7 @@ public class Space {
 			owner = null;
 			ownerType = null;
 			if (world == 3)
-				permission4[7] = '0';
+				permission4[1] = '0';
 		}
 	}
 	
@@ -276,7 +276,7 @@ public class Space {
 	}
 	
 	public boolean canExplode() {
-		switch(permission4[8]) {
+		switch(permission4[7]) {
 		case '0':
 			return true;
 		default:
@@ -285,7 +285,7 @@ public class Space {
 	}
 	
 	public boolean canFire() {
-		switch(permission4[9]) {
+		switch(permission4[8]) {
 		case '0':
 			return true;
 		default:

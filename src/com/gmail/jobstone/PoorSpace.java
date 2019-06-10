@@ -107,73 +107,7 @@ public class PoorSpace extends JavaPlugin {
 	}
 
 	private void filesUpdate() {
-		/*
-		File players = new File(PoorSpace.plugin.getDataFolder(), "players");
-		for (File pFile : players.listFiles()) {
 
-			File file = new File(pFile, "settings.yml");
-			FileConfiguration config = YamlConfiguration.loadConfiguration(file);
-			if (!config.contains("groups")) {
-				config.set("groups", new ArrayList<String>());
-				try {
-					config.save(file);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-			
-		}
-
-		File file1 = new File(PoorSpace.plugin.getDataFolder(), "chunks/Overworld");
-		for (File file : file1.listFiles()) {
-			FileConfiguration config = YamlConfiguration.loadConfiguration(file);
-			if (!config.contains("owner_type"))
-				config.set("owner_type", SpaceOwner.OwnerType.PLAYER.name());
-			try {
-				config.save(file);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-
-		File file2 = new File(PoorSpace.plugin.getDataFolder(), "chunks/Nether");
-		for (File file : file2.listFiles()) {
-			FileConfiguration config = YamlConfiguration.loadConfiguration(file);
-			if (!config.contains("owner_type"))
-				config.set("owner_type", SpaceOwner.OwnerType.PLAYER.name());
-			try {
-				config.save(file);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-
-		File file3 = new File(PoorSpace.plugin.getDataFolder(), "chunks/End");
-		for (File file : file3.listFiles()) {
-			FileConfiguration config = YamlConfiguration.loadConfiguration(file);
-			if (!config.contains("owner_type"))
-				config.set("owner_type", SpaceOwner.OwnerType.PLAYER.name());
-			try {
-				config.save(file);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-
-		File file4 = new File(PoorSpace.plugin.getDataFolder(), "chunks/Creative");
-		for (File file : file4.listFiles()) {
-			FileConfiguration config = YamlConfiguration.loadConfiguration(file);
-			if (!config.contains("owner_type"))
-				config.set("owner_type", SpaceOwner.OwnerType.PLAYER.name());
-			try {
-				config.save(file);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-
-		(new File(PoorSpace.plugin.getDataFolder(), "groups")).mkdirs();
-		*/
 	}
 
 }
