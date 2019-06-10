@@ -722,7 +722,7 @@ public class InvListener implements Listener {
 			SpaceOpen.openSpace(player, id, world);
 		}
 		else if (j != -1) {
-			if (group != 4 && (j == 33 || j == 35))
+			if (group != 4 && (j == 7 || j == 8))
 				return;
 			Space space = new Space(id, world);
 			if (Space.isOwned(id, world) && space.owner().equals(player.getName())) {
@@ -869,45 +869,30 @@ public class InvListener implements Listener {
 	}
 
 	private int slot(int click) {
-		int j;
 		switch(click) {
 		case 9:
-			j = 0;
-			break;
+			return 0;
 		case 11:
-			j = 1;
-			break;
+			return 1;
 		case 13:
-			j = 2;
-			break;
+			return 2;
 		case 15:
-			j = 3;
-			break;
+			return 3;
 		case 17:
-			j = 4;
-			break;
+			return 4;
 		case 27:
-			j = 5;
-			break;
+			return 5;
 		case 29:
-			j = 6;
-			break;
+			return 6;
 		case 31:
-			j = 7;
-			break;
+			return 7;
 		case 33:
-			j = 8;
-			break;
-		case 35:
-			j = 9;
-			break;
+			return 8;
 		case 49:
-			j = 10;
-			break;
+			return 10;
 		default:
-			j = -1;
+			return -1;
 		}
-		return j;
 	}
 
 }

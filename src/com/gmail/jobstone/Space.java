@@ -31,13 +31,13 @@ public class Space {
 	private File file;
 	private String owner;
 	private SpaceOwner.OwnerType ownerType;
-	private List<String> group1 = new ArrayList<String>();
-	private List<String> group2 = new ArrayList<String>();
-	private List<String> group3 = new ArrayList<String>();
-	private char[] permission1 = {'1', '1', '1', '1', '1', '1', '1', '1'};
-	private char[] permission2 = {'1', '1', '1', '1', '1', '1', '1', '1'};
-	private char[] permission3 = {'1', '1', '1', '1', '1', '1', '1', '1'};
-	private char[] permission4 = {'1', '1', '0', '0', '1', '1', '1', '1', '1', '0'};
+	private List<String> group1 = new ArrayList<>();
+	private List<String> group2 = new ArrayList<>();
+	private List<String> group3 = new ArrayList<>();
+	private char[] permission1 = {'1', '1', '1', '1', '1', '1', '1'};
+	private char[] permission2 = {'1', '1', '1', '1', '1', '1', '1'};
+	private char[] permission3 = {'1', '1', '1', '1', '1', '1', '1'};
+	private char[] permission4 = {'0', '1', '1', '1', '1', '1', '1', '1', '0'};
 	
 	public Space(String s, int world) {
 		id = s;
@@ -60,7 +60,7 @@ public class Space {
 			w = "Minigame";
 			break;
 		}
-		file = new File(plugin.getDataFolder(), "chunks/"+w+"/"+id+".yml");
+		file = new File(plugin.getDataFolder(), "spaces/"+w+"/"+id+".yml");
 		if (file.exists()) {
 			FileConfiguration config = YamlConfiguration.loadConfiguration(file);
 			owner = config.getString("owner");
@@ -77,7 +77,7 @@ public class Space {
 			owner = null;
 			ownerType = null;
 			if (world == 3)
-				permission4[7] = '0';
+				permission4[1] = '0';
 		}
 	}
 	
@@ -276,7 +276,7 @@ public class Space {
 	}
 	
 	public boolean canExplode() {
-		switch(permission4[8]) {
+		switch(permission4[7]) {
 		case '0':
 			return true;
 		default:
@@ -285,7 +285,7 @@ public class Space {
 	}
 	
 	public boolean canFire() {
-		switch(permission4[9]) {
+		switch(permission4[8]) {
 		case '0':
 			return true;
 		default:
@@ -513,7 +513,7 @@ public class Space {
 			break;
 		}
 		
-		if (new File(plugin.getDataFolder(), "chunks/"+w+"/"+id+".yml").exists())
+		if (new File(plugin.getDataFolder(), "spaces/"+w+"/"+id+".yml").exists())
 			return true;
 		else
 			return false;

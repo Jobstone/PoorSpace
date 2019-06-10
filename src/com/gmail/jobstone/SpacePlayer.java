@@ -90,7 +90,7 @@ public class SpacePlayer extends SpaceOwner{
 
 	public void createFiles() {
 		this.folder.mkdirs();
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 		File file0 = new File(this.folder, "Overworld.yml");
 		FileConfiguration config0 = YamlConfiguration.loadConfiguration(file0);
 		config0.set("list", list);
@@ -104,10 +104,10 @@ public class SpacePlayer extends SpaceOwner{
 		config5.set("group1", list);
 		config5.set("group2", list);
 		config5.set("group3", list);
-		config5.set("permission1", "11111111");
-		config5.set("permission2", "11111111");
-		config5.set("permission3", "11111111");
-		config5.set("permission4", "1100100011");
+		config5.set("permission1", "1111111");
+		config5.set("permission2", "1111111");
+		config5.set("permission3", "1111111");
+		config5.set("permission4", "000001111");
 		File file6 = new File(this.folder, "Default_Nether.yml");
 		File file7 = new File(this.folder, "Default_End.yml");
 		File file8 = new File(this.folder, "Default_Creative.yml");
