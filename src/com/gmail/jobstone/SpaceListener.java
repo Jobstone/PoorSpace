@@ -1,12 +1,10 @@
 package com.gmail.jobstone;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.TravelAgent;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_13_R2.entity.CraftPlayer;
 import org.bukkit.entity.*;
@@ -32,6 +30,8 @@ import net.minecraft.server.v1_13_R2.ChatMessageType;
 import net.minecraft.server.v1_13_R2.IChatBaseComponent;
 import net.minecraft.server.v1_13_R2.IChatBaseComponent.ChatSerializer;
 import net.minecraft.server.v1_13_R2.PacketPlayOutChat;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 public class SpaceListener implements Listener {
 	
@@ -60,6 +60,18 @@ public class SpaceListener implements Listener {
 		if (!playerpm(player.getName(), loc, 6)) {
 			sendActionBarMessage(player, "您没有在这个空间扔物品的权限！");
 			e.setCancelled(true);
+            if (player.getGameMode().equals(GameMode.CREATIVE))
+                return;
+            Inventory inv = player.getInventory();
+            Inventory inv2 = Bukkit.createInventory(null, 36);
+            for (int i = 0; i < 36; i++) {
+                inv2.setItem(i, inv.getItem(i));
+            }
+            HashMap<Integer, ItemStack> lostitems = inv.addItem(e.getItemDrop().getItemStack().clone());
+            if (!lostitems.isEmpty()) {
+                Message message = new Message(System.currentTimeMillis(), "穷娘", player.getName(), "丢失的物品", "您不小心丢掉了一份物品，请及时查收~");
+                message.create(lostitems.get(new Integer(0)));
+            }
 		}
 	}
 	
