@@ -60,7 +60,7 @@ public class Space {
 			w = "Minigame";
 			break;
 		}
-		file = new File(plugin.getDataFolder(), "chunks/"+w+"/"+id+".yml");
+		file = new File(plugin.getDataFolder(), "spaces/"+w+"/"+id+".yml");
 		if (file.exists()) {
 			FileConfiguration config = YamlConfiguration.loadConfiguration(file);
 			owner = config.getString("owner");
@@ -513,7 +513,7 @@ public class Space {
 			break;
 		}
 		
-		if (new File(plugin.getDataFolder(), "chunks/"+w+"/"+id+".yml").exists())
+		if (new File(plugin.getDataFolder(), "spaces/"+w+"/"+id+".yml").exists())
 			return true;
 		else
 			return false;
