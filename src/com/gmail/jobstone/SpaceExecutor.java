@@ -81,10 +81,10 @@ public class SpaceExecutor implements CommandExecutor {
 												config.set("group1", empty);
 												config.set("group2", empty);
 												config.set("group3", empty);
-												config.set("permission1", "11111111");
-												config.set("permission2", "11111111");
-												config.set("permission3", "11111111");
-												config.set("permission4", "1100100010");
+												config.set("permission1", "1111111");
+												config.set("permission2", "1111111");
+												config.set("permission3", "1111111");
+												config.set("permission4", "000001111");
 											}
 											List<String> group = new ArrayList<>();
 											StringBuilder sb = new StringBuilder("");
@@ -234,10 +234,10 @@ public class SpaceExecutor implements CommandExecutor {
 															config.set("group1", empty);
 															config.set("group2", empty);
 															config.set("group3", empty);
-															config.set("permission1", "11111111");
-															config.set("permission2", "11111111");
-															config.set("permission3", "11111111");
-															config.set("permission4", "1100100010");
+															config.set("permission1", "1111111");
+															config.set("permission2", "1111111");
+															config.set("permission3", "1111111");
+															config.set("permission4", "000001111");
 															previous = 0;
 														}
 														else {
@@ -365,10 +365,10 @@ public class SpaceExecutor implements CommandExecutor {
 															config.set("group1", empty);
 															config.set("group2", empty);
 															config.set("group3", empty);
-															config.set("permission1", "11111111");
-															config.set("permission2", "11111111");
-															config.set("permission3", "11111111");
-															config.set("permission4", "1100100010");
+															config.set("permission1", "1111111");
+															config.set("permission2", "1111111");
+															config.set("permission3", "1111111");
+															config.set("permission4", "000001111");
 														}
 
 														List<String> group = config.getStringList("group"+groupnum);
@@ -581,36 +581,36 @@ public class SpaceExecutor implements CommandExecutor {
 												config.set("group1", empty);
 												config.set("group2", empty);
 												config.set("group3", empty);
-												config.set("permission1", "11111111");
-												config.set("permission2", "11111111");
-												config.set("permission3", "11111111");
-												config.set("permission4", "1100111110");
+												config.set("permission1", "1111111");
+												config.set("permission2", "1111111");
+												config.set("permission3", "1111111");
+												config.set("permission4", "000001111");
 											}
 
 											switch (args[4]) {
 												case "1":
-													if (args[5].length() == 8 && isPermissionLegal(args[5])) {
+													if (args[5].length() == 7 && isPermissionLegal(args[5])) {
 														config.set("permission1", args[5]);
 														player.sendMessage("§7【PoorSpace】已将" + SpaceOpen.world(world) + "的默认空间设置中的权限组1权限设置为：" + args[5]);
 													} else
 														player.sendMessage("§7【PoorSpace】权限设置不合法！");
 													break;
 												case "2":
-													if (args[5].length() == 8 && isPermissionLegal(args[5])) {
+													if (args[5].length() == 7 && isPermissionLegal(args[5])) {
 														config.set("permission2", args[5]);
 														player.sendMessage("§7【PoorSpace】已将" + SpaceOpen.world(world) + "的默认空间设置中的权限组2权限设置为：" + args[5]);
 													} else
 														player.sendMessage("§7【PoorSpace】权限设置不合法！");
 													break;
 												case "3":
-													if (args[5].length() == 8 && isPermissionLegal(args[5])) {
+													if (args[5].length() == 7 && isPermissionLegal(args[5])) {
 														config.set("permission3", args[5]);
 														player.sendMessage("§7【PoorSpace】已将" + SpaceOpen.world(world) + "的默认空间设置中的权限组3权限设置为：" + args[5]);
 													} else
 														player.sendMessage("§7【PoorSpace】权限设置不合法！");
 													break;
 												case "4":
-													if (args[5].length() == 10 && isPermissionLegal(args[5])) {
+													if (args[5].length() == 9 && isPermissionLegal(args[5])) {
 														config.set("permission4", args[5]);
 														player.sendMessage("§7【PoorSpace】已将" + SpaceOpen.world(world) + "的默认空间设置中的权限组4权限设置为：" + args[5]);
 													} else
@@ -632,7 +632,7 @@ public class SpaceExecutor implements CommandExecutor {
 											StringBuilder spacesb = new StringBuilder("§7");
 											switch (args[4]) {
 												case "1":
-													if (args[5].length() == 8 && isPermissionLegal(args[5])) {
+													if (args[5].length() == 7 && isPermissionLegal(args[5])) {
 														for (int i = 0; i < list.size(); i++) {
 															if (i != 0)
 																spacesb.append(", ");
@@ -647,7 +647,7 @@ public class SpaceExecutor implements CommandExecutor {
 														player.sendMessage("§7【PoorSpace】权限设置不合法！");
 													break;
 												case "2":
-													if (args[5].length() == 8 && isPermissionLegal(args[5])) {
+													if (args[5].length() == 7 && isPermissionLegal(args[5])) {
 														for (int i = 0; i < list.size(); i++) {
 															if (i != 0)
 																spacesb.append(", ");
@@ -662,7 +662,7 @@ public class SpaceExecutor implements CommandExecutor {
 														player.sendMessage("§7【PoorSpace】权限设置不合法！");
 													break;
 												case "3":
-													if (args[5].length() == 8 && isPermissionLegal(args[5])) {
+													if (args[5].length() == 7 && isPermissionLegal(args[5])) {
 														for (int i = 0; i < list.size(); i++) {
 															if (i != 0)
 																spacesb.append(", ");
@@ -677,7 +677,7 @@ public class SpaceExecutor implements CommandExecutor {
 														player.sendMessage("§7【PoorSpace】权限设置不合法！");
 													break;
 												case "4":
-													if (args[5].length() == 10 && isPermissionLegal(args[5])) {
+													if (args[5].length() == 9 && isPermissionLegal(args[5])) {
 														for (int i = 0; i < list.size(); i++) {
 															if (i != 0)
 																spacesb.append(", ");

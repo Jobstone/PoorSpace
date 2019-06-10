@@ -237,13 +237,25 @@ public class SpaceListener implements Listener {
 	
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void entity7 (VehicleDamageEvent e) {
-		if (e.getAttacker() instanceof Player && (e.getVehicle() instanceof RideableMinecart || e.getVehicle() instanceof Boat)) {
-			Player player = (Player) e.getAttacker();
-			Location loc = e.getVehicle().getLocation();
-			if (!playerpm(player.getName(), loc, 5)) {
-				sendActionBarMessage(player, "您没有破坏该空间交通工具的权限！");
-				e.setCancelled(true);
+		if (e.getAttacker() instanceof Player) {
+
+			if (e.getVehicle() instanceof RideableMinecart || e.getVehicle() instanceof Boat) {
+				Player player = (Player) e.getAttacker();
+				Location loc = e.getVehicle().getLocation();
+				if (!playerpm(player.getName(), loc, 5)) {
+					sendActionBarMessage(player, "您没有破坏该空间交通工具的权限！");
+					e.setCancelled(true);
+				}
 			}
+			else if (e.getVehicle() instanceof Minecart) {
+				Player player = (Player) e.getAttacker();
+				Location loc = e.getVehicle().getLocation();
+				if (!playerpm(player.getName(), loc, 3)) {
+					sendActionBarMessage(player, "您没有破坏该空间实体的权限！");
+					e.setCancelled(true);
+				}
+			}
+
 		}
 	}
 
@@ -355,21 +367,6 @@ public class SpaceListener implements Listener {
 			e.setCancelled(true);
 		
 	}
-	
-	/*
-	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
-	public void fallingblock(EntityChangeBlockEvent e) {
-		if (e.getEntityType().equals(EntityType.FALLING_BLOCK)) {
-			FallingBlock block = (FallingBlock) e.getEntity();
-			Location loc = e.getBlock().getLocation();
-			Space space = new Space(Space.getSpaceid(loc), Space.getWorldid(loc));
-			if (space.permission(4)[2] == '0') {
-				e.setCancelled(true);
-				loc.getWorld().dropItem(loc, new ItemStack(block.getBlockData().getMaterial()));
-			}
-		}
-	}
-	*/
 
 	private boolean cartArmorstand(Material material) {
 		switch(material) {

@@ -327,7 +327,7 @@ public class SpaceOpen {
 		
 		ArrayList<String> lore = new ArrayList<>();
 		lore.add("§7玩家可以放置、破坏方块（不包括火把）");
-		inv.setItem(0, newItem(Material.GRASS_BLOCK, "§e§l放置破坏方块", lore));
+		inv.setItem(0, newItem(Material.GRASS_BLOCK, "§e§l放置、破坏方块", lore));
 		lore.clear();
 		lore.add("§7玩家可以放置、破坏（红石）火把");
 		inv.setItem(2, newItem(Material.TORCH, "§e§l火把", lore));
@@ -350,7 +350,8 @@ public class SpaceOpen {
 		int m = 7;
 		if (group == 4) {
 			lore.clear();
-			lore.add("§7防止爆炸对方块、盔甲架、画、物品展示框、栓绳的破坏、");
+			lore.add("§7防止爆炸对方块、盔甲架、画、");
+			lore.add("§7物品展示框、栓绳的破坏，");
 			lore.add("§7防止凋零破坏方块、僵尸破门");
 			inv.setItem(22, newItem(Material.TNT, "§e§l防爆", lore));
 			lore.clear();
