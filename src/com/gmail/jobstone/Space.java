@@ -31,9 +31,9 @@ public class Space {
 	private File file;
 	private String owner;
 	private SpaceOwner.OwnerType ownerType;
-	private List<String> group1 = new ArrayList<String>();
-	private List<String> group2 = new ArrayList<String>();
-	private List<String> group3 = new ArrayList<String>();
+	private List<String> group1 = new ArrayList<>();
+	private List<String> group2 = new ArrayList<>();
+	private List<String> group3 = new ArrayList<>();
 	private char[] permission1 = {'1', '1', '1', '1', '1', '1', '1'};
 	private char[] permission2 = {'1', '1', '1', '1', '1', '1', '1'};
 	private char[] permission3 = {'1', '1', '1', '1', '1', '1', '1'};

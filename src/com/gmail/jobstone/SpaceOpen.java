@@ -350,8 +350,8 @@ public class SpaceOpen {
 		int m = 7;
 		if (group == 4) {
 			lore.clear();
-			lore.add("§7防止爆炸对方块产生的破坏、");
-			lore.add("§7凋零破坏方块、僵尸破门");
+			lore.add("§7防止爆炸对方块、盔甲架、画、物品展示框、栓绳的破坏、");
+			lore.add("§7防止凋零破坏方块、僵尸破门");
 			inv.setItem(22, newItem(Material.TNT, "§e§l防爆", lore));
 			lore.clear();
 			lore.add("§7防止火蔓延至此空间");

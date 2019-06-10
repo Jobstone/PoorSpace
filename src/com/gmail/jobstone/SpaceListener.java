@@ -10,6 +10,7 @@ import org.bukkit.TravelAgent;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_13_R2.entity.CraftPlayer;
 import org.bukkit.entity.*;
+import org.bukkit.entity.minecart.RideableMinecart;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -47,7 +48,7 @@ public class SpaceListener implements Listener {
 		if (e.getEntity() instanceof Player) {
 			String player = ((Player)e.getEntity()).getName();
 			Location loc = e.getItem().getLocation();
-			if (!playerpm(player, loc, 0))
+			if (!playerpm(player, loc, 6))
 				e.setCancelled(true);
 		}
 	}
@@ -56,7 +57,7 @@ public class SpaceListener implements Listener {
 	public void drop(PlayerDropItemEvent e) {
 		Player player = e.getPlayer();
 		Location loc = e.getPlayer().getLocation();
-		if (!playerpm(player.getName(), loc, 1)) {
+		if (!playerpm(player.getName(), loc, 6)) {
 			sendActionBarMessage(player, "您没有在这个空间扔物品的权限！");
 			e.setCancelled(true);
 		}
@@ -68,13 +69,13 @@ public class SpaceListener implements Listener {
 		Location loc = e.getBlockPlaced().getLocation();
 		if ((e.getBlock().getType().equals(Material.TORCH) || e.getBlock().getType().equals(Material.WALL_TORCH) || e.getBlock().getType().equals(Material.REDSTONE_TORCH) || e.getBlock().getType().equals(Material.REDSTONE_WALL_TORCH))
 				&& !e.getBlockReplacedState().getType().equals(Material.WATER) && !e.getBlockReplacedState().getType().equals(Material.LAVA)) {
-			if (!playerpm(player.getName(), loc, 7)) {
+			if (!playerpm(player.getName(), loc, 1)) {
 				sendActionBarMessage(player, "您没有在该空间放置火把的权限！");
 				e.setCancelled(true);
 			}
 		}
 		else {
-			if (!playerpm(player.getName(), loc, 2)) {
+			if (!playerpm(player.getName(), loc, 0)) {
 				sendActionBarMessage(player, "您没有在该空间放置方块的权限！");
 				e.setCancelled(true);
 			}
@@ -85,7 +86,7 @@ public class SpaceListener implements Listener {
 	public void bucketPlace(PlayerBucketEmptyEvent e) {
 		Player player = e.getPlayer();
 		Location loc = e.getBlockClicked().getRelative(e.getBlockFace()).getLocation();
-		if (!playerpm(player.getName(), loc, 2)) {
+		if (!playerpm(player.getName(), loc, 0)) {
 			sendActionBarMessage(player, "您没有在这个空间放置方块的权限！");
 			e.setCancelled(true);
 		}
@@ -95,7 +96,7 @@ public class SpaceListener implements Listener {
 	public void bucketFill(PlayerBucketFillEvent e) {
 		Player player = e.getPlayer();
 		Location loc = e.getBlockClicked().getRelative(e.getBlockFace()).getLocation();
-		if (!playerpm(player.getName(), loc, 3)) {
+		if (!playerpm(player.getName(), loc, 0)) {
 			sendActionBarMessage(player, "您没有破坏该空间方块的权限！");
 			e.setCancelled(true);
 		}
@@ -106,13 +107,13 @@ public class SpaceListener implements Listener {
 		Player player = e.getPlayer();
 		Location loc = e.getBlock().getLocation();
 		if (e.getBlock().getType().equals(Material.TORCH) || e.getBlock().getType().equals(Material.WALL_TORCH) || e.getBlock().getType().equals(Material.REDSTONE_TORCH) || e.getBlock().getType().equals(Material.REDSTONE_WALL_TORCH)) {
-			if (!playerpm(player.getName(), loc, 7)) {
+			if (!playerpm(player.getName(), loc, 1)) {
 				sendActionBarMessage(player, "您没有破坏该空间火把的权限！");
 				e.setCancelled(true);
 			}
 		}
 		else {
-			if (!playerpm(player.getName(), loc, 3)) {
+			if (!playerpm(player.getName(), loc, 0)) {
 				sendActionBarMessage(player, "您没有破坏该空间方块的权限！");
 				e.setCancelled(true);
 			}
@@ -129,7 +130,7 @@ public class SpaceListener implements Listener {
 		}
 	}
 	
-	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+	/*@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void interact1(PlayerInteractEvent e) {
 		if (e.getAction().equals(Action.PHYSICAL)) {
 			Player player = e.getPlayer();
@@ -138,7 +139,7 @@ public class SpaceListener implements Listener {
 				e.setCancelled(true);
 			}
 		}
-	}
+	}*/
 	
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void interact2(PlayerInteractEvent e) {
@@ -146,7 +147,7 @@ public class SpaceListener implements Listener {
 			if (trigger(e.getClickedBlock()) && (!e.getPlayer().isSneaking() || e.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.AIR))) {
 				Player player = e.getPlayer();
 				Location loc = e.getClickedBlock().getLocation();
-				if (!playerpm(player.getName(), loc, 5)) {
+				if (!playerpm(player.getName(), loc, 2)) {
 					sendActionBarMessage(player, "您没有使用该空间方块的权限！");
 					e.setCancelled(true);
 				}
@@ -159,9 +160,17 @@ public class SpaceListener implements Listener {
 		if ((e.getHand().equals(EquipmentSlot.HAND) || e.getHand().equals(EquipmentSlot.OFF_HAND)) && !(e.getRightClicked() instanceof Player)) {
 			Player player = e.getPlayer();
 			Location loc = e.getRightClicked().getLocation();
-			if (!playerpm(player.getName(), loc, 6)) {
-				sendActionBarMessage(player, "您没有使用该空间实体的权限！");
-				e.setCancelled(true);
+			if (e.getRightClicked() instanceof RideableMinecart || e.getRightClicked() instanceof Boat) {
+				if (!playerpm(player.getName(), loc, 5)) {
+					sendActionBarMessage(player, "您没有使用该空间交通工具的权限！");
+					e.setCancelled(true);
+				}
+			}
+			else {
+				if (!playerpm(player.getName(), loc, 4)) {
+					sendActionBarMessage(player, "您没有使用该空间实体的权限！");
+					e.setCancelled(true);
+				}
 			}
 		}
 	}
@@ -182,7 +191,7 @@ public class SpaceListener implements Listener {
 		else 
 			return;
 		Location loc = e.getEntity().getLocation();
-		if (!playerpm(damager.getName(), loc, 6)) {
+		if (!playerpm(damager.getName(), loc, 3)) {
 			sendActionBarMessage(damager, "您没有攻击该空间实体的权限！");
 			e.setCancelled(true);
 		}
@@ -195,7 +204,7 @@ public class SpaceListener implements Listener {
 			if (e.getEntity().getShooter() instanceof Player) {
 				Player player = (Player)e.getEntity().getShooter();
 				Location loc = e.getHitEntity().getLocation();
-				if (!playerpm(player.getName(), loc, 6)) {
+				if (!playerpm(player.getName(), loc, 3)) {
 					e.getEntity().setFireTicks(-1);
 				}
 			}
@@ -207,7 +216,7 @@ public class SpaceListener implements Listener {
 		if (e.getRightClicked() instanceof ArmorStand && e.getHand().equals(EquipmentSlot.HAND) && !(e.getRightClicked() instanceof Player)) {
 			Player player = e.getPlayer();
 			Location loc = e.getRightClicked().getLocation();
-			if (!playerpm(player.getName(), loc, 6)) {
+			if (!playerpm(player.getName(), loc, 4)) {
 				sendActionBarMessage(player, "您没有使用该空间实体的权限！");
 				e.setCancelled(true);
 			}
@@ -219,7 +228,7 @@ public class SpaceListener implements Listener {
 		if (e.getRemover() instanceof Player) {
 			Player player = (Player)e.getRemover();
 			Location loc = e.getEntity().getLocation();
-			if (!playerpm(player.getName(), loc, 6)) {
+			if (!playerpm(player.getName(), loc, 3)) {
 				sendActionBarMessage(player, "您没有破坏该空间实体的权限！");
 				e.setCancelled(true);
 			}
@@ -228,25 +237,37 @@ public class SpaceListener implements Listener {
 	
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void entity7 (VehicleDamageEvent e) {
-		if (e.getAttacker() instanceof Player && (e.getVehicle() instanceof Minecart || e.getVehicle() instanceof Boat)) {
+		if (e.getAttacker() instanceof Player && (e.getVehicle() instanceof RideableMinecart || e.getVehicle() instanceof Boat)) {
 			Player player = (Player) e.getAttacker();
 			Location loc = e.getVehicle().getLocation();
-			if (!playerpm(player.getName(), loc, 6)) {
-				sendActionBarMessage(player, "您没有破坏该空间实体的权限！");
+			if (!playerpm(player.getName(), loc, 5)) {
+				sendActionBarMessage(player, "您没有破坏该空间交通工具的权限！");
 				e.setCancelled(true);
 			}
 		}
 	}
-	
+
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void entity8 (PlayerInteractEvent e) {
-		if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK) && e.getItem() != null && (boatCartArmorstand(e.getMaterial()) || spawnEggs(e.getMaterial()))) {
-			Player player = e.getPlayer();
-			Location loc = e.getClickedBlock().getLocation();
-			if (!playerpm(player.getName(), loc, 6)) {
-				sendActionBarMessage(player, "您没有在该空间内放置实体的权限！");
-				e.setCancelled(true);
+		if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK) && e.getItem() != null) {
+
+			if (cartArmorstand(e.getMaterial()) || spawnEggs(e.getMaterial())) {
+				Player player = e.getPlayer();
+				Location loc = e.getClickedBlock().getLocation();
+				if (!playerpm(player.getName(), loc, 3)) {
+					sendActionBarMessage(player, "您没有在该空间内放置实体的权限！");
+					e.setCancelled(true);
+				}
 			}
+			else if (transport(e.getMaterial())) {
+				Player player = e.getPlayer();
+				Location loc = e.getClickedBlock().getLocation();
+				if (!playerpm(player.getName(), loc, 5)) {
+					sendActionBarMessage(player, "您没有在该空间内放置交通工具的权限！");
+					e.setCancelled(true);
+				}
+			}
+
 		}
 	}
 	
@@ -254,7 +275,7 @@ public class SpaceListener implements Listener {
 	public void entity9 (HangingPlaceEvent e) {
 		Player player = e.getPlayer();
 		Location loc = e.getEntity().getLocation();
-		if (!playerpm(player.getName(), loc, 6)) {
+		if (!playerpm(player.getName(), loc, 3)) {
 			sendActionBarMessage(player, "您没有在该空间内放置实体的权限！");
 			e.setCancelled(true);
 		}
@@ -265,7 +286,7 @@ public class SpaceListener implements Listener {
 		if (e.getState().equals(PlayerFishEvent.State.CAUGHT_ENTITY)) {
 			Player player = e.getPlayer();
 			Location loc = e.getCaught().getLocation();
-			if (!playerpm(player.getName(), loc, 6)) {
+			if (!playerpm(player.getName(), loc, 4)) {
 				sendActionBarMessage(player, "您没有使用该空间实体的权限！");
 				e.setCancelled(true);
 			}
@@ -274,7 +295,7 @@ public class SpaceListener implements Listener {
 	
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void explode(EntityExplodeEvent e) {
-		List<Block> blockListCopy = new ArrayList<Block>();
+		List<Block> blockListCopy = new ArrayList<>();
 	    blockListCopy.addAll(e.blockList());
 		for (Block block : blockListCopy) {
 			Location loc = block.getLocation();
@@ -349,25 +370,33 @@ public class SpaceListener implements Listener {
 		}
 	}
 	*/
-	
-	private boolean boatCartArmorstand(Material material) {
+
+	private boolean cartArmorstand(Material material) {
 		switch(material) {
-		case ACACIA_BOAT:
-		case BIRCH_BOAT:
-		case DARK_OAK_BOAT:
-		case JUNGLE_BOAT:
-		case OAK_BOAT:
-		case SPRUCE_BOAT:
-		case CHEST_MINECART:
-		case COMMAND_BLOCK_MINECART:
-		case FURNACE_MINECART:
-		case HOPPER_MINECART:
-		case MINECART:
-		case TNT_MINECART:
-		case ARMOR_STAND:
-			return true;
-		default:
-			return false;
+			case CHEST_MINECART:
+			case COMMAND_BLOCK_MINECART:
+			case FURNACE_MINECART:
+			case HOPPER_MINECART:
+			case TNT_MINECART:
+			case ARMOR_STAND:
+				return true;
+			default:
+				return false;
+		}
+	}
+
+	private boolean transport(Material material) {
+		switch (material) {
+			case ACACIA_BOAT:
+			case BIRCH_BOAT:
+			case DARK_OAK_BOAT:
+			case JUNGLE_BOAT:
+			case OAK_BOAT:
+			case SPRUCE_BOAT:
+			case MINECART:
+				return true;
+			default:
+				return false;
 		}
 	}
 	
