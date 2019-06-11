@@ -190,7 +190,7 @@ public class SpaceListener implements Listener {
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void interact4(EntityDamageByEntityEvent e) {
 		Entity entity = e.getEntity();
-		if ((entity instanceof Monster || entity instanceof Slime || entity instanceof Flying || entity instanceof Shulker) && e.getEntity().getCustomName() == null)
+		if ((entity instanceof Monster || entity instanceof Slime || entity instanceof Flying || entity instanceof Shulker || entity instanceof EnderDragon) && e.getEntity().getCustomName() == null)
 			return;
 		if (entity instanceof Projectile || entity instanceof Player)
 			return;
