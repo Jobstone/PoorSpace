@@ -513,6 +513,7 @@ public class SpaceListener implements Listener {
 		case YELLOW_BED:
 		case SIGN:
 		case WALL_SIGN:
+		case CAKE:
 			return true;
 		default:
 			return false;
