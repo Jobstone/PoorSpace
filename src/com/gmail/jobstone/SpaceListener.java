@@ -96,6 +96,8 @@ public class SpaceListener implements Listener {
 	
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void bucketPlace(PlayerBucketEmptyEvent e) {
+		if (e.getBucket().equals(Material.MILK_BUCKET))
+			return;
 		Player player = e.getPlayer();
 		Location loc = e.getBlockClicked().getRelative(e.getBlockFace()).getLocation();
 		if (!playerpm(player.getName(), loc, 0)) {
@@ -106,11 +108,15 @@ public class SpaceListener implements Listener {
 	
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void bucketFill(PlayerBucketFillEvent e) {
+		if (e.getItemStack().getType().equals(Material.MILK_BUCKET))
+			return;
 		Player player = e.getPlayer();
-		Location loc = e.getBlockClicked().getRelative(e.getBlockFace()).getLocation();
+		Block block = e.getBlockClicked().getRelative(e.getBlockFace());
+		Location loc = block.getLocation();
 		if (!playerpm(player.getName(), loc, 0)) {
 			sendActionBarMessage(player, "您没有破坏该空间方块的权限！");
 			e.setCancelled(true);
+			player.sendBlockChange(loc, block.getBlockData());
 		}
 	}
 	
