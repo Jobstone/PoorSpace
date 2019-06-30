@@ -285,7 +285,7 @@ public class InvListener implements Listener {
 						if (e.getClick().equals(ClickType.LEFT)) {
 							
 							String click = e.getCurrentItem().getItemMeta().getDisplayName();
-							String id = window.substring(5, window.indexOf("放弃"));
+							String id = window.substring(4, window.indexOf("放弃"));
 							giveupClick(player, id, click, 1);
 							
 						}
@@ -328,7 +328,7 @@ public class InvListener implements Listener {
 						if (e.getClick().equals(ClickType.LEFT)) {
 							
 							String click = e.getCurrentItem().getItemMeta().getDisplayName();
-							String id = window.substring(5, window.indexOf("放弃"));
+							String id = window.substring(4, window.indexOf("放弃"));
 							giveupClick(player, id, click, 2);
 							
 						}
@@ -414,7 +414,7 @@ public class InvListener implements Listener {
 						if (e.getClick().equals(ClickType.LEFT)) {
 							
 							String click = e.getCurrentItem().getItemMeta().getDisplayName();
-							String id = window.substring(5, window.indexOf("放弃"));
+							String id = window.substring(6, window.indexOf("放弃"));
 							giveupClick(player, id, click, 4);
 							
 						}
