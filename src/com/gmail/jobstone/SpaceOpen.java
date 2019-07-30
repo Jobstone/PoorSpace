@@ -3,7 +3,6 @@ package com.gmail.jobstone;
 import java.io.File;
 import java.util.*;
 
-import net.minecraft.server.v1_13_R2.MojangsonParser;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -258,19 +257,19 @@ public class SpaceOpen {
 		lore.clear();
 		lore.addAll(space.group(1));
 		lore.add("§a点击查看设置");
-		inv.setItem(10, newItem(Material.SIGN, "§e§l权限组1", lore));
+		inv.setItem(10, newItem(Material.OAK_SIGN, "§e§l权限组1", lore));
 		lore.clear();
 		lore.addAll(space.group(2));
 		lore.add("§a点击查看设置");
-		inv.setItem(11, newItem(Material.SIGN, "§e§l权限组2", lore));
+		inv.setItem(11, newItem(Material.OAK_SIGN, "§e§l权限组2", lore));
 		lore.clear();
 		lore.addAll(space.group(3));
 		lore.add("§a点击查看设置");
-		inv.setItem(12, newItem(Material.SIGN, "§e§l权限组3", lore));
+		inv.setItem(12, newItem(Material.OAK_SIGN, "§e§l权限组3", lore));
 		lore.clear();
 		lore.add("§7默认权限组");
 		lore.add("§a点击查看设置");
-		inv.setItem(13, newItem(Material.SIGN, "§e§l权限组4", lore));
+		inv.setItem(13, newItem(Material.OAK_SIGN, "§e§l权限组4", lore));
 		
 		lore.clear();
 		lore.add("§e点击查看您在"+w+"拥有的空间");

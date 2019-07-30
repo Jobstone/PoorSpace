@@ -3,7 +3,7 @@ version: 1.1
 main: com.gmail.jobstone.PoorSpace
 description: A plugin.
 author: Jobstone
-api-version: 1.13
+api-version: 1.14
 commands:
     poorspace:
         aliases: ps

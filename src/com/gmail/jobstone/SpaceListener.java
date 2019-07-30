@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_13_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_14_R1.entity.CraftPlayer;
 import org.bukkit.entity.*;
 import org.bukkit.entity.minecart.RideableMinecart;
 import org.bukkit.event.EventHandler;
@@ -24,12 +24,13 @@ import org.bukkit.event.hanging.HangingPlaceEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.event.vehicle.VehicleDamageEvent;
+import org.bukkit.event.world.PortalCreateEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
-import net.minecraft.server.v1_13_R2.ChatMessageType;
-import net.minecraft.server.v1_13_R2.IChatBaseComponent;
-import net.minecraft.server.v1_13_R2.IChatBaseComponent.ChatSerializer;
-import net.minecraft.server.v1_13_R2.PacketPlayOutChat;
+import net.minecraft.server.v1_14_R1.ChatMessageType;
+import net.minecraft.server.v1_14_R1.IChatBaseComponent;
+import net.minecraft.server.v1_14_R1.IChatBaseComponent.ChatSerializer;
+import net.minecraft.server.v1_14_R1.PacketPlayOutChat;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -119,6 +120,16 @@ public class SpaceListener implements Listener {
 			player.sendBlockChange(loc, block.getBlockData());
 		}
 	}
+
+	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+	public void takeBook (PlayerTakeLecternBookEvent e) {
+		Player player = e.getPlayer();
+		Location loc = e.getLectern().getLocation();
+		if (!playerpm(player.getName(), loc, 0)) {
+			sendActionBarMessage(player, "您没有取走该书的权限！");
+			e.setCancelled(true);
+		}
+	}
 	
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void breakblock(BlockBreakEvent e) {
@@ -139,30 +150,16 @@ public class SpaceListener implements Listener {
 	}
 	
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
-	public void portalCreate(PlayerPortalEvent e) {
-		if (e.getCause().equals(TeleportCause.NETHER_PORTAL)) {
-			TravelAgent agent = e.getPortalTravelAgent();
-			Location loc = agent.findPortal(e.getTo());
-			if (loc == null)
-				e.setCancelled(true);
+	public void portalCreate(PortalCreateEvent e) {
+		if (e.getReason().equals(PortalCreateEvent.CreateReason.NETHER_PAIR)) {
+			e.setCancelled(true);
 		}
 	}
-	
-	/*@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
-	public void interact1(PlayerInteractEvent e) {
-		if (e.getAction().equals(Action.PHYSICAL)) {
-			Player player = e.getPlayer();
-			Location loc = e.getClickedBlock().getLocation();
-			if (!playerpm(player.getName(), loc, 4)) {
-				e.setCancelled(true);
-			}
-		}
-	}*/
 	
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void interact2(PlayerInteractEvent e) {
 		if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
-			if (trigger(e.getClickedBlock()) && (!e.getPlayer().isSneaking() || e.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.AIR))) {
+			if ((!e.getPlayer().isSneaking() || e.getItem() == null) && trigger(e.getClickedBlock(), e.getItem())) {
 				Player player = e.getPlayer();
 				Location loc = e.getClickedBlock().getLocation();
 				if (!playerpm(player.getName(), loc, 2)) {
@@ -435,94 +432,119 @@ public class SpaceListener implements Listener {
 		}
 	}
 	
-	private boolean trigger(Block block) {
+	private boolean trigger(Block block, ItemStack item) {
 		switch(block.getType()) {
-		case CHEST:
-		//case ENDER_CHEST:
-		case TRAPPED_CHEST:
-		case WHITE_SHULKER_BOX:
-		case ORANGE_SHULKER_BOX:
-		case MAGENTA_SHULKER_BOX:
-		case LIGHT_BLUE_SHULKER_BOX:
-		case YELLOW_SHULKER_BOX:
-		case LIME_SHULKER_BOX:
-		case PINK_SHULKER_BOX:
-		case GRAY_SHULKER_BOX:
-		case LIGHT_GRAY_SHULKER_BOX:
-		case CYAN_SHULKER_BOX:
-		case PURPLE_SHULKER_BOX:
-		case BLUE_SHULKER_BOX:
-		case BROWN_SHULKER_BOX:
-		case GREEN_SHULKER_BOX:
-		case RED_SHULKER_BOX:
-		case BLACK_SHULKER_BOX:
-		case SHULKER_BOX:
-		case ACACIA_BUTTON:
-		case BIRCH_BUTTON:
-		case DARK_OAK_BUTTON:
-		case JUNGLE_BUTTON:
-		case OAK_BUTTON:
-		case SPRUCE_BUTTON:
-		case STONE_BUTTON:
-		case LEVER:
-		case COMPARATOR:
-		case REPEATER:
-		case IRON_DOOR:
-		case ACACIA_TRAPDOOR:
-		case BIRCH_TRAPDOOR:
-		case DARK_OAK_TRAPDOOR:
-		case JUNGLE_TRAPDOOR:
-		case OAK_TRAPDOOR:
-		case SPRUCE_TRAPDOOR:
-		case IRON_TRAPDOOR:
-		case OAK_DOOR:
-		case SPRUCE_DOOR:
-		case BIRCH_DOOR:
-		case JUNGLE_DOOR:
-		case ACACIA_DOOR:
-		case DARK_OAK_DOOR:
-		case OAK_FENCE_GATE:
-		case SPRUCE_FENCE_GATE:
-		case BIRCH_FENCE_GATE:
-		case JUNGLE_FENCE_GATE:
-		case DARK_OAK_FENCE_GATE:
-		case ACACIA_FENCE_GATE:
-		//case CRAFTING_TABLE:
-		case FURNACE:
-		case HOPPER:
-		case BREWING_STAND:
-		case ANVIL:
-		case CHIPPED_ANVIL:
-		case DAMAGED_ANVIL:
-		case BEACON:
-		case DISPENSER:
-		case DROPPER:
-		case NOTE_BLOCK:
-		case JUKEBOX:
-		case ENCHANTING_TABLE:
-		case DAYLIGHT_DETECTOR:
-		case BLACK_BED:
-		case BLUE_BED:
-		case BROWN_BED:
-		case CYAN_BED:
-		case GRAY_BED:
-		case GREEN_BED:
-		case LIGHT_BLUE_BED:
-		case LIGHT_GRAY_BED:
-		case LIME_BED:
-		case MAGENTA_BED:
-		case ORANGE_BED:
-		case PINK_BED:
-		case PURPLE_BED:
-		case RED_BED:
-		case WHITE_BED:
-		case YELLOW_BED:
-		case SIGN:
-		case WALL_SIGN:
-		case CAKE:
-			return true;
-		default:
-			return false;
+			case CHEST:
+			//case ENDER_CHEST:
+			case TRAPPED_CHEST:
+			case WHITE_SHULKER_BOX:
+			case ORANGE_SHULKER_BOX:
+			case MAGENTA_SHULKER_BOX:
+			case LIGHT_BLUE_SHULKER_BOX:
+			case YELLOW_SHULKER_BOX:
+			case LIME_SHULKER_BOX:
+			case PINK_SHULKER_BOX:
+			case GRAY_SHULKER_BOX:
+			case LIGHT_GRAY_SHULKER_BOX:
+			case CYAN_SHULKER_BOX:
+			case PURPLE_SHULKER_BOX:
+			case BLUE_SHULKER_BOX:
+			case BROWN_SHULKER_BOX:
+			case GREEN_SHULKER_BOX:
+			case RED_SHULKER_BOX:
+			case BLACK_SHULKER_BOX:
+			case SHULKER_BOX:
+			case ACACIA_BUTTON:
+			case BIRCH_BUTTON:
+			case DARK_OAK_BUTTON:
+			case JUNGLE_BUTTON:
+			case OAK_BUTTON:
+			case SPRUCE_BUTTON:
+			case STONE_BUTTON:
+			case LEVER:
+			case COMPARATOR:
+			case REPEATER:
+			case IRON_DOOR:
+			case ACACIA_TRAPDOOR:
+			case BIRCH_TRAPDOOR:
+			case DARK_OAK_TRAPDOOR:
+			case JUNGLE_TRAPDOOR:
+			case OAK_TRAPDOOR:
+			case SPRUCE_TRAPDOOR:
+			case IRON_TRAPDOOR:
+			case OAK_DOOR:
+			case SPRUCE_DOOR:
+			case BIRCH_DOOR:
+			case JUNGLE_DOOR:
+			case ACACIA_DOOR:
+			case DARK_OAK_DOOR:
+			case OAK_FENCE_GATE:
+			case SPRUCE_FENCE_GATE:
+			case BIRCH_FENCE_GATE:
+			case JUNGLE_FENCE_GATE:
+			case DARK_OAK_FENCE_GATE:
+			case ACACIA_FENCE_GATE:
+			//case CRAFTING_TABLE:
+			case FURNACE:
+			case HOPPER:
+			case BREWING_STAND:
+			case ANVIL:
+			case CHIPPED_ANVIL:
+			case DAMAGED_ANVIL:
+			case BEACON:
+			case DISPENSER:
+			case DROPPER:
+			case NOTE_BLOCK:
+			case ENCHANTING_TABLE:
+			case DAYLIGHT_DETECTOR:
+			case BLACK_BED:
+			case BLUE_BED:
+			case BROWN_BED:
+			case CYAN_BED:
+			case GRAY_BED:
+			case GREEN_BED:
+			case LIGHT_BLUE_BED:
+			case LIGHT_GRAY_BED:
+			case LIME_BED:
+			case MAGENTA_BED:
+			case ORANGE_BED:
+			case PINK_BED:
+			case PURPLE_BED:
+			case RED_BED:
+			case WHITE_BED:
+			case YELLOW_BED:
+			case SPRUCE_SIGN:
+			case SPRUCE_WALL_SIGN:
+			case ACACIA_SIGN:
+			case ACACIA_WALL_SIGN:
+			case BIRCH_SIGN:
+			case BIRCH_WALL_SIGN:
+			case DARK_OAK_SIGN:
+			case DARK_OAK_WALL_SIGN:
+			case JUNGLE_SIGN:
+			case JUNGLE_WALL_SIGN:
+			case OAK_SIGN:
+			case OAK_WALL_SIGN:
+			case LOOM:
+			case BARREL:
+			case SMOKER:
+			case BLAST_FURNACE:
+			case CARTOGRAPHY_TABLE:
+			case GRINDSTONE:
+			case STONECUTTER:
+			case BELL:
+			case CAKE:
+			case CAMPFIRE:
+			case FLOWER_POT:
+				return true;
+			case COMPOSTER:
+				if (block.getBlockData().getAsString().contains("=8"))
+					return true;
+			case JUKEBOX:
+				if (block.getBlockData().getAsString().contains("=true") || (item != null && item.getType().isRecord()))
+					return true;
+			default:
+				return false;
 		}
 	}
 	

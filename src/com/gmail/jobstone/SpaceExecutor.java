@@ -16,12 +16,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.craftbukkit.v1_13_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_14_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-import net.minecraft.server.v1_13_R2.IChatBaseComponent;
-import net.minecraft.server.v1_13_R2.PacketPlayOutChat;
-import net.minecraft.server.v1_13_R2.IChatBaseComponent.ChatSerializer;
+import net.minecraft.server.v1_14_R1.IChatBaseComponent;
+import net.minecraft.server.v1_14_R1.PacketPlayOutChat;
+import net.minecraft.server.v1_14_R1.IChatBaseComponent.ChatSerializer;
 
 public class SpaceExecutor implements CommandExecutor {
 	
@@ -836,7 +836,7 @@ public class SpaceExecutor implements CommandExecutor {
 		else if (string.equals("now")) {
 			Location loc = player.getLocation();
 			Space space = new Space(Space.getSpaceid(loc), Space.getWorldid(loc));
-			if (space.owner().equals(player.getName()) && !spacelist.contains(space))
+			if (space.owner() != null && space.owner().equals(player.getName()) && !spacelist.contains(space))
 				spacelist.add(space);
 		}
 		else if (string.equals("new")) {
@@ -884,7 +884,7 @@ public class SpaceExecutor implements CommandExecutor {
 		}
 		else if (Space.isSpaceLegal(string, world)){
 			Space space = new Space(string, world);
-			if (!spacelist.contains(space))
+			if (space.owner() != null && space.owner().equals(player.getName()) && !spacelist.contains(space))
 				spacelist.add(space);
 		}
 		

@@ -10,18 +10,18 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://F:/MC/服务器/BuildTools/craftbukkit-1.13.2.jar!/" />
+          <root url="jar://F:/MC/服务器/BuildTools/spigot-1.14.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://F:/MC/服务器/BuildTools/craftbukkit-1.13.2.jar!/" />
+          <root url="jar://F:/MC/服务器/BuildTools/spigot-1.14.4.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://F:/MC/服务器/PoorTest-1.13/plugins/PoorMessage.jar!/" />
+          <root url="jar://F:/MC/服务器/PoorTest-1.14/plugins/PoorMessage.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

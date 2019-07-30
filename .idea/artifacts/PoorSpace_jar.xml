@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="PoorSpace:jar">
-    <output-path>F:/MC/服务器/PoorTest-1.13/plugins</output-path>
+    <output-path>F:/MC/服务器/PoorTest-1.14/plugins</output-path>
     <root id="archive" name="PoorSpace.jar">
       <element id="module-output" name="PoorSpace" />
     </root>
