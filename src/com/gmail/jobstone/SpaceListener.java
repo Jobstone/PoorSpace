@@ -540,6 +540,9 @@ public class SpaceListener implements Listener {
 			case COMPOSTER:
 				if (block.getBlockData().getAsString().contains("=8"))
 					return true;
+			case SWEET_BERRY_BUSH:
+				if (block.getBlockData().getAsString().contains("=3"))
+					return true;
 			case JUKEBOX:
 				if (block.getBlockData().getAsString().contains("=true") || (item != null && item.getType().isRecord()))
 					return true;
