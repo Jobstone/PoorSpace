@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.type.Fire;
 import org.bukkit.craftbukkit.v1_14_R1.entity.CraftPlayer;
 import org.bukkit.entity.*;
 import org.bukkit.entity.minecart.RideableMinecart;
@@ -33,6 +34,7 @@ import net.minecraft.server.v1_14_R1.IChatBaseComponent.ChatSerializer;
 import net.minecraft.server.v1_14_R1.PacketPlayOutChat;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 
 public class SpaceListener implements Listener {
 	
@@ -203,6 +205,15 @@ public class SpaceListener implements Listener {
 		else if (e.getDamager() instanceof Projectile && ((Projectile)e.getDamager()).getShooter() instanceof Player) {
 			damager = (Player) ((Projectile) e.getDamager()).getShooter();
 		}
+		else if (e.getDamager() instanceof Firework) {
+			Firework firework = (Firework)e.getDamager();
+			NamespacedKey namespacedKey = new NamespacedKey(PoorSpace.plugin, "firework");
+			if (firework.getPersistentDataContainer().has(namespacedKey, PersistentDataType.STRING)) {
+				damager = Bukkit.getPlayerExact(firework.getPersistentDataContainer().get(namespacedKey, PersistentDataType.STRING));
+			}
+			else
+				return;
+		}
 		else 
 			return;
 		Location loc = e.getEntity().getLocation();
@@ -211,6 +222,15 @@ public class SpaceListener implements Listener {
 			e.setCancelled(true);
 		}
 		
+	}
+
+	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+	public void shootFirework(EntityShootBowEvent e) {
+		if (e.getProjectile() instanceof Firework && e.getEntity() instanceof Player) {
+			Firework firework = (Firework)e.getProjectile();
+			NamespacedKey namespacedKey = new NamespacedKey(PoorSpace.plugin, "firework");
+			firework.getPersistentDataContainer().set(namespacedKey, PersistentDataType.STRING, e.getEntity().getName());
+		}
 	}
 
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
@@ -541,7 +561,8 @@ public class SpaceListener implements Listener {
 				if (block.getBlockData().getAsString().contains("=8"))
 					return true;
 			case SWEET_BERRY_BUSH:
-				if (block.getBlockData().getAsString().contains("=3"))
+				String blockData = block.getBlockData().getAsString();
+				if (blockData.contains("=2") || (blockData.contains("=3") && (item == null || !item.getType().equals(Material.BONE_MEAL))))
 					return true;
 			case JUKEBOX:
 				if (block.getBlockData().getAsString().contains("=true") || (item != null && item.getType().isRecord()))
