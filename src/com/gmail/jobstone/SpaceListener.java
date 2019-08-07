@@ -70,7 +70,7 @@ public class SpaceListener implements Listener {
             for (int i = 0; i < 36; i++) {
                 inv2.setItem(i, inv.getItem(i));
             }
-            HashMap<Integer, ItemStack> lostitems = inv.addItem(e.getItemDrop().getItemStack().clone());
+            HashMap<Integer, ItemStack> lostitems = inv2.addItem(e.getItemDrop().getItemStack().clone());
             if (!lostitems.isEmpty()) {
                 Message message = new Message(System.currentTimeMillis(), "穷娘", player.getName(), "丢失的物品", "您不小心丢掉了一份物品，请及时查收~");
                 message.create(lostitems.get(new Integer(0)));
@@ -162,13 +162,27 @@ public class SpaceListener implements Listener {
 	public void interact2(PlayerInteractEvent e) {
 		if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
 			if ((!e.getPlayer().isSneaking() || e.getItem() == null) && trigger(e.getClickedBlock(), e.getItem())) {
-				Player player = e.getPlayer();
-				Location loc = e.getClickedBlock().getLocation();
-				if (!playerpm(player.getName(), loc, 2)) {
-					sendActionBarMessage(player, "您没有使用该空间方块的权限！");
+				PBlockInteractEvent event = new PBlockInteractEvent(e.getPlayer(), e.getClickedBlock());
+				Bukkit.getPluginManager().callEvent(event);
+				if (event.isCancelled()) {
 					e.setCancelled(true);
 				}
 			}
+		}
+	}
+
+	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+	public void interactBlock(PBlockInteractEvent e) {
+		switch (e.getBlock().getType()) {
+			case ENDER_CHEST:
+			case CRAFTING_TABLE:
+				return;
+		}
+		Player player = e.getPlayer();
+		Location loc = e.getBlock().getLocation();
+		if (!playerpm(player.getName(), loc, 2)) {
+			sendActionBarMessage(player, "您没有使用该空间方块的权限！");
+			e.setCancelled(true);
 		}
 	}
 	
@@ -455,7 +469,7 @@ public class SpaceListener implements Listener {
 	private boolean trigger(Block block, ItemStack item) {
 		switch(block.getType()) {
 			case CHEST:
-			//case ENDER_CHEST:
+			case ENDER_CHEST:
 			case TRAPPED_CHEST:
 			case WHITE_SHULKER_BOX:
 			case ORANGE_SHULKER_BOX:
@@ -504,7 +518,7 @@ public class SpaceListener implements Listener {
 			case JUNGLE_FENCE_GATE:
 			case DARK_OAK_FENCE_GATE:
 			case ACACIA_FENCE_GATE:
-			//case CRAFTING_TABLE:
+			case CRAFTING_TABLE:
 			case FURNACE:
 			case HOPPER:
 			case BREWING_STAND:
@@ -562,7 +576,7 @@ public class SpaceListener implements Listener {
 					return true;
 			case SWEET_BERRY_BUSH:
 				String blockData = block.getBlockData().getAsString();
-				if (blockData.contains("=2") || (blockData.contains("=3") && (item == null || !item.getType().equals(Material.BONE_MEAL))))
+				if (blockData.contains("=3") || (blockData.contains("=2") && (item == null || !item.getType().equals(Material.BONE_MEAL))))
 					return true;
 			case JUKEBOX:
 				if (block.getBlockData().getAsString().contains("=true") || (item != null && item.getType().isRecord()))
