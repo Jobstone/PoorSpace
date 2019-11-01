@@ -13,11 +13,7 @@ import org.bukkit.entity.minecart.RideableMinecart;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockBurnEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.block.BlockSpreadEvent;
+import org.bukkit.event.block.*;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.hanging.HangingBreakEvent;
@@ -214,6 +210,7 @@ public class SpaceListener implements Listener {
 		if (entity instanceof Projectile || entity instanceof Player)
 			return;
 		Player damager;
+		boolean natural = false;
 		if (e.getDamager() instanceof Player)
 			damager = (Player)e.getDamager();
 		else if (e.getDamager() instanceof Projectile && ((Projectile)e.getDamager()).getShooter() instanceof Player) {
@@ -225,11 +222,24 @@ public class SpaceListener implements Listener {
 			if (firework.getPersistentDataContainer().has(namespacedKey, PersistentDataType.STRING)) {
 				damager = Bukkit.getPlayerExact(firework.getPersistentDataContainer().get(namespacedKey, PersistentDataType.STRING));
 			}
-			else
-				return;
+			else {
+				natural = true;
+				damager = null;
+			}
 		}
-		else 
+		else {
+			natural = true;
+			damager = null;
+		}
+		if (natural) {
+			if ((e.getEntity() instanceof ArmorStand || e.getEntity() instanceof Hanging)) {
+				Location loc = e.getEntity().getLocation();
+				Space space = new Space(Space.getSpaceid(loc), Space.getWorldid(loc));
+				if (!space.canExplode())
+					e.setCancelled(true);
+			}
 			return;
+		}
 		Location loc = e.getEntity().getLocation();
 		if (!playerpm(damager.getName(), loc, 3)) {
 			sendActionBarMessage(damager, "您没有攻击该空间实体的权限！");
@@ -369,7 +379,7 @@ public class SpaceListener implements Listener {
 
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void explode2 (EntityDamageEvent e) {
-		if (e.getEntity() instanceof ArmorStand && (e.getCause().equals(EntityDamageEvent.DamageCause.BLOCK_EXPLOSION) || e.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_EXPLOSION))) {
+		if (!(e instanceof EntityDamageByEntityEvent) && (e.getEntity() instanceof ArmorStand || e.getEntity() instanceof Hanging)) {
 			Location loc = e.getEntity().getLocation();
 			Space space = new Space(Space.getSpaceid(loc), Space.getWorldid(loc));
 			if (!space.canExplode())
@@ -380,11 +390,23 @@ public class SpaceListener implements Listener {
 
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void explode3 (HangingBreakEvent e) {
-		if (e.getCause().equals(HangingBreakEvent.RemoveCause.EXPLOSION)) {
-			Location loc = e.getEntity().getLocation();
+		if (e instanceof HangingBreakByEntityEvent && ((HangingBreakByEntityEvent)e).getRemover() instanceof Player)
+			return;
+		Location loc = e.getEntity().getLocation();
+		Space space = new Space(Space.getSpaceid(loc), Space.getWorldid(loc));
+		if (!space.canExplode())
+			e.setCancelled(true);
+	}
+
+	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+	public void explode4(BlockExplodeEvent e) {
+		List<Block> blockListCopy = new ArrayList<>();
+		blockListCopy.addAll(e.blockList());
+		for (Block block : blockListCopy) {
+			Location loc = block.getLocation();
 			Space space = new Space(Space.getSpaceid(loc), Space.getWorldid(loc));
 			if (!space.canExplode())
-				e.setCancelled(true);
+				e.blockList().remove(block);
 		}
 	}
 	
