@@ -549,13 +549,13 @@ public class Space {
 			if (y <= 20) {
 				return chunk.getX()+"."+chunk.getZ()+".0";
 			}
-			else if (y <= 50) {
+			else if (y < 50) {
 				return chunk.getX()+"."+chunk.getZ()+".1";
 			}
-			else if (y <= 100) {
+			else if (y < 100) {
 				return chunk.getX()+"."+chunk.getZ()+".2";
 			}
-			else if (y <= 200) {
+			else if (y < 200) {
 				return chunk.getX()+"."+chunk.getZ()+".3";
 			}
 			else {
@@ -563,10 +563,10 @@ public class Space {
 			}
 		}
 		else if (world.equals("world_nether")) {
-			if (y <= 50) {
+			if (y < 50) {
 				return chunk.getX()+"."+chunk.getZ()+".0";
 			}
-			else if (y <= 128) {
+			else if (y < 128) {
 				return chunk.getX()+"."+chunk.getZ()+".1";
 			}
 			else {

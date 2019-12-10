@@ -92,6 +92,18 @@ public class SpaceListener implements Listener {
 			}
 		}
 	}
+
+	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+	public void place2(EntityChangeBlockEvent e) {
+		NamespacedKey key = NamespacedKey.minecraft("jian_zhu_ji_qiao");
+		if (e.getEntity().getPersistentDataContainer().has(key, PersistentDataType.STRING)) {
+			String playerName = e.getEntity().getPersistentDataContainer().get(key, PersistentDataType.STRING);
+			Location loc = e.getBlock().getLocation();
+			if (!playerpm(playerName, loc, 0)) {
+				e.setCancelled(true);
+			}
+		}
+	}
 	
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void bucketPlace(PlayerBucketEmptyEvent e) {
@@ -407,6 +419,16 @@ public class SpaceListener implements Listener {
 			Space space = new Space(Space.getSpaceid(loc), Space.getWorldid(loc));
 			if (!space.canExplode())
 				e.blockList().remove(block);
+		}
+	}
+
+	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+	public void explode5 (EntityChangeBlockEvent e) {
+		if (e.getEntityType().equals(EntityType.RAVAGER)) {
+			Location loc = e.getBlock().getLocation();
+			Space space = new Space(Space.getSpaceid(loc), Space.getWorldid(loc));
+			if (!space.canExplode())
+				e.setCancelled(true);
 		}
 	}
 	

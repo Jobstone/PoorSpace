@@ -741,7 +741,14 @@ public class InvListener implements Listener {
 	
 	private void buyClick(Player player, String id, String click, int world) {
 		if (click.equals("§a§l确认购买")) {
-			
+
+		    Space space = new Space(id, world);
+		    if (space.owner() != null) {
+                player.sendMessage("§7【PoorSpace】该空间已被其他人购买！");
+                SpaceOpen.openSpace(player, id, world);
+                return;
+            }
+
 			int totalexp = 0;
 			int explevel = player.getLevel();
 			int level2 = (int)Math.pow(explevel, 2);
@@ -768,7 +775,7 @@ public class InvListener implements Listener {
 				player.setLevel(0);
 				player.setExp(0);
 				player.giveExp(totalexp-cost);
-				new Space(id, world).setOwner(new SpacePlayer(player.getName()));
+				space.setOwner(new SpacePlayer(player.getName()));
 				player.sendMessage("§7【PoorSpace】空间"+id+"购买成功！");
 				SpaceOpen.openSpace(player, id, world);
 				
