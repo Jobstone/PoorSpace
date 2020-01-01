@@ -97,10 +97,12 @@ public class SpaceListener implements Listener {
 	public void place2(EntityChangeBlockEvent e) {
 		NamespacedKey key = NamespacedKey.minecraft("jian_zhu_ji_qiao");
 		if (e.getEntity().getPersistentDataContainer().has(key, PersistentDataType.STRING)) {
-			String playerName = e.getEntity().getPersistentDataContainer().get(key, PersistentDataType.STRING);
+			FallingBlock block = (FallingBlock)e.getEntity();
+			String playerName = block.getPersistentDataContainer().get(key, PersistentDataType.STRING);
 			Location loc = e.getBlock().getLocation();
 			if (!playerpm(playerName, loc, 0)) {
 				e.setCancelled(true);
+				loc.getWorld().dropItemNaturally(loc, new ItemStack(block.getBlockData().getMaterial()));
 			}
 		}
 	}
