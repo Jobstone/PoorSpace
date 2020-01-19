@@ -1,10 +1,12 @@
-package com.gmail.jobstone;
+package com.gmail.jobstone.listeners;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gmail.jobstone.PoorSpace;
+import com.gmail.jobstone.SpacePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;

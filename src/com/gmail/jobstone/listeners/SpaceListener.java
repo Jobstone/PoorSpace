@@ -1,9 +1,10 @@
-package com.gmail.jobstone;
+package com.gmail.jobstone.listeners;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.gmail.jobstone.*;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.type.Fire;
@@ -34,12 +35,8 @@ import org.bukkit.persistence.PersistentDataType;
 
 public class SpaceListener implements Listener {
 	
-	@SuppressWarnings("unused")
-	private final PoorSpace plugin;
-	
 	public SpaceListener (PoorSpace plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-		this.plugin = plugin;
 	}
 	
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
@@ -248,7 +245,7 @@ public class SpaceListener implements Listener {
 		if (natural) {
 			if ((e.getEntity() instanceof ArmorStand || e.getEntity() instanceof Hanging)) {
 				Location loc = e.getEntity().getLocation();
-				Space space = new Space(Space.getSpaceid(loc), Space.getWorldid(loc));
+				Space space = SpaceManager.getSpace(loc);
 				if (!space.canExplode())
 					e.setCancelled(true);
 			}
@@ -384,7 +381,7 @@ public class SpaceListener implements Listener {
 	    blockListCopy.addAll(e.blockList());
 		for (Block block : blockListCopy) {
 			Location loc = block.getLocation();
-			Space space = new Space(Space.getSpaceid(loc), Space.getWorldid(loc));
+			Space space = SpaceManager.getSpace(loc);
 			if (!space.canExplode())
 				e.blockList().remove(block);
 		}
@@ -395,7 +392,7 @@ public class SpaceListener implements Listener {
 	public void explode2 (EntityDamageEvent e) {
 		if (!(e instanceof EntityDamageByEntityEvent) && (e.getEntity() instanceof ArmorStand || e.getEntity() instanceof Hanging)) {
 			Location loc = e.getEntity().getLocation();
-			Space space = new Space(Space.getSpaceid(loc), Space.getWorldid(loc));
+			Space space = SpaceManager.getSpace(loc);
 			if (!space.canExplode())
 				e.setCancelled(true);
 		}
@@ -406,8 +403,13 @@ public class SpaceListener implements Listener {
 	public void explode3 (HangingBreakEvent e) {
 		if (e instanceof HangingBreakByEntityEvent && ((HangingBreakByEntityEvent)e).getRemover() instanceof Player)
 			return;
+		switch (e.getCause()) {
+			case PHYSICS:
+			case OBSTRUCTION:
+				return;
+		}
 		Location loc = e.getEntity().getLocation();
-		Space space = new Space(Space.getSpaceid(loc), Space.getWorldid(loc));
+		Space space = SpaceManager.getSpace(loc);
 		if (!space.canExplode())
 			e.setCancelled(true);
 	}
@@ -418,7 +420,7 @@ public class SpaceListener implements Listener {
 		blockListCopy.addAll(e.blockList());
 		for (Block block : blockListCopy) {
 			Location loc = block.getLocation();
-			Space space = new Space(Space.getSpaceid(loc), Space.getWorldid(loc));
+			Space space = SpaceManager.getSpace(loc);
 			if (!space.canExplode())
 				e.blockList().remove(block);
 		}
@@ -428,7 +430,7 @@ public class SpaceListener implements Listener {
 	public void explode5 (EntityChangeBlockEvent e) {
 		if (e.getEntityType().equals(EntityType.RAVAGER)) {
 			Location loc = e.getBlock().getLocation();
-			Space space = new Space(Space.getSpaceid(loc), Space.getWorldid(loc));
+			Space space = SpaceManager.getSpace(loc);
 			if (!space.canExplode())
 				e.setCancelled(true);
 		}
@@ -438,7 +440,7 @@ public class SpaceListener implements Listener {
 	public void mosterDamage(EntityChangeBlockEvent e) {
 		if (monsters(e.getEntityType())) {
 			Location loc = e.getBlock().getLocation();
-			Space space = new Space(Space.getSpaceid(loc), Space.getWorldid(loc));
+			Space space = SpaceManager.getSpace(loc);
 			if (!space.canExplode())
 				e.setCancelled(true);
 		}
@@ -448,7 +450,7 @@ public class SpaceListener implements Listener {
 	public void fire(BlockSpreadEvent e) {
 		if (e.getSource().getType().equals(Material.FIRE)) {
 			Location loc = e.getBlock().getLocation();
-			Space space = new Space(Space.getSpaceid(loc), Space.getWorldid(loc));
+			Space space = SpaceManager.getSpace(loc);
 			if (!space.canFire())
 				e.setCancelled(true);
 		}
@@ -457,7 +459,7 @@ public class SpaceListener implements Listener {
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void fire2(BlockBurnEvent e) {
 		Location loc = e.getBlock().getLocation();
-		Space space = new Space(Space.getSpaceid(loc), Space.getWorldid(loc));
+		Space space = SpaceManager.getSpace(loc);
 		if (!space.canFire())
 			e.setCancelled(true);
 		
@@ -633,20 +635,17 @@ public class SpaceListener implements Listener {
 	}
 	
 	public static boolean playerpm(String player, Location loc, int pmid) {
-		
-		String spaceid = Space.getSpaceid(loc);
-		int worldid = Space.getWorldid(loc);
-		Space space = new Space(spaceid, worldid);
-		if (Space.isOwned(spaceid, worldid)) {
-			if (space.getOwnerType().equals(SpaceOwner.OwnerType.PLAYER) && player.equals(space.owner()))
-				return true;
-		}
+
+		Space space = SpaceManager.getSpace(loc);
+		if (space.owner() != null && player.equals(space.owner()))
+			return true;
 		int group = checkGroup(space, player);
 		char[] pm = space.permission(group);
 		if (pm[pmid] == '1')
 			return true;
 		else
 			return false;
+
 	}
 	
 	private static int checkGroup(Space space, String player) {

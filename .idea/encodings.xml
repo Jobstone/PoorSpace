@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="Encoding" addBOMForNewFiles="with NO BOM">
+  <component name="Encoding">
     <file url="file://$PROJECT_DIR$/../PoorChunkGenerator/src/com/gmail/jobstone/PoorChunkExecutor.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/com/gmail/jobstone/FileListener.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/com/gmail/jobstone/InvListener.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/com/gmail/jobstone/PoorSpace.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/com/gmail/jobstone/Space.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/com/gmail/jobstone/SpaceExecutor.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/com/gmail/jobstone/SpaceListener.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/com/gmail/jobstone/SpaceOpen.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/com/gmail/jobstone/SpacePlayer.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/com/gmail/jobstone/SpaceTabCompleter.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/gmail/jobstone/listeners/FileListener.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/gmail/jobstone/listeners/InvListener.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/gmail/jobstone/listeners/SpaceListener.java" charset="UTF-8" />
   </component>
 </project>

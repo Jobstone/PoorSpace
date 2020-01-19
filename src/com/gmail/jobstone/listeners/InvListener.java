@@ -1,9 +1,10 @@
-package com.gmail.jobstone;
+package com.gmail.jobstone.listeners;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import com.gmail.jobstone.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -733,6 +734,8 @@ public class InvListener implements Listener {
 				else
 					pm[j] = '0';
 				space.setPermission(group, pm);
+				SpaceManager manager = SpaceManager.getSpaceManager(world);
+				manager.update(id, space);
 				SpaceOpen.openPermission(player, id, world, group);
 				
 			}
@@ -776,6 +779,8 @@ public class InvListener implements Listener {
 				player.setExp(0);
 				player.giveExp(totalexp-cost);
 				space.setOwner(new SpacePlayer(player.getName()));
+				SpaceManager manager = SpaceManager.getSpaceManager(world);
+				manager.update(id, space);
 				player.sendMessage("§7【PoorSpace】空间"+id+"购买成功！");
 				SpaceOpen.openSpace(player, id, world);
 				
@@ -798,6 +803,8 @@ public class InvListener implements Listener {
 	private void giveupClick(Player player, String id, String click, int world) {
 		if (click.equals("§4§l确认放弃")) {
 			new Space(id, world).remove();
+			SpaceManager manager = SpaceManager.getSpaceManager(world);
+			manager.update(id, new Space(id, world));
 			SpaceOpen.openSpace(player, id, world);
 			
 			@SuppressWarnings("deprecation")

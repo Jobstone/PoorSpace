@@ -148,6 +148,8 @@ public class SpaceExecutor implements CommandExecutor {
 															spacesb.append(", ");
 														Space space = list.get(i);
 														space.setGroup(1, group);
+														SpaceManager manager = SpaceManager.getSpaceManager(args[2]);
+														manager.update(space.id(), space);
 														spacesb.append(space.id());
 													}
 													if (msg.equals("")) {
@@ -166,6 +168,8 @@ public class SpaceExecutor implements CommandExecutor {
 															spacesb.append(", ");
 														Space space = list.get(i);
 														space.setGroup(2, group);
+														SpaceManager manager = SpaceManager.getSpaceManager(args[2]);
+														manager.update(space.id(), space);
 														spacesb.append(space.id());
 													}
 													if (msg.equals("")) {
@@ -184,6 +188,8 @@ public class SpaceExecutor implements CommandExecutor {
 															spacesb.append(", ");
 														Space space = list.get(i);
 														space.setGroup(3, group);
+														SpaceManager manager = SpaceManager.getSpaceManager(args[2]);
+														manager.update(space.id(), space);
 														spacesb.append(space.id());
 													}
 													if (msg.equals("")) {
@@ -300,6 +306,8 @@ public class SpaceExecutor implements CommandExecutor {
 														for (Space space : list) {
 															int result = space.addGroup(groupnum, group);
 															if (result == 1) {
+																SpaceManager manager = SpaceManager.getSpaceManager(args[2]);
+																manager.update(space.id(), space);
 																if (!i)
 																	space_success.append(", ");
 																else
@@ -421,6 +429,8 @@ public class SpaceExecutor implements CommandExecutor {
 
 														for (Space space : list) {
 															space.removeGroup(groupnum, group);
+															SpaceManager manager = SpaceManager.getSpaceManager(args[2]);
+															manager.update(space.id(), space);
 															if (!i)
 																space_success.append(", ");
 															else
@@ -638,6 +648,8 @@ public class SpaceExecutor implements CommandExecutor {
 																spacesb.append(", ");
 															Space space = list.get(i);
 															space.setPermission(1, args[5].toCharArray());
+															SpaceManager manager = SpaceManager.getSpaceManager(args[2]);
+															manager.update(space.id(), space);
 															spacesb.append(space.id());
 														}
 														IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"§7【PoorSpace】已将" + SpaceOpen.world(world) + "的\",\"extra\":[{\"text\":\"§n这些空间\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"" + spacesb.toString() + "\"}},{\"text\":\"§7中的权限组1权限设置为：" + args[5] + "\"}]}");
@@ -653,6 +665,8 @@ public class SpaceExecutor implements CommandExecutor {
 																spacesb.append(", ");
 															Space space = list.get(i);
 															space.setPermission(2, args[5].toCharArray());
+															SpaceManager manager = SpaceManager.getSpaceManager(args[2]);
+															manager.update(space.id(), space);
 															spacesb.append(space.id());
 														}
 														IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"§7【PoorSpace】已将" + SpaceOpen.world(world) + "的\",\"extra\":[{\"text\":\"§n这些空间\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"" + spacesb.toString() + "\"}},{\"text\":\"§7中的权限组2权限设置为：" + args[5] + "\"}]}");
@@ -668,6 +682,8 @@ public class SpaceExecutor implements CommandExecutor {
 																spacesb.append(", ");
 															Space space = list.get(i);
 															space.setPermission(3, args[5].toCharArray());
+															SpaceManager manager = SpaceManager.getSpaceManager(args[2]);
+															manager.update(space.id(), space);
 															spacesb.append(space.id());
 														}
 														IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"§7【PoorSpace】已将" + SpaceOpen.world(world) + "的\",\"extra\":[{\"text\":\"§n这些空间\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"" + spacesb.toString() + "\"}},{\"text\":\"§7中的权限组3权限设置为：" + args[5] + "\"}]}");
@@ -683,6 +699,8 @@ public class SpaceExecutor implements CommandExecutor {
 																spacesb.append(", ");
 															Space space = list.get(i);
 															space.setPermission(4, args[5].toCharArray());
+															SpaceManager manager = SpaceManager.getSpaceManager(args[2]);
+															manager.update(space.id(), space);
 															spacesb.append(space.id());
 														}
 														IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"§7【PoorSpace】已将" + SpaceOpen.world(world) + "的\",\"extra\":[{\"text\":\"§n这些空间\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"" + spacesb.toString() + "\"}},{\"text\":\"§7中的权限组4权限设置为：" + args[5] + "\"}]}");
