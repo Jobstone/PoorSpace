@@ -3,6 +3,7 @@ package com.gmail.jobstone;
 import java.io.File;
 
 import com.gmail.jobstone.listeners.FileListener;
+import com.gmail.jobstone.listeners.GeneralListener;
 import com.gmail.jobstone.listeners.InvListener;
 import com.gmail.jobstone.listeners.SpaceListener;
 import org.bukkit.Bukkit;
@@ -92,14 +93,19 @@ public class PoorSpace extends JavaPlugin {
 				
 			}
 		}.runTaskTimer(this, 20, 5);
+
+		SpaceManager.initialize();
 		
 		PluginCommand command = getCommand("poorspace");
-		command.setExecutor(new SpaceExecutor(this));
+		SpaceExecutor executor = new SpaceExecutor(this);
+		command.setExecutor(executor);
 		command.setTabCompleter(new SpaceTabCompleter());
+		getCommand("ps-op").setExecutor(new OpExecutor());
 		new FileListener(this);
 		new InvListener(this);
 		new SpaceOpen(this);
 		new SpaceListener(this);
+		new GeneralListener();
 		
 	}
 

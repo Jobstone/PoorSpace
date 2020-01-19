@@ -9,11 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.bukkit.Chunk;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -25,7 +21,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class Space {
 	
-	private static JavaPlugin plugin = SpaceOpen.plugin;;
+	private static JavaPlugin plugin = PoorSpace.plugin;;
 	private String id;
 	private int world;
 	private File file;
@@ -60,6 +56,10 @@ public class Space {
 			w = "Minigame";
 			break;
 		}
+		if (w == null)
+			Bukkit.getConsoleSender().sendMessage("1");
+		if (id == null)
+			Bukkit.getConsoleSender().sendMessage("2");
 		file = new File(plugin.getDataFolder(), "spaces/"+w+"/"+id+".yml");
 		if (file.exists()) {
 			FileConfiguration config = YamlConfiguration.loadConfiguration(file);

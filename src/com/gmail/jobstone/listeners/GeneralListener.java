@@ -3,6 +3,7 @@ package com.gmail.jobstone.listeners;
 import com.gmail.jobstone.PoorSpace;
 import com.gmail.jobstone.Space;
 import com.gmail.jobstone.SpaceManager;
+import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -16,6 +17,7 @@ public class GeneralListener implements Listener {
         PoorSpace.plugin.getServer().getPluginManager().registerEvents(this, PoorSpace.plugin);
     }
 
+    /*
     @EventHandler (priority = EventPriority.HIGH, ignoreCancelled = true)
     public void chunkLoad(ChunkLoadEvent e) {
         String world = e.getWorld().getName();
@@ -26,6 +28,7 @@ public class GeneralListener implements Listener {
             manager.load(chunk.getX()+"."+chunk.getZ()+"."+i);
         }
     }
+    */
 
     @EventHandler (priority = EventPriority.HIGH, ignoreCancelled = true)
     public void chunkUnload(ChunkUnloadEvent e) {

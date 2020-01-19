@@ -46,9 +46,14 @@ public class SpaceManager {
             return loadedSpaces.get(id);
         }
         else {
-            Bukkit.getConsoleSender().sendMessage("found unloaded chunk: "+id);
-            return new Space(id, this.world);
+            Space space = new Space(id, this.world);
+            loadedSpaces.put(id, space);
+            return space;
         }
+    }
+
+    public int getLoadedSpacesSize() {
+        return loadedSpaces.size();
     }
 
     public static void initialize() {
