@@ -9,6 +9,9 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -16,12 +19,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.craftbukkit.v1_14_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-import net.minecraft.server.v1_14_R1.IChatBaseComponent;
-import net.minecraft.server.v1_14_R1.PacketPlayOutChat;
-import net.minecraft.server.v1_14_R1.IChatBaseComponent.ChatSerializer;
+import net.minecraft.server.v1_15_R1.IChatBaseComponent;
+import net.minecraft.server.v1_15_R1.PacketPlayOutChat;
+import net.minecraft.server.v1_15_R1.IChatBaseComponent.ChatSerializer;
 
 public class SpaceExecutor implements CommandExecutor {
 	
@@ -151,9 +154,14 @@ public class SpaceExecutor implements CommandExecutor {
 														spacesb.append(space.id());
 													}
 													if (msg.equals("")) {
-														IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"§7【PoorSpace】已将" + SpaceOpen.world(world) + "的\",\"extra\":[{\"text\":\"§n这些空间\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"" + spacesb.toString() + "\"}},{\"text\":\"§7中的权限组1玩家列表设为空。\"}]}");
-														PacketPlayOutChat packet = new PacketPlayOutChat(comp);
-														((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+														TextComponent text = new TextComponent("§7【PoorSpace】已将" + SpaceOpen.world(world) + "的");
+														TextComponent extra1 = new TextComponent("§n这些空间");
+														extra1.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new BaseComponent[] {new TextComponent(spacesb.toString())}));
+														text.addExtra(extra1);
+														text.addExtra(new TextComponent("§7中的权限组1玩家列表设为空。"));
+//														IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"§7【PoorSpace】已将" + SpaceOpen.world(world) + "的\",\"extra\":[{\"text\":\"§n这些空间\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"" + spacesb.toString() + "\"}},{\"text\":\"§7中的权限组1玩家列表设为空。\"}]}");
+//														PacketPlayOutChat packet = new PacketPlayOutChat(comp);
+//														((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
 													} else {
 														IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"§7【PoorSpace】已将" + SpaceOpen.world(world) + "的\",\"extra\":[{\"text\":\"§n这些空间\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"" + spacesb.toString() + "\"}},{\"text\":\"§7中的权限组1玩家列表设为：\\n§7" + msg + "\"}]}");
 														PacketPlayOutChat packet = new PacketPlayOutChat(comp);
