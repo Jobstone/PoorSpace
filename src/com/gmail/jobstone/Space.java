@@ -154,6 +154,7 @@ public class Space {
 		}
 		try {
 			config.save(file);
+            this.update();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -165,39 +166,70 @@ public class Space {
 		FileConfiguration config = YamlConfiguration.loadConfiguration(file);
 		int repeat = 0;
 		switch(group) {
-			case 1:
-				for (String name : names) {
-					if (group1.contains(name))
-						repeat++;
-				}
-				if (names.size()+group1.size()-repeat > 10)
-					return 2;
-				group1.addAll(names);
-				config.set("group1", group1);
-				break;
-			case 2:
-				for (String name : names) {
-					if (group2.contains(name))
-						repeat++;
-				}
-				if (names.size()+group2.size()-repeat > 10)
-					return 2;
-				group2.addAll(names);
-				config.set("group2", group2);
-				break;
-			case 3:
-				for (String name : names) {
-					if (group3.contains(name))
-						repeat++;
-				}
-				if (names.size()+group3.size()-repeat > 10)
-					return 2;
-				group3.addAll(names);
-				config.set("group3", group3);
-				break;
+			case 1: {
+			    int size = names.size();
+			    boolean[] exists = new boolean[size];
+			    for (int i = 0; i < size; ++i)
+			    	exists[i] = false;
+                for (int i = 0; i < size; i++) {
+                    if (group1.contains(names.get(i))) {
+                        repeat++;
+                        exists[i] = true;
+                    }
+                }
+                if (names.size() + group1.size() - repeat > 10)
+                    return 2;
+                for (int i = 0; i < size; i++) {
+                    if (!exists[i])
+                        group1.add(names.get(i));
+                }
+                config.set("group1", group1);
+                break;
+            }
+			case 2: {
+                int size = names.size();
+                boolean[] exists = new boolean[size];
+				for (int i = 0; i < size; ++i)
+					exists[i] = false;
+                for (int i = 0; i < size; i++) {
+                    if (group2.contains(names.get(i))) {
+                        repeat++;
+                        exists[i] = true;
+                    }
+                }
+                if (names.size() + group2.size() - repeat > 10)
+                    return 2;
+                for (int i = 0; i < size; i++) {
+                    if (!exists[i])
+                        group2.add(names.get(i));
+                }
+                config.set("group2", group2);
+                break;
+            }
+			case 3: {
+                int size = names.size();
+                boolean[] exists = new boolean[size];
+				for (int i = 0; i < size; ++i)
+					exists[i] = false;
+                for (int i = 0; i < size; i++) {
+                    if (group3.contains(names.get(i))) {
+                        repeat++;
+                        exists[i] = true;
+                    }
+                }
+                if (names.size() + group3.size() - repeat > 10)
+                    return 2;
+                for (int i = 0; i < size; i++) {
+                    if (!exists[i])
+                        group3.add(names.get(i));
+                }
+                config.set("group3", group3);
+                break;
+            }
 		}
 		try {
 			config.save(file);
+            this.update();
 			return 1;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -225,6 +257,7 @@ public class Space {
 		}
 		try {
 			config.save(file);
+            this.update();
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -241,6 +274,7 @@ public class Space {
 			config.set("permission1", String.valueOf(permission1));
 			try {
 				config.save(file);
+				this.update();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -250,6 +284,7 @@ public class Space {
 			config.set("permission2", String.valueOf(permission2));
 			try {
 				config.save(file);
+                this.update();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -259,6 +294,7 @@ public class Space {
 			config.set("permission3", String.valueOf(permission3));
 			try {
 				config.save(file);
+                this.update();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -268,6 +304,7 @@ public class Space {
 			config.set("permission4", String.valueOf(permission4));
 			try {
 				config.save(file);
+                this.update();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -343,6 +380,7 @@ public class Space {
 		config.set("owner_type", ownerType.name());
 		try {
 			config.save(file);
+            this.update();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -356,7 +394,13 @@ public class Space {
 			return;
 		spaceOwner.removeSpace(world, id);
 		this.file.delete();
+		this.update();
 	}
+
+	public void update() {
+        SpaceManager manager = SpaceManager.getSpaceManager(world);
+        manager.update(id, new Space(id, world));
+    }
 	
 	public static void showParticle(Player player, String id, int world) {
 		

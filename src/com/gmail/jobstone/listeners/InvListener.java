@@ -779,8 +779,6 @@ public class InvListener implements Listener {
 				player.setExp(0);
 				player.giveExp(totalexp-cost);
 				space.setOwner(new SpacePlayer(player.getName()));
-				SpaceManager manager = SpaceManager.getSpaceManager(world);
-				manager.update(id, space);
 				player.sendMessage("§7【PoorSpace】空间"+id+"购买成功！");
 				SpaceOpen.openSpace(player, id, world);
 				

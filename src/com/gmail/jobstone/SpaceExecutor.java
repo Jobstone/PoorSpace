@@ -148,8 +148,6 @@ public class SpaceExecutor implements CommandExecutor {
 															spacesb.append(", ");
 														Space space = list.get(i);
 														space.setGroup(1, group);
-														SpaceManager manager = SpaceManager.getSpaceManager(args[2]);
-														manager.update(space.id(), space);
 														spacesb.append(space.id());
 													}
 													if (msg.equals("")) {
@@ -168,8 +166,6 @@ public class SpaceExecutor implements CommandExecutor {
 															spacesb.append(", ");
 														Space space = list.get(i);
 														space.setGroup(2, group);
-														SpaceManager manager = SpaceManager.getSpaceManager(args[2]);
-														manager.update(space.id(), space);
 														spacesb.append(space.id());
 													}
 													if (msg.equals("")) {
@@ -188,8 +184,6 @@ public class SpaceExecutor implements CommandExecutor {
 															spacesb.append(", ");
 														Space space = list.get(i);
 														space.setGroup(3, group);
-														SpaceManager manager = SpaceManager.getSpaceManager(args[2]);
-														manager.update(space.id(), space);
 														spacesb.append(space.id());
 													}
 													if (msg.equals("")) {
@@ -254,7 +248,8 @@ public class SpaceExecutor implements CommandExecutor {
 															List<String> group = config.getStringList("group"+groupnum);
 															StringBuilder sb = new StringBuilder("");
 															for (int i = 5; i < args.length; i++) {
-																group.add(args[i]);
+															    if (!group.contains(args[i]))
+																    group.add(args[i]);
 																if (i != 5)
 																	sb.append("\n");
 																sb.append("§7 - " + args[i]);
@@ -306,8 +301,6 @@ public class SpaceExecutor implements CommandExecutor {
 														for (Space space : list) {
 															int result = space.addGroup(groupnum, group);
 															if (result == 1) {
-																SpaceManager manager = SpaceManager.getSpaceManager(args[2]);
-																manager.update(space.id(), space);
 																if (!i)
 																	space_success.append(", ");
 																else
@@ -429,8 +422,6 @@ public class SpaceExecutor implements CommandExecutor {
 
 														for (Space space : list) {
 															space.removeGroup(groupnum, group);
-															SpaceManager manager = SpaceManager.getSpaceManager(args[2]);
-															manager.update(space.id(), space);
 															if (!i)
 																space_success.append(", ");
 															else
@@ -598,30 +589,52 @@ public class SpaceExecutor implements CommandExecutor {
 											}
 
 											switch (args[4]) {
-												case "1":
+												case "1": {
 													if (args[5].length() == 7 && isPermissionLegal(args[5])) {
-														config.set("permission1", args[5]);
+														char[] oldPermission = config.getString("permission1").toCharArray();
+														char[] newPermission = args[5].toCharArray();
+														for (int i = 0; i < 7; i++)
+															if ('-' == newPermission[i])
+																newPermission[i] = oldPermission[i];
+														config.set("permission1", newPermission.toString());
 														player.sendMessage("§7【PoorSpace】已将" + SpaceOpen.world(world) + "的默认空间设置中的权限组1权限设置为：" + args[5]);
 													} else
 														player.sendMessage("§7【PoorSpace】权限设置不合法！");
 													break;
-												case "2":
+												}
+												case "2": {
 													if (args[5].length() == 7 && isPermissionLegal(args[5])) {
-														config.set("permission2", args[5]);
+														char[] oldPermission = config.getString("permission2").toCharArray();
+														char[] newPermission = args[5].toCharArray();
+														for (int i = 0; i < 7; i++)
+															if ('-' == newPermission[i])
+																newPermission[i] = oldPermission[i];
+														config.set("permission2", newPermission.toString());
 														player.sendMessage("§7【PoorSpace】已将" + SpaceOpen.world(world) + "的默认空间设置中的权限组2权限设置为：" + args[5]);
 													} else
 														player.sendMessage("§7【PoorSpace】权限设置不合法！");
 													break;
+												}
 												case "3":
 													if (args[5].length() == 7 && isPermissionLegal(args[5])) {
-														config.set("permission3", args[5]);
+														char[] oldPermission = config.getString("permission3").toCharArray();
+														char[] newPermission = args[5].toCharArray();
+														for (int i = 0; i < 7; i++)
+															if ('-' == newPermission[i])
+																newPermission[i] = oldPermission[i];
+														config.set("permission3", newPermission.toString());
 														player.sendMessage("§7【PoorSpace】已将" + SpaceOpen.world(world) + "的默认空间设置中的权限组3权限设置为：" + args[5]);
 													} else
 														player.sendMessage("§7【PoorSpace】权限设置不合法！");
 													break;
 												case "4":
 													if (args[5].length() == 9 && isPermissionLegal(args[5])) {
-														config.set("permission4", args[5]);
+														char[] oldPermission = config.getString("permission4").toCharArray();
+														char[] newPermission = args[5].toCharArray();
+														for (int i = 0; i < 9; i++)
+															if ('-' == newPermission[i])
+																newPermission[i] = oldPermission[i];
+														config.set("permission4", newPermission.toString());
 														player.sendMessage("§7【PoorSpace】已将" + SpaceOpen.world(world) + "的默认空间设置中的权限组4权限设置为：" + args[5]);
 													} else
 														player.sendMessage("§7【PoorSpace】权限设置不合法！");
@@ -647,9 +660,12 @@ public class SpaceExecutor implements CommandExecutor {
 															if (i != 0)
 																spacesb.append(", ");
 															Space space = list.get(i);
-															space.setPermission(1, args[5].toCharArray());
-															SpaceManager manager = SpaceManager.getSpaceManager(args[2]);
-															manager.update(space.id(), space);
+															char[] newPermission = args[5].toCharArray();
+															char[] oldPermission = space.permission(1);
+															for (int j = 0; j < 7; j++)
+																if ('-' == newPermission[j])
+																	newPermission[j] = oldPermission[j];
+															space.setPermission(1, newPermission);
 															spacesb.append(space.id());
 														}
 														IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"§7【PoorSpace】已将" + SpaceOpen.world(world) + "的\",\"extra\":[{\"text\":\"§n这些空间\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"" + spacesb.toString() + "\"}},{\"text\":\"§7中的权限组1权限设置为：" + args[5] + "\"}]}");
@@ -664,9 +680,12 @@ public class SpaceExecutor implements CommandExecutor {
 															if (i != 0)
 																spacesb.append(", ");
 															Space space = list.get(i);
-															space.setPermission(2, args[5].toCharArray());
-															SpaceManager manager = SpaceManager.getSpaceManager(args[2]);
-															manager.update(space.id(), space);
+															char[] newPermission = args[5].toCharArray();
+															char[] oldPermission = space.permission(2);
+															for (int j = 0; j < 7; j++)
+																if ('-' == newPermission[j])
+																	newPermission[j] = oldPermission[j];
+															space.setPermission(2, newPermission);
 															spacesb.append(space.id());
 														}
 														IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"§7【PoorSpace】已将" + SpaceOpen.world(world) + "的\",\"extra\":[{\"text\":\"§n这些空间\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"" + spacesb.toString() + "\"}},{\"text\":\"§7中的权限组2权限设置为：" + args[5] + "\"}]}");
@@ -681,9 +700,12 @@ public class SpaceExecutor implements CommandExecutor {
 															if (i != 0)
 																spacesb.append(", ");
 															Space space = list.get(i);
-															space.setPermission(3, args[5].toCharArray());
-															SpaceManager manager = SpaceManager.getSpaceManager(args[2]);
-															manager.update(space.id(), space);
+															char[] newPermission = args[5].toCharArray();
+															char[] oldPermission = space.permission(3);
+															for (int j = 0; j < 7; j++)
+																if ('-' == newPermission[j])
+																	newPermission[j] = oldPermission[j];
+															space.setPermission(3, newPermission);
 															spacesb.append(space.id());
 														}
 														IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"§7【PoorSpace】已将" + SpaceOpen.world(world) + "的\",\"extra\":[{\"text\":\"§n这些空间\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"" + spacesb.toString() + "\"}},{\"text\":\"§7中的权限组3权限设置为：" + args[5] + "\"}]}");
@@ -698,9 +720,12 @@ public class SpaceExecutor implements CommandExecutor {
 															if (i != 0)
 																spacesb.append(", ");
 															Space space = list.get(i);
-															space.setPermission(4, args[5].toCharArray());
-															SpaceManager manager = SpaceManager.getSpaceManager(args[2]);
-															manager.update(space.id(), space);
+															char[] newPermission = args[5].toCharArray();
+															char[] oldPermission = space.permission(4);
+															for (int j = 0; j < 9; j++)
+																if ('-' == newPermission[j])
+																	newPermission[j] = oldPermission[j];
+															space.setPermission(4, newPermission);
 															spacesb.append(space.id());
 														}
 														IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"§7【PoorSpace】已将" + SpaceOpen.world(world) + "的\",\"extra\":[{\"text\":\"§n这些空间\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"" + spacesb.toString() + "\"}},{\"text\":\"§7中的权限组4权限设置为：" + args[5] + "\"}]}");
@@ -804,8 +829,8 @@ public class SpaceExecutor implements CommandExecutor {
 	
 	
 	private boolean isPermissionLegal(String string) {
-		Pattern pattern = Pattern.compile("[^01]");  
-		return !pattern.matcher(string).matches();  
+        Pattern pattern = Pattern.compile("^[01-]*$");
+		return pattern.matcher(string).matches();
 	}
 
 	private List<Space> getSpaceList(Player player, String string, int world) {
