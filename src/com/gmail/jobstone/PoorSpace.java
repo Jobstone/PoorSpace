@@ -43,7 +43,7 @@ public class PoorSpace extends JavaPlugin {
 		this.saveDefaultConfig();
 
 		//文件更新
-		filesUpdate();
+		//filesUpdate();
 
 		if (!new File(this.getDataFolder(), "spaces").exists()) {
 			File spaces = new File(this.getDataFolder(), "spaces");
