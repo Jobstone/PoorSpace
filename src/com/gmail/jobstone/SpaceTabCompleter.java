@@ -1,16 +1,14 @@
 package com.gmail.jobstone;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
+import com.gmail.jobstone.space.Space;
+import com.gmail.jobstone.space.SpaceGroup;
+import com.gmail.jobstone.space.SpacePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 public class SpaceTabCompleter implements TabCompleter {

@@ -9,6 +9,10 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.gmail.jobstone.space.Space;
+import com.gmail.jobstone.space.SpaceGroup;
+import com.gmail.jobstone.space.SpaceOpen;
+import com.gmail.jobstone.space.SpacePlayer;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -159,6 +163,7 @@ public class SpaceExecutor implements CommandExecutor {
 														extra1.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new BaseComponent[] {new TextComponent(spacesb.toString())}));
 														text.addExtra(extra1);
 														text.addExtra(new TextComponent("§7中的权限组1玩家列表设为空。"));
+														player.spigot().sendMessage(text);
 //														IChatBaseComponent comp = ChatSerializer.a("{\"text\":\"§7【PoorSpace】已将" + SpaceOpen.world(world) + "的\",\"extra\":[{\"text\":\"§n这些空间\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"" + spacesb.toString() + "\"}},{\"text\":\"§7中的权限组1玩家列表设为空。\"}]}");
 //														PacketPlayOutChat packet = new PacketPlayOutChat(comp);
 //														((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);

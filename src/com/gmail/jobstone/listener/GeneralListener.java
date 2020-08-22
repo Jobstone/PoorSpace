@@ -1,14 +1,12 @@
-package com.gmail.jobstone.listeners;
+package com.gmail.jobstone.listener;
 
 import com.gmail.jobstone.PoorSpace;
-import com.gmail.jobstone.Space;
-import com.gmail.jobstone.SpaceManager;
-import org.bukkit.Bukkit;
+import com.gmail.jobstone.space.Space;
+import com.gmail.jobstone.space.SpaceManager;
 import org.bukkit.Chunk;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.event.world.ChunkUnloadEvent;
 
 public class GeneralListener implements Listener {

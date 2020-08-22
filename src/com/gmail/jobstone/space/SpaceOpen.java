@@ -1,8 +1,9 @@
-package com.gmail.jobstone;
+package com.gmail.jobstone.space;
 
 import java.io.File;
 import java.util.*;
 
+import com.gmail.jobstone.PoorSpace;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -48,31 +49,16 @@ public class SpaceOpen {
 	}
 	
 	public static void openWorld(Player player, int world, int page) {
-		
-		if (world == 0) {
-			FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "players/"+player.getName()+"/Overworld.yml"));
-			List<String> list = config.getStringList("list");
-			subOpenWorld(player, list, "主世界", Material.GRASS_BLOCK, page, world);
+		switch (world) {
+			case 0:
+			case 1:
+			case 2:
+			case 3:
+				FileConfiguration config = YamlConfiguration.loadConfiguration(FileManager.getPlayerWorldFile(player.getName(), world));
+				List<String> list = config.getStringList("list");
+				subOpenWorld(player, list, SpaceOpen.world(world), SpaceOpen.worldMaterial(world), page, world);
+				return;
 		}
-		else if (world == 1) {
-			FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "players/"+player.getName()+"/Nether.yml"));
-			List<String> list = config.getStringList("list");
-			subOpenWorld(player, list, "下界", Material.NETHERRACK, page, world);
-		}
-		else if (world == 2) {
-			FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "players/"+player.getName()+"/End.yml"));
-			List<String> list = config.getStringList("list");
-			subOpenWorld(player, list, "末地", Material.END_STONE, page, world);
-		}
-		else if (world == 3) {
-			FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "players/"+player.getName()+"/Creative.yml"));
-			List<String> list = config.getStringList("list");
-			subOpenWorld(player, list, "创造界", Material.SANDSTONE, page, world);
-		}
-		else if (world == 4) {
-			
-		}
-		
 	}
 	
 	private static void subOpenWorld(Player player, List<String> list, String w, Material material, int page, int world) {
@@ -116,30 +102,8 @@ public class SpaceOpen {
 	
 	public static void openSpace(Player player, String spaceid, int world) {
 		Space space = new Space(spaceid, world);
-		String w = "主世界";
-		Material material = Material.GRASS_BLOCK;
-		switch(world) {
-		case 0:
-			w = "主世界";
-			material = Material.GRASS_BLOCK;
-			break;
-		case 1:
-			w = "下界";
-			material = Material.NETHERRACK;
-			break;
-		case 2:
-			w = "末地";
-			material = Material.END_STONE;
-			break;
-		case 3:
-			w = "创造界";
-			material = Material.SANDSTONE;
-			break;
-		case 4:
-			w = "小游戏界";
-			material = Material.DIAMOND_SWORD;
-			break;
-		}
+		String w = SpaceOpen.world(world);
+		Material material = SpaceOpen.worldMaterial(world);
 		Inventory inv = Bukkit.getServer().createInventory(null, 18, "§1PoorSpace――"+w+"空间"+spaceid);
 		
 		String chunkid = spaceid.substring(0, spaceid.length()-2);
@@ -223,12 +187,12 @@ public class SpaceOpen {
 		inv.setItem(8, newItem(Material.MAP, "§e§l周围区块", lore));
 		
 		lore.clear();
-		
-		FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "players/"+player.getName()+"/Overworld.yml"));
-		List<String> list = config.getStringList("list");
+
 		int cost = Space.cost(spaceid, world);
 		String costs = cost+"";
 		if (world == 0) {
+			FileConfiguration config = YamlConfiguration.loadConfiguration(FileManager.getPlayerWorldFile(player.getName(), 0));
+			List<String> list = config.getStringList("list");
 			if (list.isEmpty())
 				costs = "§m"+cost+"§e0";
 			else if (list.size() < 4)
@@ -282,13 +246,13 @@ public class SpaceOpen {
 		String w = world(world);
 		Inventory inv = Bukkit.getServer().createInventory(null, 9, "§1PoorSpace――"+w+"空间"+id+"购买");
 		
-		ArrayList<String> lore = new ArrayList<String>();
-		
-		FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "players/"+player.getName()+"/Overworld.yml"));
-		List<String> list = config.getStringList("list");
+		ArrayList<String> lore = new ArrayList<>();
+
 		int cost = Space.cost(id, world);
 		String costs = cost+"";
 		if (world == 0) {
+			FileConfiguration config = YamlConfiguration.loadConfiguration(FileManager.getPlayerWorldFile(player.getName(), 0));
+			List<String> list = config.getStringList("list");
 			if (list.isEmpty())
 				costs = "§m"+cost+"§e0";
 			else if (list.size() < 4)
@@ -648,65 +612,67 @@ public class SpaceOpen {
 	}
 	
 	private static String spaceY(int m, int world) {
-		String name = "error";
-		if (world == 0) {
-			switch(m) {
+		switch (world) {
 			case 0:
-				name = "高度：1-20";
+				switch (m) {
+					case 0:
+						return "高度：0-19";
+					case 1:
+						return "高度：20-49";
+					case 2:
+						return "高度：50-99";
+					case 3:
+						return "高度：100-199";
+					case 4:
+						return "高度：200-255";
+				}
 				break;
 			case 1:
-				name = "高度：21-50";
+				switch (m) {
+					case 0:
+						return "高度：0-49";
+					case 1:
+						return "高度：50-127";
+					case 2:
+						return "高度：128-255";
+				}
 				break;
-			case 2:
-				name = "高度：51-100";
-				break;
-			case 3:
-				name = "高度：101-200";
-				break;
-			case 4:
-				name = "高度：201-256";
-				break;
-			}
+			default:
+				return "全高度";
 		}
-		else if (world == 1) {
-			switch(m) {
-			case 0:
-				name = "高度：1-50";
-				break;
-			case 1:
-				name = "高度：51-128";
-				break;
-			case 2:
-				name = "高度：129-256";
-				break;
-			}
-		}
-		else {
-			name = "全高度";
-		}
-		return name;
+		return "error";
 	}
 	
 	public static String world(int world) {
-		String w = "主世界";
 		switch(world) {
-		case 0:
-			w = "主世界";
-			break;
-		case 1:
-			w = "下界";
-			break;
-		case 2:
-			w = "末地";
-			break;
-		case 3:
-			w = "创造界";
-			break;
-		case 4:
-			w = "小游戏界";
-			break;
+			case 0:
+				return "主世界";
+			case 1:
+				return "下界";
+			case 2:
+				return "末地";
+			case 3:
+				return "创造界";
+			case 4:
+				return "小游戏界";
 		}
-		return w;
+		return null;
+	}
+
+	public static Material worldMaterial(int world) {
+		switch (world) {
+			case 0:
+				return Material.GRASS_BLOCK;
+			case 1:
+				return Material.NETHERRACK;
+			case 2:
+				return Material.END_STONE;
+			case 3:
+				return Material.SANDSTONE;
+			case 4:
+				return Material.DIAMOND_SWORD;
+		}
+		return null;
 	}
 	
 	private static ItemStack newItem(Material material, String name) {

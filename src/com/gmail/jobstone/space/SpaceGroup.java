@@ -1,12 +1,10 @@
-package com.gmail.jobstone;
+package com.gmail.jobstone.space;
 
+import com.gmail.jobstone.PoorSpace;
 import org.bukkit.Material;
-import org.bukkit.block.banner.Pattern;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.BannerMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.File;

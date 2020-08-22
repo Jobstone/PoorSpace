@@ -1,4 +1,4 @@
-package com.gmail.jobstone;
+package com.gmail.jobstone.space;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.gmail.jobstone.PoorSpace;
 import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -35,32 +36,11 @@ public class Space {
 	private char[] permission3 = {'1', '1', '1', '1', '1', '1', '1'};
 	private char[] permission4 = {'0', '1', '1', '1', '1', '1', '1', '1', '0'};
 	
-	public Space(String s, int world) {
-		id = s;
+	public Space(String id, int world) {
+		this.id = id;
 		this.world = world;
-		String w = "Overworld";
-		switch(world) {
-		case 0:
-			w = "Overworld";
-			break;
-		case 1:
-			w = "Nether";
-			break;
-		case 2:
-			w = "End";
-			break;
-		case 3:
-			w = "Creative";
-			break;
-		case 4:
-			w = "Minigame";
-			break;
-		}
-		if (w == null)
-			Bukkit.getConsoleSender().sendMessage("1");
-		if (id == null)
-			Bukkit.getConsoleSender().sendMessage("2");
-		file = new File(plugin.getDataFolder(), "spaces/"+w+"/"+id+".yml");
+		String w = Space.getWorldName(world);
+		file = FileManager.getSpaceFile(world, id);
 		if (file.exists()) {
 			FileConfiguration config = YamlConfiguration.loadConfiguration(file);
 			owner = config.getString("owner");
@@ -112,26 +92,26 @@ public class Space {
 	
 	public List<String> group(int i) {
 		switch(i) {
-		case 1:
-			return group1;
-		case 2:
-			return group2;
-		case 3:
-			return group3;
+			case 1:
+				return group1;
+			case 2:
+				return group2;
+			case 3:
+				return group3;
 		}
 		return null;
 	}
 	
 	public char[] permission(int i) {
 		switch(i) {
-		case 1:
-			return permission1;
-		case 2:
-			return permission2;
-		case 3:
-			return permission3;
-		case 4:
-			return permission4;
+			case 1:
+				return permission1;
+			case 2:
+				return permission2;
+			case 3:
+				return permission3;
+			case 4:
+				return permission4;
 		}
 		return null;
 	}
@@ -139,18 +119,18 @@ public class Space {
 	public void setGroup(int group, List<String> list) {
 		FileConfiguration config = YamlConfiguration.loadConfiguration(file);
 		switch(group) {
-		case 1:
-			group1 = list;
-			config.set("group1", group1);
-			break;
-		case 2:
-			group2 = list;
-			config.set("group2", group2);
-			break;
-		case 3:
-			group3 = list;
-			config.set("group3", group3);
-			break;
+			case 1:
+				group1 = list;
+				config.set("group1", group1);
+				break;
+			case 2:
+				group2 = list;
+				config.set("group2", group2);
+				break;
+			case 3:
+				group3 = list;
+				config.set("group3", group3);
+				break;
 		}
 		try {
 			config.save(file);
@@ -269,65 +249,55 @@ public class Space {
 	public void setPermission(int i, char[] pm) {
 		FileConfiguration config = YamlConfiguration.loadConfiguration(file);
 		switch(i) {
-		case 1:
-			permission1 = pm;
-			config.set("permission1", String.valueOf(permission1));
-			try {
-				config.save(file);
-				this.update();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			break;
-		case 2:
-			permission2 = pm;
-			config.set("permission2", String.valueOf(permission2));
-			try {
-				config.save(file);
-                this.update();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			break;
-		case 3:
-			permission3 = pm;
-			config.set("permission3", String.valueOf(permission3));
-			try {
-				config.save(file);
-                this.update();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			break;
-		case 4:
-			permission4 = pm;
-			config.set("permission4", String.valueOf(permission4));
-			try {
-				config.save(file);
-                this.update();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			break;
+			case 1:
+				permission1 = pm;
+				config.set("permission1", String.valueOf(permission1));
+				try {
+					config.save(file);
+					this.update();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				break;
+			case 2:
+				permission2 = pm;
+				config.set("permission2", String.valueOf(permission2));
+				try {
+					config.save(file);
+					this.update();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				break;
+			case 3:
+				permission3 = pm;
+				config.set("permission3", String.valueOf(permission3));
+				try {
+					config.save(file);
+					this.update();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				break;
+			case 4:
+				permission4 = pm;
+				config.set("permission4", String.valueOf(permission4));
+				try {
+					config.save(file);
+					this.update();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				break;
 		}
 	}
 	
 	public boolean canExplode() {
-		switch(permission4[7]) {
-		case '0':
-			return true;
-		default:
-			return false;
-		}
+		return permission4[7] == '0';
 	}
 	
 	public boolean canFire() {
-		switch(permission4[8]) {
-		case '0':
-			return true;
-		default:
-			return false;
-		}
+		return permission4[8] == '0';
 	}
 	
 	public ItemStack toItem() {
@@ -500,8 +470,9 @@ public class Space {
 		}.runTaskTimer(plugin, 0, 50);
 		
 	}
+
 	
-	public static Map<String, Integer> limit = new HashMap<String, Integer>();
+	public static Map<String, Integer> limit = new HashMap<>();
 	
 	
 	public static int cost(String id, int world) {
@@ -538,29 +509,7 @@ public class Space {
 	}
 	
 	public static boolean isOwned(String id, int world) {
-		String w = "error";
-		switch(world) {
-		case 0:
-			w = "Overworld";
-			break;
-		case 1:
-			w = "Nether";
-			break;
-		case 2:
-			w = "End";
-			break;
-		case 3:
-			w = "Creative";
-			break;
-		case 4:
-			w = "Minigame";
-			break;
-		}
-		
-		if (new File(plugin.getDataFolder(), "spaces/"+w+"/"+id+".yml").exists())
-			return true;
-		else
-			return false;
+		return new File(plugin.getDataFolder(), "spaces/" + Space.getWorldName(world) + "/" + id + ".yml").exists();
 	}
 	
 	public static int getWorldid(Location loc) {
@@ -590,7 +539,7 @@ public class Space {
 		double y = loc.getY();
 		String world = loc.getWorld().getName();
 		if (world.equals("world")) {
-			if (y <= 20) {
+			if (y < 20) {
 				return chunk.getX()+"."+chunk.getZ()+".0";
 			}
 			else if (y < 50) {
@@ -664,39 +613,23 @@ public class Space {
 	}
 	
 	public static List<String> getSpaceList(String player, int world) {
-		String w;
-		switch(world) {
-		case 0:
-			w = "/Overworld.yml";
-			break;
-		case 1:
-			w = "/Nether.yml";
-			break;
-		case 2:
-			w = "/End.yml";
-			break;
-		case 3:
-			w = "/Creative.yml";
-			break;
-		default:
-			return null;
-		}
-		FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "players/"+player+w));
+		FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(),
+				"players/" + player + Space.getWorldName(world)));
 		return config.getStringList("list");
 	}
 	
 	public static String getWorldName(int world) {
 		switch(world) {
 		case 0:
-			return "Overworld";
+			return "world";
 		case 1:
-			return "Nether";
+			return "world_nether";
 		case 2:
-			return "End";
+			return "world_the_end";
 		case 3:
-			return "Creative";
+			return "creative";
 		case 4:
-			return "Minigame";
+			return "minigame";
 		default:
 			return null;
 		}

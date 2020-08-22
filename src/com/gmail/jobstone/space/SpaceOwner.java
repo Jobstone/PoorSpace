@@ -1,4 +1,4 @@
-package com.gmail.jobstone;
+package com.gmail.jobstone.space;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -21,33 +21,11 @@ public abstract class SpaceOwner {
     }
 
     public File getWorldFile(int world) {
-        switch (world) {
-            case 0:
-                return new File(this.folder, "Overworld.yml");
-            case 1:
-                return new File(this.folder, "Nether.yml");
-            case 2:
-                return new File(this.folder, "End.yml");
-            case 3:
-                return new File(this.folder, "Creative.yml");
-            default:
-                return null;
-        }
+        return new File(this.folder, Space.getWorldName(world) + ".yml");
     }
 
     public File getDefaultWorldFile(int world) {
-        switch (world) {
-            case 0:
-                return new File(this.folder, "Default_Overworld.yml");
-            case 1:
-                return new File(this.folder, "Default_Nether.yml");
-            case 2:
-                return new File(this.folder, "Default_End.yml");
-            case 3:
-                return new File(this.folder, "Default_Creative.yml");
-            default:
-                return null;
-        }
+        return new File(this.folder, "default_" + Space.getWorldName(world) + ".yml");
     }
 
     public List<String> getSpaces(int world) {

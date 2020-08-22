@@ -1,15 +1,17 @@
-package com.gmail.jobstone.listeners;
+package com.gmail.jobstone.listener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import com.gmail.jobstone.*;
+import com.gmail.jobstone.space.Space;
+import com.gmail.jobstone.space.SpaceGroup;
+import com.gmail.jobstone.space.SpaceManager;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.block.data.type.Fire;
 import org.bukkit.entity.*;
 import org.bukkit.entity.minecart.RideableMinecart;
 import org.bukkit.event.EventHandler;
@@ -21,7 +23,6 @@ import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.hanging.HangingBreakEvent;
 import org.bukkit.event.hanging.HangingPlaceEvent;
 import org.bukkit.event.player.*;
-import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.event.vehicle.VehicleDamageEvent;
 import org.bukkit.event.world.PortalCreateEvent;
 import org.bukkit.inventory.EquipmentSlot;

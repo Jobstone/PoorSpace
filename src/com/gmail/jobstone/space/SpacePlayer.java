@@ -1,13 +1,14 @@
-package com.gmail.jobstone;
+package com.gmail.jobstone.space;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
+import com.gmail.jobstone.PoorSpace;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-public class SpacePlayer extends SpaceOwner{
+public class SpacePlayer extends SpaceOwner {
 	
 	public SpacePlayer(String player) {
 		this.name = player;
@@ -91,15 +92,15 @@ public class SpacePlayer extends SpaceOwner{
 	public void createFiles() {
 		this.folder.mkdirs();
 		List<String> list = new ArrayList<>();
-		File file0 = new File(this.folder, "Overworld.yml");
+		File file0 = new File(this.folder, "world.yml");
 		FileConfiguration config0 = YamlConfiguration.loadConfiguration(file0);
 		config0.set("list", list);
-		File file1 = new File(this.folder, "Nether.yml");
-		File file2 = new File(this.folder, "End.yml");
-		File file3 = new File(this.folder, "Creative.yml");
-		File file4 = new File(this.folder, "Minigame.yml");
+		File file1 = new File(this.folder, "world_nether.yml");
+		File file2 = new File(this.folder, "world_the_end.yml");
+		File file3 = new File(this.folder, "creative.yml");
+		File file4 = new File(this.folder, "minigame.yml");
 
-		File file5 = new File(this.folder, "Default_Overworld.yml");
+		File file5 = new File(this.folder, "default_world.yml");
 		FileConfiguration config5 = YamlConfiguration.loadConfiguration(file5);
 		config5.set("group1", list);
 		config5.set("group2", list);
@@ -108,10 +109,10 @@ public class SpacePlayer extends SpaceOwner{
 		config5.set("permission2", "1111111");
 		config5.set("permission3", "1111111");
 		config5.set("permission4", "000001111");
-		File file6 = new File(this.folder, "Default_Nether.yml");
-		File file7 = new File(this.folder, "Default_End.yml");
-		File file8 = new File(this.folder, "Default_Creative.yml");
-		File file9 = new File(this.folder, "Default_Minigame.yml");
+		File file6 = new File(this.folder, "default_world_nether.yml");
+		File file7 = new File(this.folder, "default_world_the_end.yml");
+		File file8 = new File(this.folder, "default_creative.yml");
+		File file9 = new File(this.folder, "default_minigame.yml");
 
 		File file10 = new File(this.folder, "settings.yml");
 		FileConfiguration config10 = YamlConfiguration.loadConfiguration(file10);

@@ -1,11 +1,19 @@
 package com.gmail.jobstone;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.util.Arrays;
+import java.util.EnumSet;
 
-import com.gmail.jobstone.listeners.FileListener;
-import com.gmail.jobstone.listeners.GeneralListener;
-import com.gmail.jobstone.listeners.InvListener;
-import com.gmail.jobstone.listeners.SpaceListener;
+import com.gmail.jobstone.listener.FileListener;
+import com.gmail.jobstone.listener.GeneralListener;
+import com.gmail.jobstone.listener.InvListener;
+import com.gmail.jobstone.listener.SpaceListener;
+import com.gmail.jobstone.space.Space;
+import com.gmail.jobstone.space.SpaceManager;
+import com.gmail.jobstone.space.SpaceOpen;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -88,7 +96,7 @@ public class PoorSpace extends JavaPlugin {
 					score2.setScore(0);
 					try {
 						player.setScoreboard(board);
-					} catch (IllegalStateException e) {}
+					} catch (IllegalStateException ignored) {}
 				}
 				
 			}
@@ -110,9 +118,89 @@ public class PoorSpace extends JavaPlugin {
 	}
 
 	private void filesUpdate() {
+		File old = new File(getDataFolder().getParentFile(), "PoorSpace_old_data");
+		if (!old.exists()) {
+			try {
+				final Path source = getDataFolder().toPath();
+				final Path target = old.toPath();
 
+				Files.walkFileTree(source, EnumSet.of(FileVisitOption.FOLLOW_LINKS), Integer.MAX_VALUE,
+						new SimpleFileVisitor<Path>() {
+							@Override
+							public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs)
+									throws IOException
+							{
+								Path targetdir = target.resolve(source.relativize(dir));
+								try {
+									Files.copy(dir, targetdir);
+								} catch (FileAlreadyExistsException e) {
+									if (!Files.isDirectory(targetdir))
+										throw e;
+								}
+								return FileVisitResult.CONTINUE;
+							}
+							@Override
+							public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
+									throws IOException
+							{
+								Files.copy(file, target.resolve(source.relativize(file)));
+								return FileVisitResult.CONTINUE;
+							}
+						});
+			} catch (IOException e) {
+				e.printStackTrace();
+				return;
+			}
+		}
 
+		String[] beforeNames = new String[] {"Overworld", "Nether", "End", "Creative", "Minigame"};
+		String[] afterNames = new String[] {"world", "world_nether", "world_the_end", "creative", "minigame"};
+		File pFolder = new File(getDataFolder(), "players");
+		try {
+			for (File folder : pFolder.listFiles()) {
+				for (int i = 0; i < 5; ++i) {
+					File before1 = new File(folder, beforeNames[i] + ".yml");
+					if (before1.exists())
+						Files.move(before1.toPath(), new File(folder, afterNames[i] + ".yml").toPath());
+					File before2 = new File(folder, "Default_" + beforeNames[i] + ".yml");
+					if (before2.exists())
+						Files.move(before2.toPath(), new File(folder, "default_" + afterNames[i] + ".yml").toPath());
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
+		try {
+			File sFolder = new File(getDataFolder(), "spaces");
+			for (int i = 0; i < 5; ++i) {
+				File worldFolder = new File(sFolder, beforeNames[i]);
+				File newWorldFolder = new File(sFolder, afterNames[i]);
+				if (worldFolder.exists()) {
+					Files.move(worldFolder.toPath(), newWorldFolder.toPath());
+					for (File space : newWorldFolder.listFiles()) {
+						String fileName = space.getName();
+						if (!space.getName().endsWith(".yml"))
+							continue;
+						String[] splits = fileName.split("\\.");
+						try {
+							int x = Integer.parseInt(splits[0]);
+							int y = Integer.parseInt(splits[1]);
+							int groupX = x >> 5;
+							int groupY = y >> 5;
+							File chunkFolder = new File(newWorldFolder, groupX + "." + groupY);
+							if (!chunkFolder.exists())
+								chunkFolder.mkdir();
+							Files.move(space.toPath(), new File(chunkFolder, space.getName()).toPath());
+						} catch (NumberFormatException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

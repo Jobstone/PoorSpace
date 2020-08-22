@@ -1,10 +1,11 @@
-package com.gmail.jobstone.listeners;
+package com.gmail.jobstone.listener;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 import com.gmail.jobstone.*;
+import com.gmail.jobstone.space.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;

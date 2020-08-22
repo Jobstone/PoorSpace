@@ -1,6 +1,5 @@
-package com.gmail.jobstone;
+package com.gmail.jobstone.space;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 import java.util.HashMap;
