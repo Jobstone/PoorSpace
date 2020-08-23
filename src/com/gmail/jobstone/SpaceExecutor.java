@@ -52,21 +52,17 @@ public class SpaceExecutor implements CommandExecutor {
 					SpaceOpen.openSpace(player, Space.getSpaceid(loc), Space.getWorldid(loc));
 				}
 				else if (args[0].equals("space")) {
-
 					if (args.length == 3) {
 						int world;
 						if ((world = Space.getWorldid(args[1])) != -1) {
-
 							String id = args[2];
 							if (Space.isSpaceLegal(id, world)) {
 								SpaceOpen.openSpace(player, id, world);
 							} else
 								player.sendMessage("§7【PoorSpace】该空间不存在！");
-
 						} else
 							player.sendMessage("§7【PoorSpace】该世界不存在！");
 					}
-
 				}
 				else if (args[0].equals("pmgroup")) {
 					
@@ -81,7 +77,7 @@ public class SpaceExecutor implements CommandExecutor {
 									if ((world = Space.getWorldid(args[2])) != -1) {
 										List<Space> list = getSpaceList(player, args[3], world);
 										if (list == null) {
-											File file = new File(PoorSpace.plugin.getDataFolder(), "players/" + player.getName() + "/Default_" + Space.getWorldName(world) + ".yml");
+											File file = new File(PoorSpace.plugin.getDataFolder(), "players/" + player.getName() + "/default_" + Space.getWorldName(world) + ".yml");
 											FileConfiguration config = YamlConfiguration.loadConfiguration(file);
 											if (!file.exists()) {
 												List<String> empty = new ArrayList<>();
@@ -240,7 +236,7 @@ public class SpaceExecutor implements CommandExecutor {
 														groupnum++;
 
 														int previous;
-														File file = new File(PoorSpace.plugin.getDataFolder(), "players/" + player.getName() + "/Default_" + Space.getWorldName(world) + ".yml");
+														File file = new File(PoorSpace.plugin.getDataFolder(), "players/" + player.getName() + "/default_" + Space.getWorldName(world) + ".yml");
 														FileConfiguration config = YamlConfiguration.loadConfiguration(file);
 														if (!file.exists()) {
 															List<String> empty = new ArrayList<>();
@@ -372,7 +368,7 @@ public class SpaceExecutor implements CommandExecutor {
 													case "1":
 														groupnum++;
 
-														File file = new File(PoorSpace.plugin.getDataFolder(), "players/" + player.getName() + "/Default_" + Space.getWorldName(world) + ".yml");
+														File file = new File(PoorSpace.plugin.getDataFolder(), "players/" + player.getName() + "/default_" + Space.getWorldName(world) + ".yml");
 														FileConfiguration config = YamlConfiguration.loadConfiguration(file);
 														if (!file.exists()) {
 															List<String> empty = new ArrayList<>();
@@ -588,7 +584,7 @@ public class SpaceExecutor implements CommandExecutor {
 										List<Space> list = getSpaceList(player, args[3], world);
 										if (list == null) {
 
-											File file = new File(PoorSpace.plugin.getDataFolder(), "players/" + player.getName() + "/Default_" + Space.getWorldName(world) + ".yml");
+											File file = new File(PoorSpace.plugin.getDataFolder(), "players/" + player.getName() + "/default_" + Space.getWorldName(world) + ".yml");
 											FileConfiguration config = YamlConfiguration.loadConfiguration(file);
 											if (!file.exists()) {
 												List<String> empty = new ArrayList<String>();
