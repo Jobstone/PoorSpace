@@ -4,6 +4,7 @@ main: com.gmail.jobstone.PoorSpace
 description: A plugin.
 author: Jobstone
 api-version: 1.15
+softdepend: [PoorMessage]
 commands:
     poorspace:
         aliases: ps

@@ -613,8 +613,7 @@ public class Space {
 	}
 	
 	public static List<String> getSpaceList(String player, int world) {
-		FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(),
-				"players/" + player + Space.getWorldName(world)));
+		FileConfiguration config = YamlConfiguration.loadConfiguration(FileManager.getPlayerWorldFile(player, world));
 		return config.getStringList("list");
 	}
 	
