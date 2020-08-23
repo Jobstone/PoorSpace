@@ -618,15 +618,16 @@ public class SpaceListener implements Listener {
 			case FLOWER_POT:
 				return true;
 			case COMPOSTER:
-				if (block.getBlockData().getAsString().contains("=8"))
-					return true;
+				return block.getBlockData().getAsString().contains("=8");
 			case SWEET_BERRY_BUSH:
 				String blockData = block.getBlockData().getAsString();
-				if (blockData.contains("=3") || (blockData.contains("=2") && (item == null || !item.getType().equals(Material.BONE_MEAL))))
-					return true;
+				return blockData.contains("=3") || (blockData.contains("=2") && (item == null || !item.getType().equals(Material.BONE_MEAL)));
 			case JUKEBOX:
-				if (block.getBlockData().getAsString().contains("=true") || (item != null && item.getType().isRecord()))
-					return true;
+				return block.getBlockData().getAsString().contains("=true") || (item != null && item.getType().isRecord());
+			case BEE_NEST:
+			case BEEHIVE:
+				return block.getBlockData().getAsString().contains("=5") &&
+						(item != null && (item.getType().equals(Material.SHEARS) || item.getType().equals(Material.GLASS_BOTTLE)));
 			default:
 				return false;
 		}
