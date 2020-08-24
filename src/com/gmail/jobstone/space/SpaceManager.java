@@ -12,19 +12,19 @@ public class SpaceManager {
     private final int world;
 
     public SpaceManager(String world) {
-        this.world = Space.getWorldid(world);
+        this.world = NormalSpace.getWorldId(world);
     }
 
-    private Map<String, Space> loadedSpaces = new HashMap<>();
+    private Map<String, NormalSpace> loadedSpaces = new HashMap<>();
 
     public boolean load(String id) {
         if (isLoaded(id))
             return false;
-        loadedSpaces.put(id, new Space(id, world));
+        loadedSpaces.put(id, new NormalSpace(id, world));
         return true;
     }
 
-    public void update(String id, Space space) {
+    public void update(String id, NormalSpace space) {
         loadedSpaces.replace(id, space);
     }
 
@@ -40,12 +40,12 @@ public class SpaceManager {
         return loadedSpaces.containsKey(id);
     }
 
-    public Space getSpace(String id) {
+    public NormalSpace getSpace(String id) {
         if (isLoaded(id)) {
             return loadedSpaces.get(id);
         }
         else {
-            Space space = new Space(id, this.world);
+            NormalSpace space = new NormalSpace(id, this.world);
             loadedSpaces.put(id, space);
             return space;
         }
@@ -81,8 +81,8 @@ public class SpaceManager {
         }
     }
 
-    public static Space getSpace(Location loc) {
-        return SpaceManager.getSpaceManager(loc.getWorld().getName()).getSpace(Space.getSpaceid(loc));
+    public static NormalSpace getSpace(Location loc) {
+        return SpaceManager.getSpaceManager(loc.getWorld().getName()).getSpace(NormalSpace.getSpaceId(loc));
     }
 
 }

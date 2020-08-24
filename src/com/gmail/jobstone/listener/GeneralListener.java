@@ -1,7 +1,7 @@
 package com.gmail.jobstone.listener;
 
 import com.gmail.jobstone.PoorSpace;
-import com.gmail.jobstone.space.Space;
+import com.gmail.jobstone.space.NormalSpace;
 import com.gmail.jobstone.space.SpaceManager;
 import org.bukkit.Chunk;
 import org.bukkit.event.EventHandler;
@@ -33,7 +33,7 @@ public class GeneralListener implements Listener {
         String world = e.getWorld().getName();
         SpaceManager manager = SpaceManager.getSpaceManager(world);
         Chunk chunk = e.getChunk();
-        int max = Space.getWorldMax(Space.getWorldid(world));
+        int max = NormalSpace.getWorldMax(NormalSpace.getWorldId(world));
         for (int i = 0; i <= max; i++) {
             manager.unload(chunk.getX()+"."+chunk.getZ()+"."+i);
         }

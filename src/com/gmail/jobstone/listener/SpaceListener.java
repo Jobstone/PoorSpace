@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.gmail.jobstone.*;
-import com.gmail.jobstone.space.Space;
+import com.gmail.jobstone.space.NormalSpace;
 import com.gmail.jobstone.space.SpaceGroup;
 import com.gmail.jobstone.space.SpaceManager;
 import net.md_5.bungee.api.ChatMessageType;
@@ -243,7 +243,7 @@ public class SpaceListener implements Listener {
 		if (natural) {
 			if ((e.getEntity() instanceof ArmorStand || e.getEntity() instanceof Hanging)) {
 				Location loc = e.getEntity().getLocation();
-				Space space = SpaceManager.getSpace(loc);
+				NormalSpace space = SpaceManager.getSpace(loc);
 				if (!space.canExplode())
 					e.setCancelled(true);
 			}
@@ -379,7 +379,7 @@ public class SpaceListener implements Listener {
 	    blockListCopy.addAll(e.blockList());
 		for (Block block : blockListCopy) {
 			Location loc = block.getLocation();
-			Space space = SpaceManager.getSpace(loc);
+			NormalSpace space = SpaceManager.getSpace(loc);
 			if (!space.canExplode())
 				e.blockList().remove(block);
 		}
@@ -390,7 +390,7 @@ public class SpaceListener implements Listener {
 	public void explode2 (EntityDamageEvent e) {
 		if (!(e instanceof EntityDamageByEntityEvent) && (e.getEntity() instanceof ArmorStand || e.getEntity() instanceof Hanging)) {
 			Location loc = e.getEntity().getLocation();
-			Space space = SpaceManager.getSpace(loc);
+			NormalSpace space = SpaceManager.getSpace(loc);
 			if (!space.canExplode())
 				e.setCancelled(true);
 		}
@@ -407,7 +407,7 @@ public class SpaceListener implements Listener {
 				return;
 		}
 		Location loc = e.getEntity().getLocation();
-		Space space = SpaceManager.getSpace(loc);
+		NormalSpace space = SpaceManager.getSpace(loc);
 		if (!space.canExplode())
 			e.setCancelled(true);
 	}
@@ -418,7 +418,7 @@ public class SpaceListener implements Listener {
 		blockListCopy.addAll(e.blockList());
 		for (Block block : blockListCopy) {
 			Location loc = block.getLocation();
-			Space space = SpaceManager.getSpace(loc);
+			NormalSpace space = SpaceManager.getSpace(loc);
 			if (!space.canExplode())
 				e.blockList().remove(block);
 		}
@@ -428,7 +428,7 @@ public class SpaceListener implements Listener {
 	public void explode5 (EntityChangeBlockEvent e) {
 		if (e.getEntityType().equals(EntityType.RAVAGER)) {
 			Location loc = e.getBlock().getLocation();
-			Space space = SpaceManager.getSpace(loc);
+			NormalSpace space = SpaceManager.getSpace(loc);
 			if (!space.canExplode())
 				e.setCancelled(true);
 		}
@@ -438,7 +438,7 @@ public class SpaceListener implements Listener {
 	public void mosterDamage(EntityChangeBlockEvent e) {
 		if (monsters(e.getEntityType())) {
 			Location loc = e.getBlock().getLocation();
-			Space space = SpaceManager.getSpace(loc);
+			NormalSpace space = SpaceManager.getSpace(loc);
 			if (!space.canExplode())
 				e.setCancelled(true);
 		}
@@ -448,7 +448,7 @@ public class SpaceListener implements Listener {
 	public void fire(BlockSpreadEvent e) {
 		if (e.getSource().getType().equals(Material.FIRE)) {
 			Location loc = e.getBlock().getLocation();
-			Space space = SpaceManager.getSpace(loc);
+			NormalSpace space = SpaceManager.getSpace(loc);
 			if (!space.canFire())
 				e.setCancelled(true);
 		}
@@ -457,7 +457,7 @@ public class SpaceListener implements Listener {
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void fire2(BlockBurnEvent e) {
 		Location loc = e.getBlock().getLocation();
-		Space space = SpaceManager.getSpace(loc);
+		NormalSpace space = SpaceManager.getSpace(loc);
 		if (!space.canFire())
 			e.setCancelled(true);
 		
@@ -635,7 +635,7 @@ public class SpaceListener implements Listener {
 	
 	public static boolean playerpm(String player, Location loc, int pmid) {
 
-		Space space = SpaceManager.getSpace(loc);
+		NormalSpace space = SpaceManager.getSpace(loc);
 		if (space.owner() != null && player.equals(space.owner()))
 			return true;
 		int group = checkGroup(space, player);
@@ -647,7 +647,7 @@ public class SpaceListener implements Listener {
 
 	}
 	
-	private static int checkGroup(Space space, String player) {
+	private static int checkGroup(NormalSpace space, String player) {
 		for (int i = 1; i < 4; i++) {
 			for (String s : space.group(i)) {
 				if (s.startsWith(">")) {

@@ -4,14 +4,13 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.Arrays;
 import java.util.EnumSet;
 
 import com.gmail.jobstone.listener.FileListener;
 import com.gmail.jobstone.listener.GeneralListener;
 import com.gmail.jobstone.listener.InvListener;
 import com.gmail.jobstone.listener.SpaceListener;
-import com.gmail.jobstone.space.Space;
+import com.gmail.jobstone.space.NormalSpace;
 import com.gmail.jobstone.space.SpaceManager;
 import com.gmail.jobstone.space.SpaceOpen;
 import org.bukkit.Bukkit;
@@ -88,7 +87,7 @@ public class PoorSpace extends JavaPlugin {
 					obj = board.registerNewObjective("PoorSpace", "dummy", "§e§lPoorSpace");
 					obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 					Location loc = player.getLocation();
-					Space space = new Space(Space.getSpaceid(loc), Space.getWorldid(loc));
+					NormalSpace space = new NormalSpace(NormalSpace.getSpaceId(loc), NormalSpace.getWorldId(loc));
 					Score score1 = obj.getScore("§a当前空间："+space.id());
 					score1.setScore(0);
 					String owner = space.owner() == null ? "无" : space.owner();

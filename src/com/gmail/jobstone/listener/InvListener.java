@@ -86,7 +86,7 @@ public class InvListener implements Listener {
 						}
 						else if (click.equals("§a§l主世界")) {
 							Location loc = Bukkit.getWorld("world").getSpawnLocation();
-							SpaceOpen.openNearbyChunks(player, loc.getChunk().getX()+"."+loc.getChunk().getZ(), Space.getWorldid(loc));
+							SpaceOpen.openNearbyChunks(player, loc.getChunk().getX()+"."+loc.getChunk().getZ(), NormalSpace.getWorldId(loc));
 						}
 						
 					}
@@ -117,7 +117,7 @@ public class InvListener implements Listener {
 						}
 						else if (click.equals("§a§l下界")) {
 							Location loc = Bukkit.getWorld("world_nether").getSpawnLocation();
-							SpaceOpen.openNearbyChunks(player, loc.getChunk().getX()+"."+loc.getChunk().getZ(), Space.getWorldid(loc));
+							SpaceOpen.openNearbyChunks(player, loc.getChunk().getX()+"."+loc.getChunk().getZ(), NormalSpace.getWorldId(loc));
 						}
 						
 					}
@@ -148,7 +148,7 @@ public class InvListener implements Listener {
 						}
 						else if (click.equals("§a§l末地")) {
 							Location loc = Bukkit.getWorld("world_the_end").getSpawnLocation();
-							SpaceOpen.openNearbyChunks(player, loc.getChunk().getX()+"."+loc.getChunk().getZ(), Space.getWorldid(loc));
+							SpaceOpen.openNearbyChunks(player, loc.getChunk().getX()+"."+loc.getChunk().getZ(), NormalSpace.getWorldId(loc));
 						}
 						
 					}
@@ -179,7 +179,7 @@ public class InvListener implements Listener {
 						}
 						else if (click.equals("§a§l创造界")) {
 							Location loc = Bukkit.getWorld("creative").getSpawnLocation();
-							SpaceOpen.openNearbyChunks(player, loc.getChunk().getX()+"."+loc.getChunk().getZ(), Space.getWorldid(loc));
+							SpaceOpen.openNearbyChunks(player, loc.getChunk().getX()+"."+loc.getChunk().getZ(), NormalSpace.getWorldId(loc));
 						}
 						
 					}
@@ -210,7 +210,7 @@ public class InvListener implements Listener {
 						}
 						else if (click.equals("§a§l小游戏界")) {
 							Location loc = Bukkit.getWorld("minigame").getSpawnLocation();
-							SpaceOpen.openNearbyChunks(player, loc.getChunk().getX()+"."+loc.getChunk().getZ(), Space.getWorldid(loc));
+							SpaceOpen.openNearbyChunks(player, loc.getChunk().getX()+"."+loc.getChunk().getZ(), NormalSpace.getWorldId(loc));
 						}
 						
 					}
@@ -703,13 +703,13 @@ public class InvListener implements Listener {
 			SpaceOpen.openWorld(player, world, 1);
 		}
 		else if (click.startsWith("§e§l空间")) {
-			if (Space.getWorldid(player.getLocation()) != world)
+			if (NormalSpace.getWorldId(player.getLocation()) != world)
 				player.sendMessage("§7【PoorSpace】您不在此空间所在世界，无法查看！");
 			else {
-				int limit = Space.limit.containsKey(player.getName()) ? Space.limit.get(player.getName()) : 0;
+				int limit = NormalSpace.limit.containsKey(player.getName()) ? NormalSpace.limit.get(player.getName()) : 0;
 				if (limit < 1) {
-					Space.showParticle(player, id, world);
-					Space.limit.put(player.getName(), limit+1);
+					NormalSpace.showParticle(player, id, world);
+					NormalSpace.limit.put(player.getName(), limit+1);
 				}
 				else {
 					player.sendMessage("§7【PoorSpace】您最多同时查看一个粒子效果！");
@@ -726,8 +726,8 @@ public class InvListener implements Listener {
 		else if (j != -1) {
 			if (group != 4 && (j == 7 || j == 8))
 				return;
-			Space space = new Space(id, world);
-			if (Space.isOwned(id, world) && space.owner().equals(player.getName())) {
+			NormalSpace space = new NormalSpace(id, world);
+			if (NormalSpace.isOwned(id, world) && space.owner().equals(player.getName())) {
 				
 				char[] pm = space.permission(group);
 				if (pm[j] == '0')
@@ -746,7 +746,7 @@ public class InvListener implements Listener {
 	private void buyClick(Player player, String id, String click, int world) {
 		if (click.equals("§a§l确认购买")) {
 
-		    Space space = new Space(id, world);
+		    NormalSpace space = new NormalSpace(id, world);
 		    if (space.owner() != null) {
                 player.sendMessage("§7【PoorSpace】该空间已被其他人购买！");
                 SpaceOpen.openSpace(player, id, world);
@@ -767,7 +767,7 @@ public class InvListener implements Listener {
 			
 			FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "players/"+player.getName()+"/Overworld.yml"));
 			List<String> list = config.getStringList("list");
-			int cost = Space.cost(id, world);
+			int cost = NormalSpace.cost(id, world);
 			if (world == 0) {
 				if (list.isEmpty())
 					cost = 0;
@@ -801,9 +801,9 @@ public class InvListener implements Listener {
 	
 	private void giveupClick(Player player, String id, String click, int world) {
 		if (click.equals("§4§l确认放弃")) {
-			new Space(id, world).remove();
+			new NormalSpace(id, world).remove();
 			SpaceManager manager = SpaceManager.getSpaceManager(world);
-			manager.update(id, new Space(id, world));
+			manager.update(id, new NormalSpace(id, world));
 			SpaceOpen.openSpace(player, id, world);
 			
 			@SuppressWarnings("deprecation")

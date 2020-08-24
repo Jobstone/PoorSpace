@@ -1,6 +1,5 @@
 package com.gmail.jobstone.space;
 
-import java.io.File;
 import java.util.*;
 
 import com.gmail.jobstone.PoorSpace;
@@ -54,7 +53,7 @@ public class SpaceOpen {
 			case 1:
 			case 2:
 			case 3:
-				FileConfiguration config = YamlConfiguration.loadConfiguration(FileManager.getPlayerWorldFile(player.getName(), world));
+				FileConfiguration config = YamlConfiguration.loadConfiguration(SpacePlayer.getWorldFile(player.getName(), world));
 				List<String> list = config.getStringList("list");
 				subOpenWorld(player, list, SpaceOpen.world(world), SpaceOpen.worldMaterial(world), page, world);
 				return;
@@ -93,7 +92,7 @@ public class SpaceOpen {
 		int istart = (page-1)*45+1;
 		
 		for(int i = istart; i <= imax; i++) {
-			Space space = new Space(list.get(i-1), world);
+			NormalSpace space = new NormalSpace(list.get(i-1), world);
 			inv.setItem(i-istart, space.toItem());
 		}
 		
@@ -101,7 +100,7 @@ public class SpaceOpen {
 	}
 	
 	public static void openSpace(Player player, String spaceid, int world) {
-		Space space = new Space(spaceid, world);
+		NormalSpace space = new NormalSpace(spaceid, world);
 		String w = SpaceOpen.world(world);
 		Material material = SpaceOpen.worldMaterial(world);
 		Inventory inv = Bukkit.getServer().createInventory(null, 18, "§1PoorSpace――"+w+"空间"+spaceid);
@@ -109,8 +108,8 @@ public class SpaceOpen {
 		String chunkid = spaceid.substring(0, spaceid.length()-2);
 		ArrayList<String> lore = new ArrayList<String>();
 		Material spacem;
-		if (Space.isOwned(chunkid+".0", world)) {
-			lore.add("§a拥有者："+new Space(chunkid+".0", world).owner());
+		if (NormalSpace.isOwned(chunkid+".0", world)) {
+			lore.add("§a拥有者："+new NormalSpace(chunkid+".0", world).owner());
 			spacem = Material.MAP;
 		}
 		else {
@@ -124,8 +123,8 @@ public class SpaceOpen {
 		
 		if (world == 0 || world == 1) {
 			lore.clear();
-			if (Space.isOwned(chunkid+".1", world)) {
-				lore.add("§a拥有者："+new Space(chunkid+".1", world).owner());
+			if (NormalSpace.isOwned(chunkid+".1", world)) {
+				lore.add("§a拥有者："+new NormalSpace(chunkid+".1", world).owner());
 				spacem = Material.MAP;
 			}
 			else {
@@ -138,8 +137,8 @@ public class SpaceOpen {
 			inv.setItem(1, newItem(spacem, "§a§l空间"+chunkid+".1", lore, enchant1));
 			
 			lore.clear();
-			if (Space.isOwned(chunkid+".2", world)) {
-				lore.add("§a拥有者："+new Space(chunkid+".2", world).owner());
+			if (NormalSpace.isOwned(chunkid+".2", world)) {
+				lore.add("§a拥有者："+new NormalSpace(chunkid+".2", world).owner());
 				spacem = Material.MAP;
 			}
 			else {
@@ -153,8 +152,8 @@ public class SpaceOpen {
 			
 			if (world == 0) {
 				lore.clear();
-				if (Space.isOwned(chunkid+".3", world)) {
-					lore.add("§a拥有者："+new Space(chunkid+".3", world).owner());
+				if (NormalSpace.isOwned(chunkid+".3", world)) {
+					lore.add("§a拥有者："+new NormalSpace(chunkid+".3", world).owner());
 					spacem = Material.MAP;
 				}
 				else {
@@ -167,8 +166,8 @@ public class SpaceOpen {
 				inv.setItem(3, newItem(spacem, "§a§l空间"+chunkid+".3", lore, enchant3));
 				
 				lore.clear();
-				if (Space.isOwned(chunkid+".4", world)) {
-					lore.add("§a拥有者："+new Space(chunkid+".4", world).owner());
+				if (NormalSpace.isOwned(chunkid+".4", world)) {
+					lore.add("§a拥有者："+new NormalSpace(chunkid+".4", world).owner());
 					spacem = Material.MAP;
 				}
 				else {
@@ -188,10 +187,10 @@ public class SpaceOpen {
 		
 		lore.clear();
 
-		int cost = Space.cost(spaceid, world);
+		int cost = NormalSpace.cost(spaceid, world);
 		String costs = cost+"";
 		if (world == 0) {
-			FileConfiguration config = YamlConfiguration.loadConfiguration(FileManager.getPlayerWorldFile(player.getName(), 0));
+			FileConfiguration config = YamlConfiguration.loadConfiguration(SpacePlayer.getWorldFile(player.getName(), 0));
 			List<String> list = config.getStringList("list");
 			if (list.isEmpty())
 				costs = "§m"+cost+"§e0";
@@ -248,10 +247,10 @@ public class SpaceOpen {
 		
 		ArrayList<String> lore = new ArrayList<>();
 
-		int cost = Space.cost(id, world);
+		int cost = NormalSpace.cost(id, world);
 		String costs = cost+"";
 		if (world == 0) {
-			FileConfiguration config = YamlConfiguration.loadConfiguration(FileManager.getPlayerWorldFile(player.getName(), 0));
+			FileConfiguration config = YamlConfiguration.loadConfiguration(SpacePlayer.getWorldFile(player.getName(), 0));
 			List<String> list = config.getStringList("list");
 			if (list.isEmpty())
 				costs = "§m"+cost+"§e0";
@@ -283,7 +282,7 @@ public class SpaceOpen {
 	}
 	
 	public static void openPermission(Player player, String id, int world, int group) {
-		Space space = new Space(id, world);
+		NormalSpace space = new NormalSpace(id, world);
 		String w = world(world);
 		
 		Inventory inv = Bukkit.getServer().createInventory(null, 54, "§1PoorSpace――"+w+"空间"+id+"权限组"+group);
@@ -328,7 +327,7 @@ public class SpaceOpen {
 		ItemStack on = new ItemStack(Material.LIME_DYE);
 		ItemMeta onmeta = on.getItemMeta();
 		lore.clear();
-		boolean owned = Space.isOwned(id, world);
+		boolean owned = NormalSpace.isOwned(id, world);
 		if (owned && space.owner().equals(player.getName()))
 			lore.add("§e点击关闭该项");
 		onmeta.setDisplayName("§a§l当前状态：开启");
@@ -398,8 +397,8 @@ public class SpaceOpen {
 					String spaceY = spaceY(m, world);
 					String spaceid = chunkid+"."+m;
 					String owner = "";
-					if (Space.isOwned(spaceid, world)) {
-						Space space = new Space(spaceid, world);
+					if (NormalSpace.isOwned(spaceid, world)) {
+						NormalSpace space = new NormalSpace(spaceid, world);
 						owner = " "+space.owner();
 						if (material.equals(Material.PAPER))
 							material = Material.MAP;

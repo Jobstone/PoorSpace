@@ -28,7 +28,7 @@ public abstract class SpaceOwner {
         return new File(this.folder, "default_" + Space.getWorldName(world) + ".yml");
     }
 
-    public List<String> getSpaces(int world) {
+    public List<String> getSpaceList(int world) {
         return YamlConfiguration.loadConfiguration(getWorldFile(world)).getStringList("list");
     }
 

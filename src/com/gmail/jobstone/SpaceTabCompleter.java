@@ -3,7 +3,7 @@ package com.gmail.jobstone;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gmail.jobstone.space.Space;
+import com.gmail.jobstone.space.NormalSpace;
 import com.gmail.jobstone.space.SpaceGroup;
 import com.gmail.jobstone.space.SpacePlayer;
 import org.bukkit.command.Command;
@@ -122,7 +122,7 @@ public class SpaceTabCompleter implements TabCompleter {
 					}
 				}
 				else if (args.length == 4) {
-					if ((args[0].equals("permission") && args[1].equals("set")) || (args[0].equals("pmgroup") && (args[1].equals("set") || args[1].equals("add") || args[1].equals("remove"))) && Space.getWorldid(args[2]) != -1) {
+					if ((args[0].equals("permission") && args[1].equals("set")) || (args[0].equals("pmgroup") && (args[1].equals("set") || args[1].equals("add") || args[1].equals("remove"))) && NormalSpace.getWorldId(args[2]) != -1) {
 						if ("now".startsWith(args[3].toLowerCase()))
 							list.add("now");
 						if ("all".startsWith(args[3].toLowerCase()))
@@ -137,7 +137,7 @@ public class SpaceTabCompleter implements TabCompleter {
 					}
 				}
 				else if (args.length == 5) {
-					if ((args[0].equals("permission") && args[1].equals("set")) || (args[0].equals("pmgroup") && (args[1].equals("set") || args[1].equals("add") || args[1].equals("remove"))) && Space.getWorldid(args[2]) != -1) {
+					if ((args[0].equals("permission") && args[1].equals("set")) || (args[0].equals("pmgroup") && (args[1].equals("set") || args[1].equals("add") || args[1].equals("remove"))) && NormalSpace.getWorldId(args[2]) != -1) {
 						if ("1".startsWith(args[4]))
 							list.add("1");
 						if ("2".startsWith(args[4]))
@@ -149,7 +149,7 @@ public class SpaceTabCompleter implements TabCompleter {
 					}
 				}
 				else if (args.length >= 6) {
-					if (args[0].equals("pmgroup") && (args[1].equals("set") || args[1].equals("add") || args[1].equals("remove")) && Space.getWorldid(args[2]) != -1) {
+					if (args[0].equals("pmgroup") && (args[1].equals("set") || args[1].equals("add") || args[1].equals("remove")) && NormalSpace.getWorldId(args[2]) != -1) {
 						switch(args[4]) {
 						case "1":
 						case "2":
