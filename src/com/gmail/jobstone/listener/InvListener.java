@@ -764,9 +764,8 @@ public class InvListener implements Listener {
 			else
 				totalexp = 9*level2/2 - 325*explevel/2 + 2220;
 			totalexp += player.getExp()*player.getExpToLevel();
-			
-			FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "players/"+player.getName()+"/Overworld.yml"));
-			List<String> list = config.getStringList("list");
+
+			List<String> list = SpacePlayer.getSpaceList(player.getName(), 0);
 			int cost = NormalSpace.cost(id, world);
 			if (world == 0) {
 				if (list.isEmpty())
@@ -812,8 +811,7 @@ public class InvListener implements Listener {
 			pro.awardCriteria("giveup_space");
 			
 			if (world == 0) {
-				FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "players/"+player.getName()+"/Overworld.yml"));
-				List<String> list = config.getStringList("list");
+				List<String> list = SpacePlayer.getSpaceList(player.getName(), 0);
 				if (list.size() == 0)
 					return;
 			}
