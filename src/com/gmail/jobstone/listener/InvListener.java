@@ -706,7 +706,7 @@ public class InvListener implements Listener {
 			if (NormalSpace.getWorldId(player.getLocation()) != world)
 				player.sendMessage("§7【PoorSpace】您不在此空间所在世界，无法查看！");
 			else {
-				int limit = NormalSpace.limit.containsKey(player.getName()) ? NormalSpace.limit.get(player.getName()) : 0;
+				int limit = NormalSpace.limit.getOrDefault(player.getName(), 0);
 				if (limit < 1) {
 					NormalSpace.showParticle(player, id, world);
 					NormalSpace.limit.put(player.getName(), limit+1);

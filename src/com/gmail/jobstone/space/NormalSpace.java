@@ -154,7 +154,6 @@ public class NormalSpace extends Space {
 	public void setPermission(int i, char[] pm) {
 		super.setPermission(i, pm);
 		this.update();
-		System.out.println("set permission");
 	}
 	
 	public void remove() {
