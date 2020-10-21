@@ -15,10 +15,10 @@ public abstract class Space {
     List<String> group1 = new ArrayList<>();
     List<String> group2 = new ArrayList<>();
     List<String> group3 = new ArrayList<>();
-    char[] permission1 = {'1', '1', '1', '1', '1', '1', '1'};
-    char[] permission2 = {'1', '1', '1', '1', '1', '1', '1'};
-    char[] permission3 = {'1', '1', '1', '1', '1', '1', '1'};
-    char[] permission4 = {'0', '1', '1', '1', '1', '1', '1', '1', '0'};
+    char[] permission1 = {'1', '1', '1', '1', '1', '1', '1', '1'};
+    char[] permission2 = {'1', '1', '1', '1', '1', '1', '1', '1'};
+    char[] permission3 = {'1', '1', '1', '1', '1', '1', '1', '1'};
+    char[] permission4 = {'0', '1', '1', '1', '1', '1', '1', '1', '1', '0'};
 
 
     public File file() {
@@ -165,11 +165,11 @@ public abstract class Space {
     }
 
     public boolean canExplode() {
-        return permission4[7] == '0';
+        return permission4[8] == '0';
     }
 
     public boolean canFire() {
-        return permission4[8] == '0';
+        return permission4[9] == '0';
     }
 
 

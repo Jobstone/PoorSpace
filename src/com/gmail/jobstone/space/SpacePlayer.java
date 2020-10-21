@@ -108,9 +108,9 @@ public class SpacePlayer extends SpaceOwner {
 			case 1:
 			case 2:
 			case 3:
-				return 7;
+				return 8;
 			case 4:
-				return 9;
+				return 10;
 			default:
 				return -1;
 		}
@@ -276,10 +276,10 @@ public class SpacePlayer extends SpaceOwner {
 		config5.set("group1", list);
 		config5.set("group2", list);
 		config5.set("group3", list);
-		config5.set("permission1", "1111111");
-		config5.set("permission2", "1111111");
-		config5.set("permission3", "1111111");
-		config5.set("permission4", "000001111");
+		config5.set("permission1", "11111111");
+		config5.set("permission2", "11111111");
+		config5.set("permission3", "11111111");
+		config5.set("permission4", "0000011011");
 		File file6 = new File(this.folder, "default_world_nether.yml");
 		File file7 = new File(this.folder, "default_world_the_end.yml");
 		File file8 = new File(this.folder, "default_creative.yml");

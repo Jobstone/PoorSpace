@@ -881,28 +881,30 @@ public class InvListener implements Listener {
 
 	private int slot(int click) {
 		switch(click) {
-		case 9:
-			return 0;
-		case 11:
-			return 1;
-		case 13:
-			return 2;
-		case 15:
-			return 3;
-		case 17:
-			return 4;
-		case 27:
-			return 5;
-		case 29:
-			return 6;
-		case 31:
-			return 7;
-		case 33:
-			return 8;
-		case 49:
-			return 10;
-		default:
-			return -1;
+			case 9:
+				return 0;
+			case 11:
+				return 1;
+			case 13:
+				return 2;
+			case 15:
+				return 3;
+			case 17:
+				return 4;
+			case 27:
+				return 5;
+			case 29:
+				return 6;
+			case 31:
+				return 7;
+			case 33:
+				return 8;
+			case 35:
+				return 9;
+			case 49:
+				return 10;
+			default:
+				return -1;
 		}
 	}
 

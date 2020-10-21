@@ -118,7 +118,7 @@ public class SpaceOpen {
 		}
 		lore.add("§b"+spaceY(0, world));
 		lore.add("§a点击切换");
-		boolean enchant0 = spaceid.equals(chunkid+".0")?true:false;
+		boolean enchant0 = spaceid.equals(chunkid + ".0");
 		inv.setItem(0, newItem(spacem, "§a§l空间"+chunkid+".0", lore, enchant0));
 		
 		if (world == 0 || world == 1) {
@@ -133,7 +133,7 @@ public class SpaceOpen {
 			}
 			lore.add("§b"+spaceY(1, world));
 			lore.add("§a点击切换");
-			boolean enchant1 = spaceid.equals(chunkid+".1")?true:false;
+			boolean enchant1 = spaceid.equals(chunkid + ".1");
 			inv.setItem(1, newItem(spacem, "§a§l空间"+chunkid+".1", lore, enchant1));
 			
 			lore.clear();
@@ -147,7 +147,7 @@ public class SpaceOpen {
 			}
 			lore.add("§b"+spaceY(2, world));
 			lore.add("§a点击切换");
-			boolean enchant2 = spaceid.equals(chunkid+".2")?true:false;
+			boolean enchant2 = spaceid.equals(chunkid + ".2");
 			inv.setItem(2, newItem(spacem, "§a§l空间"+chunkid+".2", lore, enchant2));
 			
 			if (world == 0) {
@@ -162,7 +162,7 @@ public class SpaceOpen {
 				}
 				lore.add("§b"+spaceY(3, world));
 				lore.add("§a点击切换");
-				boolean enchant3 = spaceid.equals(chunkid+".3")?true:false;
+				boolean enchant3 = spaceid.equals(chunkid + ".3");
 				inv.setItem(3, newItem(spacem, "§a§l空间"+chunkid+".3", lore, enchant3));
 				
 				lore.clear();
@@ -176,7 +176,7 @@ public class SpaceOpen {
 				}
 				lore.add("§b"+spaceY(4, world));
 				lore.add("§a点击切换");
-				boolean enchant4 = spaceid.equals(chunkid+".4")?true:false;
+				boolean enchant4 = spaceid.equals(chunkid + ".4");
 				inv.setItem(4, newItem(spacem, "§a§l空间"+chunkid+".4", lore, enchant4));
 			}
 		}
@@ -309,17 +309,20 @@ public class SpaceOpen {
 		lore.clear();
 		lore.add("§7玩家可以拾起、丢弃物品");
 		inv.setItem(20, newItem(Material.DIAMOND, "§e§l物品", lore));
-		int m = 7;
+		lore.clear();
+		lore.add("§7玩家可以右键对牌子进行修改");
+		inv.setItem(22, newItem(Material.DIAMOND, "§e§l牌子", lore));
+		int m = 8;
 		if (group == 4) {
 			lore.clear();
 			lore.add("§7防止爆炸对方块、盔甲架、画、");
 			lore.add("§7物品展示框、栓绳的破坏，");
 			lore.add("§7防止凋零破坏方块、僵尸破门");
-			inv.setItem(22, newItem(Material.TNT, "§e§l防爆", lore));
+			inv.setItem(24, newItem(Material.TNT, "§e§l防爆", lore));
 			lore.clear();
 			lore.add("§7防止火蔓延至此空间");
-			inv.setItem(24, newItem(Material.FLINT_AND_STEEL, "§e§l防火", lore));
-			m = 9;
+			inv.setItem(26, newItem(Material.FLINT_AND_STEEL, "§e§l防火", lore));
+			m = 10;
 		}
 		
 		char[] pm = space.permission(group);

@@ -182,6 +182,25 @@ public class SpaceListener implements Listener {
 			case ENDER_CHEST:
 			case CRAFTING_TABLE:
 				return;
+			case SPRUCE_SIGN:
+			case SPRUCE_WALL_SIGN:
+			case ACACIA_SIGN:
+			case ACACIA_WALL_SIGN:
+			case BIRCH_SIGN:
+			case BIRCH_WALL_SIGN:
+			case DARK_OAK_SIGN:
+			case DARK_OAK_WALL_SIGN:
+			case JUNGLE_SIGN:
+			case JUNGLE_WALL_SIGN:
+			case OAK_SIGN:
+			case OAK_WALL_SIGN:
+				Player player = e.getPlayer();
+				Location loc = e.getBlock().getLocation();
+				if (!playerpm(player.getName(), loc, 7)) {
+					player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("您没有修改该空间牌子的权限！"));
+					e.setCancelled(true);
+				}
+				return;
 		}
 		Player player = e.getPlayer();
 		Location loc = e.getBlock().getLocation();

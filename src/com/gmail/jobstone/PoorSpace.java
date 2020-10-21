@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.EnumSet;
+import java.util.*;
 
 import com.gmail.jobstone.listener.FileListener;
 import com.gmail.jobstone.listener.GeneralListener;
@@ -42,16 +42,17 @@ public class PoorSpace extends JavaPlugin {
 		this.saveDefaultConfig();
 
 		//文件更新
-		//filesUpdate();
+        oldDataBackup();
+		filesUpdate();
 
 		if (!new File(this.getDataFolder(), "spaces").exists()) {
 			File spaces = new File(this.getDataFolder(), "spaces");
 			spaces.mkdir();
-			new File(spaces, "Overworld").mkdir();
-			new File(spaces, "Nether").mkdir();
-			new File(spaces, "End").mkdir();
-			new File(spaces, "Creative").mkdir();
-			new File(spaces, "Minigame").mkdir();
+			new File(spaces, "world").mkdir();
+			new File(spaces, "world_nether").mkdir();
+			new File(spaces, "world_the_end").mkdir();
+			new File(spaces, "creative").mkdir();
+			new File(spaces, "minigame").mkdir();
 		}
 
 		ItemStack item = new ItemStack(Material.PLAYER_HEAD);
@@ -116,7 +117,7 @@ public class PoorSpace extends JavaPlugin {
 		
 	}
 
-	private void filesUpdate() {
+	private void oldDataBackup() {
 		File old = new File(getDataFolder().getParentFile(), "PoorSpace_old_data");
 		if (!old.exists()) {
 			try {
@@ -151,55 +152,61 @@ public class PoorSpace extends JavaPlugin {
 				return;
 			}
 		}
+	}
 
-		String[] beforeNames = new String[] {"Overworld", "Nether", "End", "Creative", "Minigame"};
-		String[] afterNames = new String[] {"world", "world_nether", "world_the_end", "creative", "minigame"};
-		File pFolder = new File(getDataFolder(), "players");
-		try {
-			for (File folder : pFolder.listFiles()) {
-				for (int i = 0; i < 5; ++i) {
-					File before1 = new File(folder, beforeNames[i] + ".yml");
-					if (before1.exists())
-						Files.move(before1.toPath(), new File(folder, afterNames[i] + ".yml").toPath());
-					File before2 = new File(folder, "Default_" + beforeNames[i] + ".yml");
-					if (before2.exists())
-						Files.move(before2.toPath(), new File(folder, "default_" + afterNames[i] + ".yml").toPath());
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	private void filesUpdate() {
+		String[] worldNames = {"world", "world_nether", "world_the_end", "creative", "minigame"};
+		String[] permissions = {"permission1", "permission2", "permission3", "permission4"};
+		File spaceFolder = new File(getDataFolder(), "spaces");
+		for (String worldName : worldNames) {
+		    File worldFolder = new File(spaceFolder, worldName);
+		    for (File subFolder : Objects.requireNonNull(worldFolder.listFiles())) {
+		        for (File spaceFile : Objects.requireNonNull(subFolder.listFiles())) {
+		            FileConfiguration config = YamlConfiguration.loadConfiguration(spaceFile);
+		            for (int i = 0; i < 4; ++i) {
+		                char[] pm = Objects.requireNonNull(config.getString(permissions[i])).toCharArray();
+		                ArrayList<Character> list = new ArrayList<>();
+		                for (char pms : pm)
+		                    list.add(pms);
+                        list.add(7, pm[2]);
+                        StringBuilder sb = new StringBuilder();
+                        for (char c : list)
+                            sb.append(c);
+                        config.set(permissions[i], sb.toString());
+                    }
+		            try {
+                        config.save(spaceFile);
+                    } catch (IOException e) {
+		                e.printStackTrace();
+                    }
+                }
+            }
+        }
 
-		try {
-			File sFolder = new File(getDataFolder(), "spaces");
-			for (int i = 0; i < 5; ++i) {
-				File worldFolder = new File(sFolder, beforeNames[i]);
-				File newWorldFolder = new File(sFolder, afterNames[i]);
-				if (worldFolder.exists()) {
-					Files.move(worldFolder.toPath(), newWorldFolder.toPath());
-					for (File space : newWorldFolder.listFiles()) {
-						String fileName = space.getName();
-						if (!space.getName().endsWith(".yml"))
-							continue;
-						String[] splits = fileName.split("\\.");
-						try {
-							int x = Integer.parseInt(splits[0]);
-							int y = Integer.parseInt(splits[1]);
-							int groupX = x >> 5;
-							int groupY = y >> 5;
-							File chunkFolder = new File(newWorldFolder, groupX + "." + groupY);
-							if (!chunkFolder.exists())
-								chunkFolder.mkdir();
-							Files.move(space.toPath(), new File(chunkFolder, space.getName()).toPath());
-						} catch (NumberFormatException e) {
-							e.printStackTrace();
-						}
-					}
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		File playerFolders = new File(getDataFolder(), "players");
+		for (File playerFolder : Objects.requireNonNull(playerFolders.listFiles())) {
+		    for (String worldName : worldNames) {
+		        File worldFile = new File(playerFolder, "default_" + worldName + ".yml");
+		        FileConfiguration config = YamlConfiguration.loadConfiguration(worldFile);
+                for (int i = 0; i < 4; ++i) {
+                    char[] pm = Objects.requireNonNull(config.getString(permissions[i])).toCharArray();
+                    ArrayList<Character> list = new ArrayList<>();
+                    for (char pms : pm)
+                        list.add(pms);
+                    list.add(7, pm[2]);
+                    StringBuilder sb = new StringBuilder();
+                    for (char c : list)
+                        sb.append(c);
+                    config.set(permissions[i], sb.toString());
+                }
+                try {
+                    config.save(worldFile);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
 	}
 
 }
