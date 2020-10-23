@@ -311,7 +311,7 @@ public class SpaceOpen {
 		inv.setItem(20, newItem(Material.DIAMOND, "§e§l物品", lore));
 		lore.clear();
 		lore.add("§7玩家可以右键对牌子进行修改");
-		inv.setItem(22, newItem(Material.DIAMOND, "§e§l牌子", lore));
+		inv.setItem(22, newItem(Material.OAK_SIGN, "§e§l牌子", lore));
 		int m = 8;
 		if (group == 4) {
 			lore.clear();
