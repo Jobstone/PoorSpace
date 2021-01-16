@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import com.gmail.jobstone.PoorSpace;
 import javafx.util.Pair;
@@ -151,11 +150,9 @@ public class SpacePlayer extends SpaceOwner {
         for (int i = 0; i < size; ++i) {
             Position2D copyPosition = copyPositions.get(i);
             NormalSpace creativeSpace = new NormalSpace(copyPosition.toPosition3D(0), 3);
-            System.out.println("Check Chunk [3]" + copyPosition);
             if (creativeSpace.owner() == null || !creativeSpace.owner().equals(this.name))
                 return new OperationResult<>("未拥有创造空间 " + creativeSpace.id() + " ！");
             Position2D originalPosition = originalPositions.get(i);
-            System.out.println("Check Chunk [" + world + "]" + originalPosition);
             if (!originalWorld.isChunkGenerated(originalPosition.x, originalPosition.y)
                     || !copyWorld.isChunkGenerated(copyPosition.x, copyPosition.y))
                 return new OperationResult<>("涉及区块未生成！");
