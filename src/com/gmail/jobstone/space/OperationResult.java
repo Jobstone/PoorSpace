@@ -1,36 +1,46 @@
 package com.gmail.jobstone.space;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class OperationResult {
+public class OperationResult<T> {
 
     private final boolean success;
-    private final String result;
-    private final List<String> changedSpaces;
+    private final String message;
+    private final T content;
 
-    public OperationResult(List<String> changedSpaces) {
-        this.success = true;
-        this.result = "";
-        this.changedSpaces = changedSpaces;
+    public static OperationResult SUCCESS = new OperationResult(true);
+    public static OperationResult FAIL = new OperationResult(false);
+
+    public OperationResult(T content) {
+        this(content, true);
     }
 
-    public OperationResult(String result) {
+    public OperationResult(T content, boolean success) {
+        this.success = success;
+        this.message = null;
+        this.content = content;
+    }
+
+    public OperationResult(String message) {
         this.success = false;
-        this.result = result;
-        this.changedSpaces = new ArrayList<>();
+        this.message = message;
+        this.content = null;
+    }
+
+    public OperationResult(boolean success) {
+        this.success = success;
+        this.message = null;
+        this.content = null;
     }
 
     public boolean success() {
         return this.success;
     }
 
-    public String getResult() {
-        return this.result;
+    public String getMessage() {
+        return this.message;
     }
 
-    public List<String> getChangedSpaces() {
-        return this.changedSpaces;
+    public T getContent() {
+        return this.content;
     }
 
 }
