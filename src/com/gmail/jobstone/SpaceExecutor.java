@@ -7,7 +7,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.gmail.jobstone.space.*;
-import javafx.util.Pair;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -19,12 +18,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-import net.minecraft.server.v1_15_R1.IChatBaseComponent;
-import net.minecraft.server.v1_15_R1.PacketPlayOutChat;
-import net.minecraft.server.v1_15_R1.IChatBaseComponent.ChatSerializer;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -356,9 +351,9 @@ public class SpaceExecutor implements CommandExecutor {
                             else {
                                 Pair<List<String>, Integer> pair = result.getContent();
                                 if (hasDust)
-                                    itemStack.setAmount(amount - pair.getValue());
+                                    itemStack.setAmount(amount - pair.second);
                                 StringBuilder spaceString = new StringBuilder("§7");
-                                List<String> changedSpaces = pair.getKey();
+                                List<String> changedSpaces = pair.first;
                                 int size = changedSpaces.size();
                                 for (int i = 0; i < size; ++i) {
                                     if (i != 0)

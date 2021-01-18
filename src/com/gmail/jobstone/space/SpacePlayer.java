@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import com.gmail.jobstone.Pair;
 import com.gmail.jobstone.PoorSpace;
-import javafx.util.Pair;
 import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -118,11 +118,11 @@ public class SpacePlayer extends SpaceOwner {
         if (!result.success())
             return new OperationResult<>(result.getMessage());
         Pair<List<String>, Position2D> pair = result.getContent();
-        List<String> spaces = pair.getKey();
+        List<String> spaces = pair.first;
         if (0 == spaces.size())
             return new OperationResult<>("空间选择器未找到任何已拥有的空间！");
 
-        Position2D basePosition = pair.getValue();
+        Position2D basePosition = pair.second;
         Position2D basePositionCreative = NormalSpace.getPosition2D(creativeSpaceId);
 //		List<Position2D> originalPositions = spaces.stream()
 //				.map(NormalSpace::getPosition2D)
