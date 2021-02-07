@@ -14,6 +14,7 @@ import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.entity.minecart.RideableMinecart;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -163,16 +164,23 @@ public class SpaceListener implements Listener {
 		}
 	}
 	
-	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+	@EventHandler(priority = EventPriority.LOW)
 	public void interact2(PlayerInteractEvent e) {
-		if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+		e.getPlayer().sendMessage("block: " + e.useInteractedBlock().name() + ", item: " + e.useItemInHand().name());
+		if (!e.useInteractedBlock().equals(Event.Result.DENY) && e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
 			if ((!e.getPlayer().isSneaking() || e.getItem() == null) && trigger(e.getClickedBlock(), e.getItem())) {
 				PBlockInteractEvent event = new PBlockInteractEvent(e.getPlayer(), e.getClickedBlock());
 				Bukkit.getPluginManager().callEvent(event);
-				if (event.isCancelled()) {
-					e.setCancelled(true);
-				}
+				if (event.isCancelled())
+					e.setUseInteractedBlock(Event.Result.DENY);
+				return;
 			}
+		}
+		if (e.getItem() != null && (e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK))) {
+			PItemUseEvent itemUseEvent = new PItemUseEvent(e.getPlayer(), e.getItem());
+			Bukkit.getPluginManager().callEvent(itemUseEvent);
+			if (itemUseEvent.isCancelled())
+				e.setUseItemInHand(Event.Result.DENY);
 		}
 	}
 
